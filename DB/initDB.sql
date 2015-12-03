@@ -1,0 +1,20 @@
+-- Create Database UCMS
+SHOW DATABASES;
+CREATE DATABASE UCMS;
+USE UCMS;
+
+-- Create user ucms for localhost and remote login
+CREATE USER 'ucms'@'localhost' IDENTIFIED BY 'ucms';
+GRANT ALL PRIVILEGES ON *.* TO 'ucms'@'localhost' WITH GRANT OPTION;
+CREATE USER 'ucms'@'%' IDENTIFIED BY 'ucms';
+GRANT ALL PRIVILEGES ON *.* TO 'ucms'@'%' WITH GRANT OPTION;
+
+CREATE TABLE PRODUCT (
+	PROD_ID int(11) NOT NULL AUTO_INCREMENT,
+	PROD_NAME varchar(300) NOT NULL,
+	LEGAL_GROUP varchar(4) NOT NULL,
+	CURRENCY varchar(3) NOT NULL,
+	YIELD decimal(5,5) NOT NULL,
+	UPDATE_DATE date NOT NULL,
+	PRIMARY KEY (PROD_ID)
+	);

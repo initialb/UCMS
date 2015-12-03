@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import argparse
 import re
 from multiprocessing import Pool
@@ -7,25 +9,21 @@ import json
 
 def get_CMB_product():
     root_url = 'http://www.cmbchina.com'
-    page_index = 1
-    index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
+    index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
+    total_page = json.loads(fix_json(requests.get(index_url).text.encode('utf-8')))["totalPage"]
+
     j = []
-
-    response = requests.get(index_url)
-    j.append(fix_json(response.text.encode('utf-8')))
-
-    data_string = json.loads(j[0])
-    total_page = data_string["totalPage"]
-    page_index+=1
-    for page_index in xrange(2,total_page+1):
+    for page_index in xrange(1,total_page+1):
         print page_index
-        index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
-        response = requests.get(index_url)
+        _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
+        response = requests.get(_index_url)
         j.append(fix_json(response.text.encode('utf-8')))
+        data_string = json.loads(j[0])
+        print data_string
 
 def get_ICBC_product():
     root_url='http://www.icbc.com.cn'
-    index_url = root_url ＋ '/ICBCDynamicSite2/money/services/MoenyListService.ashx'
+    index_url = root_url + '/ICBCDynamicSite2/money/services/MoenyListService.ashx'
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
 
@@ -98,5 +96,5 @@ def fix_json(ugly_json):
     return _fixed_json
 
 if __name__ == '__main__':
-    # get_CMB_product()
-    get_ICBC_product()
+    get_CMB_product()
+    # get_ICBC_product()
