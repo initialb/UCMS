@@ -1,39 +1,81 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import logging
 import re
 from multiprocessing import Pool
 import requests
 import bs4
 import json
+import mysql.connector
+from mysql.connector import errorcode
+from decimal import Decimal
+
+logging.basicConfig(level = logging.INFO)
 
 def get_CMB_product():
     root_url = 'http://www.cmbchina.com'
-    index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
+    index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
+    # currency = 32 means USD
+
     total_page = json.loads(fix_json(requests.get(index_url).text.encode('utf-8')))["totalPage"]
+    logging.info('total page = '+unicode(total_page))
 
     j = []
+    count = 0
+
     for page_index in xrange(1,total_page+1):
-        print page_index
-        _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1&t=0.10380132240243256'
+        _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
         response = requests.get(_index_url)
         j.append(fix_json(response.text.encode('utf-8')))
-        data_string = json.loads(j[0])
-        print data_string
+        data_string = json.loads(j[page_index-1])
+
+        product_data = []
+        cursor = cnx.cursor()
+
+        for i in range(len(data_string["list"])):
+            ield = re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"])
+            if ield == '':
+                ield = 0
+            product_data.append([data_string["list"][i]["PrdCode"], data_string["list"][i]["PrdName"], u'CMBC', data_string["list"][i]["Currency"], ield])
+            logging.debug(product_data[i])
+            add_product = ("INSERT INTO PRODUCT "
+                    "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
+                    "VALUES (NULL, %s, %s, %s, %s, %s, now())")
+            cursor.execute(add_product, product_data[i])
+            count += 1
+
+        cnx.commit()
+        cursor.close()
+    logging.info(unicode(count) + ' CMBC products imported')
+
 
 def get_ICBC_product():
     root_url='http://www.icbc.com.cn'
-    index_url = root_url + '/ICBCDynamicSite2/money/services/MoenyListService.ashx'
-    response = requests.get(index_url)
-    soup = bs4.BeautifulSoup(response.text, 'html.parser')
+    index_url = root_url + '/ICBCDynamicSite2/money/services/MoenyListService.ashx?ctl1=4&ctl2=6&keyword='
 
-    print soup
-    # for tag in soup.find_all(True):
-    #     print(tag.name)
-    print soup.find_all("div","tabs_4")
+    data_string = json.loads(requests.get(index_url).text.encode('utf-8'))
+    logging.debug('data_string = '+unicode(data_string))
 
+    count = 0
+    product_data = []
+    cursor = cnx.cursor()
 
+    for i in range(len(data_string)):
+        ield = re.sub(r'[^\d.]+', '', data_string[i]["intendYield"])
+        if ield == '':
+            ield = 0
+        product_data.append([data_string[i]["prodID"], data_string[i]["productName"], u'ICBC', data_string[i]["prodID"][0:3], ield])
+        logging.debug(product_data[i])
+        add_product = ("INSERT INTO PRODUCT "
+                "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
+                "VALUES (NULL, %s, %s, %s, %s, %s, now())")
+        cursor.execute(add_product, product_data[i])
+        count += 1
 
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(count) + ' ICBC products imported')
 
 
 def get_product_data(video_page_url):
@@ -87,7 +129,6 @@ def show_video_stats(options):
                 results[i]['views'], results[i]['likes'], results[i]['dislikes'], results[i]['title'],
                 ', '.join(results[i]['speakers'])))
 
-
 def fix_json(ugly_json):
     _fixed_json = ugly_json[1:-1]
     _fixed_json = re.sub(r"{\s*(\w)", r'{"\1', _fixed_json)
@@ -96,5 +137,21 @@ def fix_json(ugly_json):
     return _fixed_json
 
 if __name__ == '__main__':
-    get_CMB_product()
-    # get_ICBC_product()
+
+    DB_NAME = 'UCMS'
+
+    try:
+        cnx = mysql.connector.connect(user='ucms',password='ucms',database=DB_NAME)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+        else:
+            print(err)
+    else:
+        logging.info('MYSQL connected.')
+
+        get_ICBC_product()
+        
+        cnx.close
