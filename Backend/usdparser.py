@@ -13,7 +13,7 @@ from decimal import Decimal
 
 logging.basicConfig(level = logging.INFO)
 
-def get_CMB_product():
+def get_CMHO_product():
     root_url = 'http://www.cmbchina.com'
     index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
     # currency = 32 means USD
@@ -37,7 +37,7 @@ def get_CMB_product():
             ield = re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"])
             if ield == '':
                 ield = 0
-            product_data.append([data_string["list"][i]["PrdCode"], data_string["list"][i]["PrdName"], u'CMBC', data_string["list"][i]["Currency"], ield])
+            product_data.append([data_string["list"][i]["PrdCode"], data_string["list"][i]["PrdName"], u'CMHO', data_string["list"][i]["Currency"], ield])
             logging.debug(product_data[i])
             add_product = ("INSERT INTO PRODUCT "
                     "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
@@ -48,7 +48,6 @@ def get_CMB_product():
         cnx.commit()
         cursor.close()
     logging.info(unicode(count) + ' CMBC products imported')
-
 
 def get_ICBC_product():
     root_url='http://www.icbc.com.cn'
@@ -77,6 +76,63 @@ def get_ICBC_product():
     cursor.close()
     logging.info(unicode(count) + ' ICBC products imported')
 
+def get_CCBH_product():
+    root_url='http://finance.ccb.com'
+    index_url = root_url + '/Channel/3080'
+
+    response = requests.post(index_url, data = {"querytype":"query", "investmentCurrency":"14"})
+    soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+    pl_data_table = soup.find("table", id = "pl_data_list")
+
+    for child in pl_data_table.children:
+        if isinstance(child, bs4.element.Tag):
+            if child.has_attr("onmouseover"):
+                if child["onmouseover"] == "this.className='table_select_bg AcqProductItem'":
+                    cells = child.find_all("td")
+                    print cells[0]["title"].encode("utf-8")
+                    print cells[1].string.encode("utf-8").strip()
+                    print cells[2].string.encode("utf-8").strip()
+                    print cells[3].string.encode("utf-8").strip()
+                    print cells[4].string.encode("utf-8").strip()
+                    print cells[5].string.encode("utf-8").strip()
+                    print cells[6].string.encode("utf-8").strip()
+                    # print cells[7].string.encode("utf-8").strip()
+                    print cells[8].string.encode("utf-8").strip()
+                    print cells[9].string.encode("utf-8").strip()
+                    print cells[10].string.encode("utf-8").strip()
+                    print cells[11].string.encode("utf-8").strip()
+                    print cells[12].string.encode("utf-8").strip()
+                    print cells[13]["id"].encode("utf-8")
+
+
+
+# <tr onmouseover="this.className='table_select_bg AcqProductItem'" onmouseout="this.className=''" class="">
+#     <!--td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="ZH030220151203214"><a href="/Info/88087583" class="blue4" target="_blank">ZH030220151203214</a></td-->
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="汇得盈非保本外币理财产品2015年第32期">&nbsp;<a href="/Info/88087583" class="blue4 AcqProductName AcqProductClick" target="_blank" onclick="LinkClickFunction(this)">汇得盈非保本外币理财产品2015年第32期</a></td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">
+    
+#     已售完</td>
+#     <td align="center" class="AcqProductType" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">美元产品</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">美元</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">短期（半年以内）</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">全国&nbsp;</td>
+    
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">11.27 07:00 - 11.30 17:00</td>
+    
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis">&nbsp;</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="0.90万">0.90万&nbsp;</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">非保本</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">封闭</td>
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="0.80%">0.80%&nbsp;</td>
+#     <!-- td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" >&nbsp;</td-->
+#     <td align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title="">低风险</td>
+#     <td id="ZH030220151203214" width="20%" align="center" style="line-height:16px; overflow:hidden; text-overflow:ellipsis" title=""><a class="w_btn_39px AcqProductClick" acqproductbtnname="认购" acqproductbtnid="productID1" id="LK_0_ZH030220151203214" title="认购" target="_blank" onclick="LinkClickFunction(this)">认购</a><a class="w_btn_39px" id="LK_1_ZH030220151203214" title="申购" target="_blank" onclick="LinkClickFunction(this)">申购</a><a class="w_btn_39px AcqProductClick" acqproductbtnname="赎回" acqproductbtnid="productID2" id="LK_2_ZH030220151203214" title="赎回" target="_blank" onclick="LinkClickFunction(this)">赎回</a><a class="w_btn_70px" id="LK_3_ZH030220151203214" title="自动理财" target="_blank" onclick="LinkClickFunction(this)">自动理财</a></td>
+#     <td style="display:none" class="AcqProductID">ZH030220151203214</td>
+#   </tr>
+
+def get_BCHO_product():
+    root_url = 'http://www.bankcomm.com/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2&tradeType=-1&safeFlg=-1&ratio=-1&term=-4&asc=-undefined'
 
 def get_product_data(video_page_url):
     product_data = {}
@@ -152,6 +208,6 @@ if __name__ == '__main__':
     else:
         logging.info('MYSQL connected.')
 
-        get_ICBC_product()
+        get_CCBH_product()
         
         cnx.close
