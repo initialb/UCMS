@@ -4,19 +4,25 @@ import codecs
 import argparse
 import logging
 import re
-from multiprocessing import Pool
 import requests
 import bs4
 import json
 import mysql.connector
 from mysql.connector import errorcode
+from multiprocessing import Pool
 from decimal import Decimal
+from butils import decode
+from butils import fix_json
+from butils import ppprint
 
-import sys  
-
-reload(sys)  
+import sys
+reload(sys)
 sys.setdefaultencoding('utf8')
 
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
+logger = logging.getLogger(__name__)
 logging.basicConfig(level = logging.INFO)
 
 
@@ -28,7 +34,8 @@ def get_CMHO_product():
     # 不需要登录，无公告
     legal_group = 'CMHO'
     root_url = 'http://www.cmbchina.com'
-    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
+    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=' \
+                '&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
     # currency = 32 means USD
 
     total_page = json.loads(fix_json(requests.get(index_url).text.encode('utf-8')))["totalPage"]
@@ -39,11 +46,12 @@ def get_CMHO_product():
 
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE date(UPDATE_DATE)=curdate()""")
-    logging.info(unicode(cursor.rowcount) + '' + unicode(legal_group) + ' rows deleted')
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='CMHO' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' ' + unicode(legal_group) + ' rows deleted')
 
     for page_index in xrange(1,total_page+1):
-        _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
+        _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + \
+                '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
         response = requests.get(_index_url)
         j.append(fix_json(response.text.encode('utf-8')))
         data_string = json.loads(j[page_index-1])
@@ -54,10 +62,11 @@ def get_CMHO_product():
             ield = re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"])
             if ield == '':
                 ield = 0
-            product_data.append([u'CMHO', data_string["list"][i]["PrdCode"], data_string["list"][i]["PrdName"], u'USD', data_string["list"][i]["FinDate"],
-                                data_string["list"][i]["EndDate"], data_string["list"][i]["ExpireDate"], data_string["list"][i]["BeginDate"], ield,
-                                data_string["list"][i]["Risk"], data_string["list"][i]["Status"],
-                                data_string["list"][i]["Style"]])
+            product_data.append([u'CMHO', data_string["list"][i]["PrdCode"], data_string["list"][i]["PrdName"], u'USD',
+                                 data_string["list"][i]["FinDate"], data_string["list"][i]["EndDate"],
+                                 data_string["list"][i]["ExpireDate"], data_string["list"][i]["BeginDate"], ield,
+                                 data_string["list"][i]["Risk"], data_string["list"][i]["Status"],
+                                 data_string["list"][i]["Style"]])
             logging.debug(product_data[i])
             add_product = ("""INSERT INTO PRODUCT
                               (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, VALUE_DATE, MATURITY_DATE,
@@ -88,14 +97,15 @@ def get_ICBC_product():
 
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE date(UPDATE_DATE)=curdate()""")
-    print cursor.rowcount 
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='ICBC' and date(UPDATE_DATE)=curdate()""")
+    print cursor.rowcount
 
     for i in range(len(data_string)):
         ield = re.sub(r'[^\d.]+', '', data_string[i]["intendYield"])
         if ield == '':
             ield = 0
-        product_data.append([data_string[i]["prodID"], data_string[i]["productName"], u'ICBC', data_string[i]["prodID"][0:3], ield])
+        product_data.append([data_string[i]["prodID"], data_string[i]["productName"], u'ICBC',
+                             data_string[i]["prodID"][0:3], ield])
         logging.debug(product_data[i])
         add_product = ("INSERT INTO PRODUCT "
                 "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
@@ -106,6 +116,7 @@ def get_ICBC_product():
     cnx.commit()
     cursor.close()
     logging.info(unicode(count) + ' ICBC products imported')
+
 
 def get_CCBH_product():
     # 建设银行
@@ -133,17 +144,19 @@ def get_CCBH_product():
                         cells[0]["title"],
                         u'USD',
                         cells[4].string.strip(),
-                        decode(cells[11].string.strip(), u'', u'', re.sub(r'[^\d.]+', '', cells[11].string)),
+                        decode(re.sub(r'[^\d.]+', '', cells[11].string),
+                               u'', u'0',
+                               re.sub(r'[^\d.]+', '',cells[11].string)),
                         decode(cells[12].string.strip(), u'低风险', u'L', u''),
                         cells[1].string.strip(),
-                        u'', 
+                        u'',
                         ]
                     )
 
-   # delete all duplicated records:
+    # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE date(UPDATE_DATE)=curdate()""")
-    logging.info(unicode(cursor.rowcount) + ' CCHB products deleted')
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='CCBH' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' CCBH products deleted')
 
     for p in product_data:
         for m in p:
@@ -151,13 +164,14 @@ def get_CCBH_product():
         print
 
         add_product = ("""INSERT INTO PRODUCT
-                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, RISK, STATUS, REMARK, UPDATE_DATE)
+                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME,CURRENCY, TENOR, YIELD, RISK, STATUS, REMARK,
+                    UPDATE_DATE)
                     VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
         cursor.execute(add_product, p)
 
     cnx.commit()
     cursor.close()
-    logging.info(unicode(len(product_data)) + ' CCHB products imported')
+    logging.info(unicode(len(product_data)) + ' CCBH products imported')
 
 
 def get_ABCI_product():
@@ -167,19 +181,47 @@ def get_ABCI_product():
     # 解析方法：json
     # 登录要求待确认
 
-    page_index = 1
-    page_max = 150
-    root_url ='http://ewealth.abchina.com'
-    index_url = root_url + '/app/data/api/DataService/BoeProductV2?i=1&s=15&o=0&w=%257C%257C%257C%25E7%25BE%258E%25E5%2585%2583%257C%257C%257C%257C1%257C%257C0%257C%257C0'
+    # page_index = 1
+    # page_max = 150
+    root_url = 'http://ewealth.abchina.com'
+    # index_url = 'http://ewealth.abchina.com/app/data/api/DataService/BoeProductV2?i=1&s=15&o=0
+    # &w=%257C%257C%257C%25E7%25BE%258E%25E5%2585%2583%257C%257C%257C%257C1%257C%257C0%257C%257C0'
+    index_url = 'http://ewealth.abchina.com/app/data/api/DataService/BoeProductV2?i=1&s=100&o=0' \
+                '&w=%257C%257C%257C%25E7%25BE%258E%25E5%2585%2583%257C%257C%257C%257C1%257C%257C0%257C%257C0'
 
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
-    data_string = json.loads(soup.text.encode('utf-8'))
+    data_string = json.loads(soup.text)
 
-    print data_string["Data"]["Table"][0]["ProductNo"].encode("utf-8")
-    print data_string["Data"]["Table"][0]["ProdName"].encode("utf-8")
-    print data_string["Data"]["Table"][0]["ProdClass"].encode("utf-8")
-    print data_string["Data"]["Table"][0]["ProdLimit"].encode("utf-8")
+   # delete all duplicated records:
+    cursor = cnx.cursor()
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='ABCI' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' ABCI products deleted')
+
+    product_data = []
+
+    for i in range(len(data_string["Data"]["Table"])):
+        product_data.append([u'ABCI',
+            data_string["Data"]["Table"][i]["ProductNo"],
+            data_string["Data"]["Table"][i]["ProdName"],
+            u'USD',
+            data_string["Data"]["Table"][i]["ProdLimit"],
+            decode(re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"]),
+                   u'', u'0',
+                   re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"])),
+            decode(data_string["Data"]["Table"][i]["ProdYildType"], u'保证收益', u'Y', u'N')
+            ]
+        )
+
+        add_product = ("""INSERT INTO PRODUCT
+                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, PRESERVABLE, UPDATE_DATE)
+                    VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, now())""")
+        cursor.execute(add_product, product_data[i])
+
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(len(product_data)) + ' ABCI products imported')
+
 
 def get_BCOH_product():
     # 交通银行
@@ -189,11 +231,13 @@ def get_BCOH_product():
     # 可解析，登录待验证
 
     root_url = 'http://www.bankcomm.com'
-    index_url = root_url + '/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2&tradeType=-1&safeFlg=-1&ratio=-1&term=-4&asc=-undefined'
+    index_url = root_url + '/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2&tradeType=-1&safeFlg=-1' \
+                           '&ratio=-1&term=-4&asc=-undefined'
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     pl_data_list = soup.find_all("div", class_ = "con_main")
 
+    ppprint(pl_data_list)
     product_data = []
 
     for child in pl_data_list.children:
@@ -238,7 +282,8 @@ def get_CTIB_product():
     root_url='http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
 
-    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100", "skeywordsfin":"代码/名称"})
+    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100",
+                                                "skeywordsfin":"代码/名称"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     print soup
 
@@ -279,7 +324,8 @@ def get_CIB_product():
     root_url='http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
 
-    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100", "skeywordsfin":"代码/名称"})
+    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100",
+                                                "skeywordsfin":"代码/名称"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     print soup
 
@@ -374,86 +420,8 @@ def show_video_stats(options):
                 results[i]['views'], results[i]['likes'], results[i]['dislikes'], results[i]['title'],
                 ', '.join(results[i]['speakers'])))
 
-def fix_json(ugly_json):
-    _fixed_json = ugly_json[1:-1]
-    _fixed_json = re.sub(r"{\s*(\w)", r'{"\1', _fixed_json)
-    _fixed_json = re.sub(r",\s*(\w)", r',"\1', _fixed_json)
-    _fixed_json = re.sub(r"(\w):", r'\1":', _fixed_json)
-    return _fixed_json
-
-
-def decode(*arguments):
-    """Compares first item to subsequent item one by one.
-
-    If first item is equal to a key, returns the corresponding value (next item).
-    If no match is found, returns None, or, if default is omitted, returns None.
-    """
-    if len(arguments) < 3:
-        raise TypeError, 'decode() takes at least 3 arguments (%d given)' % (len(arguments))
-    dict = list(arguments[1:])
-    if arguments[0] in dict:
-        index = dict.index(arguments[0]);
-        if index % 2 == 0 and len(dict) > index+1:
-            return dict[index+1]
-        return dict[-1]
-    elif len(dict) % 2 != 0:
-        return dict[-1]
-
-# example usage
-# return_value = decode('b', 'a', 1, 'b', 2, 3)
-# var = 'list'
-# return_type = decode(var, 'tuple', (), 'dict', {}, 'list', [], 'string', '')
-
-
-def insert_db(list):
-    DB_NAME = 'UCMS'
-
-    try:
-        cnx = mysql.connector.connect(user='ucms',password='ucms',database=DB_NAME)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-    else:
-        logging.info('MYSQL connected.')
-
-
-
-    count = 0
-    product_data = []
-    cursor = cnx.cursor()
-
-    for i in range(len(data_string)):
-        ield = re.sub(r'[^\d.]+', '', data_string[i]["intendYield"])
-        if ield == '':
-            ield = 0
-        product_data.append([data_string[i]["prodID"], data_string[i]["productName"], u'ICBC', data_string[i]["prodID"][0:3], ield])
-        logging.debug(product_data[i])
-        add_product = ("INSERT INTO PRODUCT "
-                "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
-                "VALUES (NULL, %s, %s, %s, %s, %s, now())")
-        cursor.execute(add_product, product_data[i])
-        count += 1
-
-    cnx.commit()
-    cursor.close()
-    logging.info(unicode(count) + ' ICBC products imported')
-
-
-    cnx.close
-
-
-
-def pprint(obj):
-    print re.sub(r"\\u([a-f0-9]{4})", lambda mg: unichr(int(mg.group(1), 16)), obj.__repr__())
-
-
 
 if __name__ == '__main__':
-
     DB_NAME = 'UCMS'
 
     try:
@@ -468,8 +436,6 @@ if __name__ == '__main__':
     else:
         logging.info('MYSQL connected.')
 
-    get_CMHO_product()
-    get_ICBC_product()
-    get_CCBH_product()
-        
+    get_BCOH_product()
+
     cnx.close
