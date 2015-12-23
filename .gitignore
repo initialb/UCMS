@@ -1,0 +1,4 @@
+# ignore sys files
+.DS_Store
+# except foo.html which is maintained by hand
+!foo.html

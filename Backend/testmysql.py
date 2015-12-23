@@ -46,3 +46,4 @@ else:
 
 	cursor.close()
 	cnx.close()
+
