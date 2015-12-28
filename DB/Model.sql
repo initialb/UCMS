@@ -1,16 +1,3 @@
--- Create Database UCMS
-SHOW DATABASES;
-CREATE DATABASE UCMS;
-USE UCMS;
-
--- Create user ucms for localhost and remote login
-CREATE USER 'ucms'@'localhost' IDENTIFIED BY 'ucms';
-GRANT ALL PRIVILEGES ON *.* TO 'ucms'@'localhost' WITH GRANT OPTION;
-CREATE USER 'ucms'@'%' IDENTIFIED BY 'ucms';
-GRANT ALL PRIVILEGES ON *.* TO 'ucms'@'%' WITH GRANT OPTION;
-
-
-DROP TABLE PRODUCT;
 CREATE TABLE PRODUCT (
 	PROD_ID int(11) NOT NULL AUTO_INCREMENT COMMENT 'PK',
 	LEGAL_GROUP varchar(4) NOT NULL COMMENT '机构名',
@@ -33,8 +20,3 @@ CREATE TABLE PRODUCT (
 	UPDATE_DATE datetime COMMENT '更新时间',
 	PRIMARY KEY (PROD_ID)
 	);
-
-
-
-
-序号	银行	产品	代码	币种	期限（天）	预期收益	产品起始	产品到期	是否可赎回	是否保收益	是否保本	风险级别	产品建议	产品状态	同类产品平均收益

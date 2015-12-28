@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import math
 import codecs
 import argparse
 import logging
@@ -14,16 +15,19 @@ from decimal import Decimal
 from butils import decode
 from butils import fix_json
 from butils import ppprint
+from datetime import datetime
 
 import sys
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
 import pprint
+
 pp = pprint.PrettyPrinter(indent=4)
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level = logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 def get_CMHO_product():
@@ -49,12 +53,12 @@ def get_CMHO_product():
     cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='CMHO' and date(UPDATE_DATE)=curdate()""")
     logging.info(unicode(cursor.rowcount) + ' ' + unicode(legal_group) + ' rows deleted')
 
-    for page_index in xrange(1,total_page+1):
+    for page_index in xrange(1, total_page + 1):
         _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + \
-                '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
+                     '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
         response = requests.get(_index_url)
         j.append(fix_json(response.text.encode('utf-8')))
-        data_string = json.loads(j[page_index-1])
+        data_string = json.loads(j[page_index - 1])
 
         product_data = []
 
@@ -86,11 +90,11 @@ def get_ICBC_product():
     # 返回格式：json
     # 解析方法：json
 
-    root_url='http://www.icbc.com.cn'
+    root_url = 'http://www.icbc.com.cn'
     index_url = 'http://www.icbc.com.cn/ICBCDynamicSite2/money/services/MoenyListService.ashx?ctl1=4&ctl2=6&keyword='
 
     data_string = json.loads(requests.get(index_url).text.encode('utf-8'))
-    logging.debug('data_string = '+unicode(data_string))
+    logging.debug('data_string = ' + unicode(data_string))
 
     count = 0
     product_data = []
@@ -108,8 +112,8 @@ def get_ICBC_product():
                              data_string[i]["prodID"][0:3], ield])
         logging.debug(product_data[i])
         add_product = ("INSERT INTO PRODUCT "
-                "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
-                "VALUES (NULL, %s, %s, %s, %s, %s, now())")
+                       "(PROD_ID, PROD_CODE, PROD_NAME, LEGAL_GROUP, CURRENCY, YIELD, UPDATE_DATE) "
+                       "VALUES (NULL, %s, %s, %s, %s, %s, now())")
         cursor.execute(add_product, product_data[i])
         count += 1
 
@@ -121,16 +125,16 @@ def get_ICBC_product():
 def get_CCBH_product():
     # 建设银行
     # 请求格式：http get
-    # 返回格式：json
+    # 返回格式：xml
     # 解析方法：json
 
-    root_url='http://finance.ccb.com'
+    root_url = 'http://finance.ccb.com'
     index_url = root_url + '/Channel/3080'
 
-    response = requests.post(index_url, data = {"querytype":"query", "investmentCurrency":"14"})
+    response = requests.post(index_url, data={"querytype": "query", "investmentCurrency": "14"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
 
-    pl_data_table = soup.find("table", id = "pl_data_list")
+    pl_data_table = soup.find("table", id="pl_data_list")
 
     product_data = []
 
@@ -140,18 +144,18 @@ def get_CCBH_product():
                 if child["onmouseover"] == "this.className='table_select_bg AcqProductItem'":
                     cells = child.find_all("td")
                     product_data.append([u'CCBH',
-                        cells[13]["id"],
-                        cells[0]["title"],
-                        u'USD',
-                        cells[4].string.strip(),
-                        decode(re.sub(r'[^\d.]+', '', cells[11].string),
-                               u'', u'0',
-                               re.sub(r'[^\d.]+', '',cells[11].string)),
-                        decode(cells[12].string.strip(), u'低风险', u'L', u''),
-                        cells[1].string.strip(),
-                        u'',
-                        ]
-                    )
+                                         cells[13]["id"],
+                                         cells[0]["title"],
+                                         u'USD',
+                                         cells[4].string.strip(),
+                                         decode(re.sub(r'[^\d.]+', '', cells[11].string),
+                                                u'', u'0',
+                                                re.sub(r'[^\d.]+', '', cells[11].string)),
+                                         decode(cells[12].string.strip(), u'低风险', u'L', u''),
+                                         cells[1].string.strip(),
+                                         u'',
+                                         ]
+                                        )
 
     # delete all duplicated records:
     cursor = cnx.cursor()
@@ -160,7 +164,7 @@ def get_CCBH_product():
 
     for p in product_data:
         for m in p:
-            print m+',',
+            print m + ',',
         print
 
         add_product = ("""INSERT INTO PRODUCT
@@ -193,7 +197,7 @@ def get_ABCI_product():
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     data_string = json.loads(soup.text)
 
-   # delete all duplicated records:
+    # delete all duplicated records:
     cursor = cnx.cursor()
     cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='ABCI' and date(UPDATE_DATE)=curdate()""")
     logging.info(unicode(cursor.rowcount) + ' ABCI products deleted')
@@ -202,16 +206,16 @@ def get_ABCI_product():
 
     for i in range(len(data_string["Data"]["Table"])):
         product_data.append([u'ABCI',
-            data_string["Data"]["Table"][i]["ProductNo"],
-            data_string["Data"]["Table"][i]["ProdName"],
-            u'USD',
-            data_string["Data"]["Table"][i]["ProdLimit"],
-            decode(re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"]),
-                   u'', u'0',
-                   re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"])),
-            decode(data_string["Data"]["Table"][i]["ProdYildType"], u'保证收益', u'Y', u'N')
-            ]
-        )
+                             data_string["Data"]["Table"][i]["ProductNo"],
+                             data_string["Data"]["Table"][i]["ProdName"],
+                             u'USD',
+                             data_string["Data"]["Table"][i]["ProdLimit"],
+                             decode(re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"]),
+                                    u'', u'0',
+                                    re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"])),
+                             decode(data_string["Data"]["Table"][i]["ProdYildType"], u'保证收益', u'Y', u'N')
+                             ]
+                            )
 
         add_product = ("""INSERT INTO PRODUCT
                     (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, PRESERVABLE, UPDATE_DATE)
@@ -231,46 +235,147 @@ def get_BCOH_product():
     # 可解析，登录待验证
 
     root_url = 'http://www.bankcomm.com'
-    index_url = root_url + '/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2&tradeType=-1&safeFlg=-1' \
-                           '&ratio=-1&term=-4&asc=-undefined'
+    index_url = 'http://www.bankcomm.com/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2' \
+                '&tradeType=-1&safeFlg=-1&ratio=-1&term=-4&asc=-undefined'
+
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
-    pl_data_list = soup.find_all("div", class_ = "con_main")
+    pl_data_list = soup.find_all("div", class_="con_main")
 
-    ppprint(pl_data_list)
     product_data = []
+    __yield = 0
 
-    for child in pl_data_list.children:
-        if isinstance(child, bs4.element.Tag):
-            cells = child.dt.find_all("span")
-            print cells
-    #                 cells = child.find_all("td")
-    #                 print cells[0]["title"].encode("utf-8")
-    #                 print cells[1].string.encode("utf-8").strip()
-    #                 print cells[2].string.encode("utf-8").strip()
-    #                 print cells[3].string.encode("utf-8").strip()
-    #                 print cells[4].string.encode("utf-8").strip()
-    #                 print cells[5].string.encode("utf-8").strip()
-    #                 print cells[6].string.encode("utf-8").strip()
-    #                 # print cells[7].string.encode("utf-8").strip()
-    #                 print cells[8].string.encode("utf-8").strip()
-    #                 print cells[9].string.encode("utf-8").strip()
-    #                 print cells[10].string.encode("utf-8").strip()
-    #                 print cells[11].string.encode("utf-8").strip()
-    #                 print cells[12].string.encode("utf-8").strip()
-    #                 print cells[13]["id"].encode("utf-8")
+    for pl in pl_data_list:
+        for child in pl.children:
+            if isinstance(child, bs4.element.Tag):
+                cells = child.dt.find_all("span")
+                for string in child.dd.h3.strings:
+                    __yield = unicode(string)
+                    break
+                product_data.append({"ProdID": child["id"].strip(),
+                                     "ProdName": cells[0].string.strip(),
+                                     "Tenor": re.sub(ur'[^\d\u5929]+', '', cells[1].string),
+                                     "ValueDate": re.sub(r'[^\d-]+', '', cells[2].string),
+                                     "Risk": cells[4].string.strip()[7:],
+                                     "Yield": __yield})
+    # delete all duplicated records:
+    cursor = cnx.cursor()
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='BCOH' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' BCOH products deleted')
+
+    for i in range(len(product_data)):
+        product_detail = [u'BCOH',
+                          product_data[i]["ProdID"],
+                          product_data[i]["ProdName"],
+                          u'USD',
+                          product_data[i]["Tenor"],
+                          product_data[i]["Yield"]]
+        add_product = ("""INSERT INTO PRODUCT
+                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, UPDATE_DATE)
+                    VALUES (NULL, %s, %s, %s, %s, %s, %s, now())""")
+        cursor.execute(add_product, product_detail)
+
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(len(product_data)) + ' BCOH products imported')
+
 
 def get_DESZ_product():
     # 平安银行
-    # 请求格式：http get
-    # 返回格式：html
-    # 解析方法：soup find all
-    # 可解析
+    # request：http get
+    # response：html
+
+    product_data = []
 
     index_url = 'http://chaoshi.pingan.com/bankListIframe.shtml'
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
-    print soup
+
+    # parse
+    total_count_tag = soup.find("meta", attrs={"name": "WT.oss_r"})
+    total_count = int(total_count_tag["content"])
+    total_page = -(-total_count // 10)
+
+    # debug
+    logging.info("total_count: " + str(total_count))
+    logging.info("total_page: " + str(total_page))
+
+    # 遍历
+    for page in range(total_page):
+        index_url = 'http://chaoshi.pingan.com/bankListIframe.shtml?npage=' + unicode(page + 1)
+        try:
+            response = requests.get(index_url)
+        except requests.exceptions.Timeout as e:
+            # Maybe set up for a retry, or continue in a retry loop
+            print e
+            sys.exit(1)
+        except requests.exceptions.TooManyRedirects as e:
+            # Tell the user their URL was bad and try a different one
+            print e
+            sys.exit(1)
+        except requests.exceptions.RequestException as e:
+            # catastrophic error. bail.
+            print e
+            sys.exit(1)
+
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+        pl_data_list = soup.find("div", class_="search_list_box")
+        for child in pl_data_list.children:
+            if isinstance(child, bs4.element.Tag):
+                if "人民币" not in child.h1.a.string:
+                    print unicode(page + 1) + ':' + child.h1.a.string + ':',
+                    # 打开详情页面
+                    rs = re.search(r"http\S*html", child.h1.a["onclick"])
+                    detail_url = rs.group()
+                    p_soup = bs4.BeautifulSoup(requests.get(detail_url).text, "html.parser")
+                    pl_table = p_soup.find("table", class_="detail_tab3")
+                    pl_tds = pl_table.tbody.find_all("td")
+
+                    product_data.append({"ProdCode": re.sub(r'.shtml', '', detail_url.split("/")[-1]),
+                                         "ProdName": child.h1.a.string.strip(),
+                                         "StartDate": re.sub(r'[^\d]+', '', pl_tds[1].stripped_strings.next()),
+                                         "EndDate": re.sub(r'[^\d]+', '', pl_tds[3].string),
+                                         "ValueDate": re.sub(r'[^\d]+', '', pl_tds[5].string),
+                                         "MaturityDate": re.sub(r'[^\d]+', '', pl_tds[7].string),
+                                         "Tenor": re.sub(ur'[^\d\u5929]+', '', pl_tds[9].string),
+                                         "Currency": pl_tds[11].string.strip(),
+                                         "Yield": re.sub(r'[^\d.]+', '', pl_tds[17].string),
+                                         "CouponType": "Fixed" if ("固定" in pl_tds[19].string) else "Floating",
+                                         "Preservable": "Y" if ("保本" in pl_tds[19].string) else "N",
+                                         "Remark": detail_url
+                                         })
+                    ppprint(product_data[-1])
+
+    # 入库
+    cursor = cnx.cursor()
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='DESZ' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' DESZ products deleted')
+
+    for i in range(len(product_data)):
+        product_detail = [u'DESZ',
+                          product_data[i]["ProdCode"],
+                          product_data[i]["ProdName"],
+                          datetime.strptime(product_data[i]["StartDate"], '%Y%m%d'),
+                          datetime.strptime(product_data[i]["EndDate"], '%Y%m%d'),
+                          datetime.strptime(product_data[i]["ValueDate"], '%Y%m%d'),
+                          datetime.strptime(product_data[i]["MaturityDate"], '%Y%m%d'),
+                          product_data[i]["Tenor"],
+                          product_data[i]["Currency"],
+                          product_data[i]["CouponType"],
+                          product_data[i]["Preservable"],
+                          product_data[i]["Yield"],
+                          product_data[i]["Remark"]]
+        add_product = ("""INSERT INTO PRODUCT
+                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, ISSUE_DATE, END_DATE, VALUE_DATE, MATURITY_DATE,
+                    TENOR, CURRENCY, COUPONTYPE, PRESERVABLE, YIELD, REMARK, UPDATE_DATE)
+                    VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
+        cursor.execute(add_product, product_detail)
+
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(len(product_data)) + ' DESZ products imported')
+
 
 def get_CTIB_product():
     # 中信银行
@@ -279,15 +384,15 @@ def get_CTIB_product():
     # 解析方法：soup find all
     # 可解析，不需要登录
 
-    root_url='http://finance.ccb.com'
+    root_url = 'http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
 
-    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100",
-                                                "skeywordsfin":"代码/名称"})
+    response = requests.post(index_url, data={"curr_type": "014", "orderasc": "desc", "branch_id": "701100",
+                                              "skeywordsfin": "代码/名称"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     print soup
 
-    pl_data_list = soup.find_all("div", class_ = "fund_listw2")
+    pl_data_list = soup.find_all("div", class_="fund_listw2")
 
     product_data = []
     f = codecs.open("CTIB_result.html", encoding='utf-8', mode="w")
@@ -308,11 +413,87 @@ def get_CTIB_product():
 # 返回格式：html
 # 解析方法：soup find all
 # 可解析，不需要登录
-def get_CEB_product():
-    index_url = 'http://chaoshi.pingan.com/bankListIframe.shtml'
-    response = requests.get(index_url)
+def get_EBBC_product():
+    index_url = 'http://www.cebbank.com/eportal/ui?pageId=478550&currentPage=1&moduleId=12218'
+    response = requests.post(index_url, data={"filter_EQ_TZBZMC": "美元"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
-    print soup
+
+    total_count_tag = soup.find("i", attrs={"class": "listshu"})
+    total_count = int(total_count_tag.string)
+    total_page = -(-total_count // 20)
+
+    # debug
+    logging.info("total_count: " + str(total_count))
+    logging.info("total_page: " + str(total_page))
+
+    product_data = []
+
+    # 遍历
+    for page in range(total_page):
+        index_url = 'http://www.cebbank.com/eportal/ui?pageId=478550&currentPage=' + unicode(
+            page + 1) + '&moduleId=12218'
+        try:
+            response = requests.post(index_url, data={"filter_EQ_TZBZMC": "美元"})
+        except requests.exceptions.Timeout as e:
+            # Maybe set up for a retry, or continue in a retry loop
+            print e
+            sys.exit(1)
+        except requests.exceptions.TooManyRedirects as e:
+            # Tell the user their URL was bad and try a different one
+            print e
+            sys.exit(1)
+        except requests.exceptions.RequestException as e:
+            # catastrophic error. bail.
+            print e
+            sys.exit(1)
+
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+        pl_data_list = soup.find("table", class_="zslccp").find_all("tr")
+        for pl in pl_data_list[1:]:
+            pd = pl.find_all("td")
+
+            product_data.append({"ProdCode": pd[0].string.strip(),
+                                 "ProdName": pd[1].a.string.strip(),
+                                 "StartDate": re.sub(r'[^\d]+', '', pd[2].string),
+                                 "EndDate": re.sub(r'[^\d]+', '', pd[3].string),
+                                 "Preservable": "Y" if ("保本" in pd[4].string) else "N",
+                                 "Currency": pd[5].string.strip(),
+                                 "Yield": re.sub(r'[^\d.]+', '', pd[8].string),
+                                 "Risk": pd[9].string.strip(),
+                                 "Remark": 'http://www.cebbank.com/' + pd[1].a["href"]
+                                 })
+            ppprint(product_data[-1])
+
+    # 数据库操作
+    cursor = cnx.cursor()
+    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='EBBC' and date(UPDATE_DATE)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' EBBC products deleted')
+
+    for i in range(len(product_data)):
+        product_detail = [u'EBBC',
+                          product_data[i]["ProdCode"],
+                          product_data[i]["ProdName"],
+                          datetime.strptime(product_data[i]["StartDate"], '%Y%m%d'),
+                          datetime.strptime(product_data[i]["EndDate"], '%Y%m%d'),
+                          # datetime.strptime(product_data[i]["ValueDate"], '%Y%m%d'),
+                          # datetime.strptime(product_data[i]["MaturityDate"], '%Y%m%d'),
+                          # product_data[i]["Tenor"],
+                          product_data[i]["Currency"],
+                          # product_data[i]["CouponType"],
+                          product_data[i]["Preservable"],
+                          product_data[i]["Yield"],
+                          product_data[i]["Risk"],
+                          product_data[i]["Remark"]]
+        add_product = ("""INSERT INTO PRODUCT
+                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, ISSUE_DATE, END_DATE, CURRENCY,
+                    PRESERVABLE, YIELD, RISK, REMARK, UPDATE_DATE)
+                    VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
+        cursor.execute(add_product, product_detail)
+
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(len(product_data)) + ' EBBC products imported')
 
 
 # 兴业银行
@@ -320,17 +501,16 @@ def get_CEB_product():
 # 返回格式：html
 # 解析方法：soup find all
 # 可解析，不需要登录，需要分析公告
-def get_CIB_product():
-    root_url='http://finance.ccb.com'
+def get_IBCN_product():
+    root_url = 'http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
 
-    response = requests.post(index_url, data = {"curr_type":"014", "orderasc":"desc", "branch_id":"701100",
-                                                "skeywordsfin":"代码/名称"})
+    response = requests.post(index_url, data={"curr_type": "014", "orderasc": "desc", "branch_id": "701100",
+                                              "skeywordsfin": "代码/名称"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     print soup
 
-    pl_data_list = soup.find_all("div", class_ = "fund_listw2")
-
+    pl_data_list = soup.find_all("div", class_="fund_listw2")
 
     product_data = []
     f = codecs.open("CTIB_result.html", encoding='utf-8', mode="w")
@@ -367,65 +547,118 @@ def get_BKDB_product():
     pass
 
 
-def get_product_data(video_page_url):
-    product_data = {}
-    response = requests.get(root_url + video_page_url)
-    soup = bs4.BeautifulSoup(response.text)
-    video_data['title'] = soup.select('div#videobox h3')[0].get_text()
-    video_data['speakers'] = [a.get_text() for a in soup.select('div#sidebar a[href^=/speaker]')]
-    video_data['youtube_url'] = soup.select('div#sidebar a[href^=http://www.youtube.com]')[0].get_text()
-    response = requests.get(video_data['youtube_url'])
-    soup = bs4.BeautifulSoup(response.text)
-    video_data['views'] = int(re.sub('[^0-9]', '',
-                                     soup.select('.watch-view-count')[0].get_text().split()[0]))
-    video_data['likes'] = int(re.sub('[^0-9]', '',
-                                     soup.select('.likes-count')[0].get_text().split()[0]))
-    video_data['dislikes'] = int(re.sub('[^0-9]', '',
-                                        soup.select('.dislikes-count')[0].get_text().split()[0]))
-    return video_data
+# 中国理财网
+# 请求格式：http post
+# 返回格式：html
+# 解析方法：soup find all
+# 可解析，不需要登录
+def get_CW_product():
+    index_url = 'http://www.chinawealth.com.cn/lccpAllProJzyServlet.go'
+    response = requests.post(index_url, data={"cpzt": "02,04", "pagenum": "1", "drawPageToolEnd": "5"})
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='Show PyCon 2014 video statistics.')
-    parser.add_argument('--sort', metavar='FIELD', choices=['views', 'likes', 'dislikes'],
-                        default='views',
-                        help='sort by the specified field. Options are views, likes and dislikes.')
-    parser.add_argument('--max', metavar='MAX', type=int, help='show the top MAX entries only.')
-    parser.add_argument('--csv', action='store_true', default=False,
-                        help='output the data in CSV format.')
-    parser.add_argument('--workers', type=int, default=8,
-                        help='number of workers to use, 8 by default.')
-    return parser.parse_args()
+    total_count = json.loads(response.text.encode('utf-8'))["Count"]
+    total_page = -(-total_count // 500)
 
+    # debug
+    logging.info("total_count: " + str(total_count))
+    logging.info("total_page: " + str(total_page))
 
+    j = []
+    count = 0
 
-def show_video_stats(options):
-    pool = Pool(options.workers)
-    video_page_urls = get_video_page_urls()
-    results = sorted(pool.map(get_video_data, video_page_urls), key=lambda video: video[options.sort],
-                     reverse=True)
-    max = options.max
-    if max is None or max > len(results):
-        max = len(results)
-    if options.csv:
-        print(u'"title","speakers", "views","likes","dislikes"')
-    else:
-        print(u'Views  +1  -1 Title (Speakers)')
-    for i in range(max):
-        if options.csv:
-            print(u'"{0}","{1}",{2},{3},{4}'.format(
-                results[i]['title'], ', '.join(results[i]['speakers']), results[i]['views'],
-                results[i]['likes'], results[i]['dislikes']))
-        else:
-            print(u'{0:5d} {1:3d} {2:3d} {3} ({4})'.format(
-                results[i]['views'], results[i]['likes'], results[i]['dislikes'], results[i]['title'],
-                ', '.join(results[i]['speakers'])))
+    # delete all duplicated records:
+    cursor = cnx.cursor()
+    cursor.execute("""DELETE FROM wi_product WHERE legal_group='CW' and date(update_time)=curdate()""")
+    logging.info(unicode(cursor.rowcount) + ' Chinawealth ' + 'rows deleted')
+
+    for page_index in xrange(1, total_page + 1):
+
+        while True:
+            try:
+                response = requests.post(index_url,
+                                         data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"},
+                                         timeout=5)
+            except requests.exceptions.ConnectionError, e:
+                print e
+                continue
+            except requests.exceptions.Timeout, e:
+                print e
+                continue
+            break
+
+        # response = requests.post(index_url, data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"})
+        # j.append(response.text.encode('utf-8'))
+        # data_string = json.loads(j[page_index - 1])
+        data_string = json.loads(response.text.encode('utf-8'))
+
+        product_data = []
+
+        for i in range(len(data_string["List"])):
+            product_data.append([u'CW',
+                                 data_string["List"][i]["cpdjbm"],  # 产品登记编码
+                                 data_string["List"][i]["cpms"],  # 产品描述
+                                 data_string["List"][i]["mjbz"],  # 募集币种
+                                 data_string["List"][i]["cpqx"],  # 产品期限
+                                 '0' if (data_string["List"][i]["yjkhzgnsyl"] == '')\
+                                     else data_string["List"][i]["yjkhzgnsyl"],
+                                 data_string["List"][i]["fxdjms"],  # 风险等级描述
+                                 data_string["List"][i]["cpztms"],  # 产品状态描述
+                                 data_string["List"][i]["fxjgms"]])  # 发行机构描述
+
+            add_product = ("""INSERT INTO wi_product
+                              (prod_id, legal_group, prod_code, prod_name, currency, tenor, yield,
+                              risk, status, remark, update_time)
+                              VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
+            cursor.execute(add_product, product_data[i])
+            count += 1
+
+        logging.info(unicode(count) + ' CMBC products imported')
+
+    cnx.commit()
+    cursor.close()
+    logging.info(unicode(count) + ' CMBC products imported')
+
+    sample = {
+                 "yjkhzdnsyl 预计最低收益率": "3.6",
+                 "cpyjzzrq 产品终止日期": "2016/03/02",
+                 "cpztms 状态": "在售",
+                 "cpqx 期限": "58",
+                 "fxjgdm 发行机构代码": "C11227",
+                 "mjjsrq 募集结束日期": "2016/01/03",
+                 "cpid 产品id": "947670",
+                 "bqjz 产品净值": "",
+                 "cpdm 产品代码": "",
+                 "cpsylxms 产品收益类型模式": "保本浮动收益",
+                 "cpfxdj 产品风险等级": "01",
+                 "qxms 期限类型": "1-3个月（含）",
+                 "mjqsrq 募集起始日期": "2015/12/27",
+                 "mjbz 募集币种": "人民币(CNY)",
+                 "cpms 产品描述": "“乐惠”2015年第181期",
+                 "cpqsrq 产品起始日期": "2016/01/04",
+                 "fxdjms 风险等级描述": "一级（低）",
+                 "kfzqqsr 开放周期起始日": "",
+                 "csjz": "",
+                 "cpdjbm 产品登记编码": "C1122715000169",
+                 "xsqy 销售区域": "",
+                 "yjkhzgnsyl 预计最高收益率": "3.8",
+                 "cplx 产品类型": "02",
+                 "cplxms 产品类型描述": "封闭式非净值型",
+                 "dqsjsyl 到期实际收益率": "",
+                 "cpxsqy 产品销售区域": "",
+                 "kfzqjsr 开放周期结束日": "",
+                 "fxjgms 发行机构描述": "杭州联合农村商业银行股份有限公司",
+                 "orderby": "",
+                 "cpjz 产品净值": "",
+                 "cpsylx 产品收益类型": "02",
+                 "qdxsje 起点销售金额": "50000"
+             },
 
 
 if __name__ == '__main__':
-    DB_NAME = 'UCMS'
+    DB_NAME = 'zyq'
 
     try:
-        cnx = mysql.connector.connect(user='ucms',password='ucms',database=DB_NAME)
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
@@ -436,6 +669,18 @@ if __name__ == '__main__':
     else:
         logging.info('MYSQL connected.')
 
-    get_BCOH_product()
+    get_CW_product()
+    # get_CMHO_product()
+    # get_ICBC_product()
+    # get_CCBH_product()
+    # get_ABCI_product()
+    # get_BCOH_product()
+    # get_DESZ_product()
+    # get_CTIB_product()
+    # get_EBBC_product()
+    # get_IBCN_product()
+    # get_SPDB_product()
+    # get_BKSH_product()
+    # get_BOBJ_product()
 
     cnx.close
