@@ -77,3 +77,4 @@ def insert_db(list):
     logging.info(unicode(count) + ' ICBC products imported')
 
     cnx.close
+
