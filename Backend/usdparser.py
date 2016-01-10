@@ -32,8 +32,7 @@ def get_CMHO_product():
     # 招商银行
     # 请求格式：http get
     # 返回格式：json
-    # 解析方法：json
-    # 不需要登录，无公告
+
     legal_group = 'CMHO'
     root_url = 'http://www.cmbchina.com'
     index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=' \
@@ -109,7 +108,6 @@ def get_ICBC_product():
     # 工商银行
     # 请求格式：http get
     # 返回格式：json
-    # 解析方法：json
 
     root_url = 'http://www.icbc.com.cn'
     index_url = 'http://www.icbc.com.cn/ICBCDynamicSite2/money/services/MoenyListService.ashx?ctl1=4&ctl2=6&keyword='
@@ -117,7 +115,7 @@ def get_ICBC_product():
     data_string = json.loads(requests.get(index_url).text.encode('utf-8'))
     logging.debug('data_string = ' + unicode(data_string))
 
-    pp.pprint(data_string)
+    # pp.pprint(data_string)
 
     count = 0
     product_data = []
@@ -169,12 +167,11 @@ def get_ICBC_product():
 
 def get_CCBH_product():
     # 建设银行
-    # 请求格式：http get
-    # 返回格式：xml
-    # 解析方法：json
+    # 请求格式：http post
+    # 返回格式：html
 
     root_url = 'http://finance.ccb.com'
-    index_url = root_url + '/Channel/3080'
+    index_url = 'http://finance.ccb.com/Channel/3080'
 
     response = requests.post(index_url, data={"querytype": "query", "investmentCurrency": "14"})
     soup = bs4.BeautifulSoup(response.text, "html.parser")
@@ -227,8 +224,6 @@ def get_ABCI_product():
     # 农业银行
     # 请求格式：http get
     # 返回格式：json
-    # 解析方法：json
-    # 登录要求待确认
 
     # page_index = 1
     # page_max = 150
@@ -276,8 +271,6 @@ def get_BCOH_product():
     # 交通银行
     # 请求格式：http get
     # 返回格式：html
-    # 解析方法：soup find all
-    # 可解析，登录待验证
 
     root_url = 'http://www.bankcomm.com'
     index_url = 'http://www.bankcomm.com/BankCommSite/zonghang/cn/lcpd/queryFundInfoList.do?currency=2' \
@@ -426,8 +419,6 @@ def get_CTIB_product():
     # 中信银行
     # 请求格式：http post
     # 返回格式：html
-    # 解析方法：soup find all
-    # 可解析，不需要登录
 
     root_url = 'http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
@@ -454,10 +445,9 @@ def get_CTIB_product():
 
 
 # 光大银行
-# 请求格式：http get
+# 请求格式：http post
 # 返回格式：html
-# 解析方法：soup find all
-# 可解析，不需要登录
+
 def get_EBBC_product():
     index_url = 'http://www.cebbank.com/eportal/ui?pageId=478550&currentPage=1&moduleId=12218'
     response = requests.post(index_url, data={"filter_EQ_TZBZMC": "美元"})
@@ -544,8 +534,7 @@ def get_EBBC_product():
 # 兴业银行
 # 请求格式：http post
 # 返回格式：html
-# 解析方法：soup find all
-# 可解析，不需要登录，需要分析公告
+
 def get_IBCN_product():
     root_url = 'http://finance.ccb.com'
     index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
@@ -595,8 +584,7 @@ def get_BKDB_product():
 # 中国理财网
 # 请求格式：http post
 # 返回格式：html
-# 解析方法：soup find all
-# 可解析，不需要登录
+
 def get_CW_product():
     index_url = 'http://www.chinawealth.com.cn/lccpAllProJzyServlet.go'
     response = requests.post(index_url, data={"cpzt": "02,04", "pagenum": "1", "drawPageToolEnd": "5"})
@@ -639,51 +627,52 @@ def get_CW_product():
         product_data = []
 
         for i in range(len(data_string["List"])):
-            product_data.append([data_string["List"][i]["cpid"],  # 产品id
-                                 data_string["List"][i]["cpdjbm"],  # 产品登记编码
-                                 data_string["List"][i]["cpdm"],  # 产品代码
-                                 data_string["List"][i]["cpms"],  # 产品描述
-                                 data_string["List"][i]["fxjgdm"],  # 发行机构代码
-                                 data_string["List"][i]["fxjgms"],  # 发行机构描述
-                                 data_string["List"][i]["mjbz"],  # 募集币种
-                                 data_string["List"][i]["cpqx"],  # 产品期限
-                                 data_string["List"][i]["qxms"],  # 期限描述
-                                 data_string["List"][i]["mjqsrq"],  # 募集起始日期
-                                 data_string["List"][i]["mjjsrq"],  # 募集结束日期
-                                 data_string["List"][i]["kfzqqsr"],  # 开放周期起始日
-                                 data_string["List"][i]["kfzqjsr"],  # 开放周期结束日
-                                 data_string["List"][i]["cpqsrq"],  # 产品起始日期
-                                 data_string["List"][i]["cpyjzzrq"],  # 产品预计终止日期
-                                 data_string["List"][i]["cplx"],  # 产品类型
-                                 data_string["List"][i]["cplxms"],  # 产品类型描述(如: 封闭式非净值型)
-                                 data_string["List"][i]["cpsylx"],  # 产品收益类型
-                                 data_string["List"][i]["cpsylxms"],  # 产品收益类型描述(如: 保本浮动收益)
-                                 data_string["List"][i]["cpfxdj"],  # 产品风险等级
-                                 data_string["List"][i]["fxdjms"],  # 风险等级描述
-                                 data_string["List"][i]["cpjz"],  # 产品净值
-                                 data_string["List"][i]["bqjz"],  # bq净值
-                                 data_string["List"][i]["csjz"],  # cs净值
-                                 data_string["List"][i]["xsqy"],  # 销售区域
-                                 data_string["List"][i]["cpxsqy"],  # 产品销售区域
-                                 data_string["List"][i]["orderby"],  # order
-                                 data_string["List"][i]["yjkhzgnsyl"],  # 预计客户最高年收益率
-                                 data_string["List"][i]["yjkhzdnsyl"],  # 预计客户最低年收益率
-                                 data_string["List"][i]["dqsjsyl"],  # 到期实际收益率
-                                 data_string["List"][i]["cpztms"],  # 产品状态描述
-                                 data_string["List"][i]["qdxsje"]])  # 起点销售金额
+            if 'CNY' not in data_string["List"][i]["mjbz"]:
+                product_data.append([data_string["List"][i]["cpid"],  # 产品id
+                                     data_string["List"][i]["cpdjbm"],  # 产品登记编码
+                                     data_string["List"][i]["cpdm"],  # 产品代码
+                                     data_string["List"][i]["cpms"],  # 产品描述
+                                     data_string["List"][i]["fxjgdm"],  # 发行机构代码
+                                     data_string["List"][i]["fxjgms"],  # 发行机构描述
+                                     data_string["List"][i]["mjbz"],  # 募集币种
+                                     data_string["List"][i]["cpqx"],  # 产品期限
+                                     data_string["List"][i]["qxms"],  # 期限描述
+                                     data_string["List"][i]["mjqsrq"],  # 募集起始日期
+                                     data_string["List"][i]["mjjsrq"],  # 募集结束日期
+                                     data_string["List"][i]["kfzqqsr"],  # 开放周期起始日
+                                     data_string["List"][i]["kfzqjsr"],  # 开放周期结束日
+                                     data_string["List"][i]["cpqsrq"],  # 产品起始日期
+                                     data_string["List"][i]["cpyjzzrq"],  # 产品预计终止日期
+                                     data_string["List"][i]["cplx"],  # 产品类型
+                                     data_string["List"][i]["cplxms"],  # 产品类型描述(如: 封闭式非净值型)
+                                     data_string["List"][i]["cpsylx"],  # 产品收益类型
+                                     data_string["List"][i]["cpsylxms"],  # 产品收益类型描述(如: 保本浮动收益)
+                                     data_string["List"][i]["cpfxdj"],  # 产品风险等级
+                                     data_string["List"][i]["fxdjms"],  # 风险等级描述
+                                     data_string["List"][i]["cpjz"],  # 产品净值
+                                     data_string["List"][i]["bqjz"],  # bq净值
+                                     data_string["List"][i]["csjz"],  # cs净值
+                                     data_string["List"][i]["xsqy"],  # 销售区域
+                                     data_string["List"][i]["cpxsqy"],  # 产品销售区域
+                                     data_string["List"][i]["orderby"],  # order
+                                     data_string["List"][i]["yjkhzgnsyl"],  # 预计客户最高年收益率
+                                     data_string["List"][i]["yjkhzdnsyl"],  # 预计客户最低年收益率
+                                     data_string["List"][i]["dqsjsyl"],  # 到期实际收益率
+                                     data_string["List"][i]["cpztms"],  # 产品状态描述
+                                     data_string["List"][i]["qdxsje"]])  # 起点销售金额
 
-            add_product = ("""INSERT INTO t_product
-                              (prod_id, prod_reg_code, prod_code, prod_name, issuer_code, issuer_name, currency,
-                              tenor, tenor_desc, start_date, end_date, open_start_date, open_end_date,
-                              value_date, maturity_date, prod_type, prod_type_desc, coupon_type, coupon_type_desc,
-                              risk, risk_desc, net_value, bq_net_value, cs_net_value, sales_region, sales_region_desc,
-                              order_by, expected_highest_yield, expected_lowest_yield, actual_yield, status,
-                              starting_point, data_source, update_time)
-                              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                                      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                                      'ChinaWealth', now())""")
-            cursor.execute(add_product, product_data[i])
-            count += 1
+                add_product = ("""INSERT INTO t_product
+                                  (prod_id, prod_reg_code, prod_code, prod_name, issuer_code, issuer_name, currency,
+                                  tenor, tenor_desc, start_date, end_date, open_start_date, open_end_date,
+                                  value_date, maturity_date, prod_type, prod_type_desc, coupon_type, coupon_type_desc,
+                                  risk, risk_desc, net_value, bq_net_value, cs_net_value, sales_region, sales_region_desc,
+                                  order_by, expected_highest_yield, expected_lowest_yield, actual_yield, status,
+                                  starting_amount, data_source, update_time)
+                                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                          %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                                          'ChinaWealth', now())""")
+                cursor.execute(add_product, product_data[-1])
+                count += 1
 
         logging.info(unicode(count) + ' ChinaWealth products imported')
 
@@ -738,7 +727,7 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
@@ -750,7 +739,7 @@ if __name__ == '__main__':
         logging.info('MYSQL connected.')
 
     # get_CW_product()
-    # get_CMHO_product()
+    get_CMHO_product()
     get_ICBC_product()
     # get_CCBH_product()
     # get_ABCI_product()
