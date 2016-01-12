@@ -67,37 +67,38 @@ def get_CMHO_product():
             # ield = re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"])
             # if ield == '':
             #     ield = 0
-            product_data.append([u'C10308',
-                                 data_string["list"][i]["AreaCode"],
-                                 filter(unicode.isdigit, data_string["list"][i]["BeginDate"]),
-                                 u'USD',
-                                 filter(unicode.isdigit, data_string["list"][i]["EndDate"]),
-                                 filter(unicode.isdigit, data_string["list"][i]["ExpireDate"]),
-                                 filter(unicode.isdigit, data_string["list"][i]["FinDate"]),
-                                 data_string["list"][i]["IncresingMoney"],
-                                 data_string["list"][i]["InitMoney"],
-                                 data_string["list"][i]["IsCanBuy"],
-                                 # data_string["list"][i]["IsNewFlag"],
-                                 re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"]),
-                                 data_string["list"][i]["PrdCode"],
-                                 data_string["list"][i]["PrdName"],
-                                 data_string["list"][i]["Risk"],
-                                 data_string["list"][i]["SaleChannel"],
-                                 data_string["list"][i]["SaleChannelName"],
-                                 data_string["list"][i]["Status"],
-                                 data_string["list"][i]["Style"],
-                                 data_string["list"][i]["Term"],
-                                 data_string["list"][i]["TypeCode"],
-                                 u'OW'])
-            logging.debug(product_data[i])
-            add_product = ("""INSERT INTO t_product
-                              (issuer_code, sales_region, start_date, currency, end_date, value_date, tenor,
-                               increasing_amount, starting_amount, buyable, expected_highest_yield, prod_code,
-                               prod_name, risk, sales_channel, sales_channel_desc, status, coupon_type_desc,
-                               tenor_desc, coupon_type, data_source, update_time) VALUES (""" + "%s, "*21 +
-                           """now())""")
-            cursor.execute(add_product, product_data[i])
-            count += 1
+            if data_string["list"][i]["IsCanBuy"] == 'true':
+                product_data.append([u'C10308',
+                                     data_string["list"][i]["AreaCode"],
+                                     filter(unicode.isdigit, data_string["list"][i]["BeginDate"]),
+                                     u'USD',
+                                     filter(unicode.isdigit, data_string["list"][i]["EndDate"]),
+                                     filter(unicode.isdigit, data_string["list"][i]["ExpireDate"]),
+                                     filter(unicode.isdigit, data_string["list"][i]["FinDate"]),
+                                     data_string["list"][i]["IncresingMoney"],
+                                     data_string["list"][i]["InitMoney"],
+                                     data_string["list"][i]["IsCanBuy"],
+                                     # data_string["list"][i]["IsNewFlag"],
+                                     re.sub(r'[^\d.]+', '', data_string["list"][i]["NetValue"]),
+                                     data_string["list"][i]["PrdCode"],
+                                     data_string["list"][i]["PrdName"],
+                                     data_string["list"][i]["Risk"],
+                                     data_string["list"][i]["SaleChannel"],
+                                     data_string["list"][i]["SaleChannelName"],
+                                     data_string["list"][i]["Status"],
+                                     data_string["list"][i]["Style"],
+                                     data_string["list"][i]["Term"],
+                                     data_string["list"][i]["TypeCode"],
+                                     u'OW'])
+                logging.debug(product_data[-1])
+                add_product = ("""INSERT INTO t_product
+                                  (issuer_code, sales_region, start_date, currency, end_date, value_date, tenor,
+                                   increasing_amount, starting_amount, buyable, expected_highest_yield, prod_code,
+                                   prod_name, risk, sales_channel, sales_channel_desc, status, coupon_type_desc,
+                                   tenor_desc, coupon_type, data_source, update_time) VALUES (""" + "%s, "*21 +
+                               """now())""")
+                cursor.execute(add_product, product_data[-1])
+                count += 1
 
     cnx.commit()
     cursor.close()

@@ -1,758 +1,294 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html>
-<head>
-    <title>外汇牌价</title>
-    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8"/>
-    <style type="text/css">
-        <!--
-        *{margin:0;padding:0}
-        body{font-size:12px;font-family: verdana,"microsoft YaHei","宋体",serif;background-color:#EEF3F9;}
-        .about_exchange {
-            height: auto !important;
-            min-height: 500px;
-            width: 703px;
-        }
-        .about_exchange .tip {
-            color: #E30000;
-            height: 36px;
-            line-height: 36px;
-        }
-        .exchangeTab {
-            border: 5px solid #DFDFDF;
-            border-collapse: collapse;
-            margin: 0 auto;
-        }
-        .exchangeTab td {
-            background-color: #FCFCFC;
-            border: 1px solid #9DB8CC;
-            height: 26px;
-            line-height: 26px;
-        }
-        .exchangeTab .t_thead td {
-            background-color: #D4E6F4;
-            border: 0 none;
-        }
-        .exchangeTab td td {
-            background-color: #F9F9F9;
-            border-color: #9DB8CC -moz-use-text-color -moz-use-text-color;
-            border-right: 0 none;
-            border-style: solid none none;
-            border-width: 2px 0 0;
-            text-indent: 16px;
-        }
-        .exchangeTab .data:hover td {
-            background-color: #EEF3F9;
-        }
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-        .con_content1 {
-          background: none repeat scroll 0 0 #F7F7F7;
-          border-color: -moz-use-text-color #D6D6D6 #D6D6D6;
-          border-right: 1px solid #D6D6D6;
-          border-style: none solid solid;
-          border-width: medium 1px 1px;
-          height: auto !important;
-          min-height: 550px;
-          padding: 10px;
-          width: 722px;
-        }
-        -->
-    </style>
-    <script type="text/JavaScript">
-	var list = '';
-
-	var  today = new Date();
-	var month=new String(today.getMonth()+1);
-	if(month.length==1){
-		month="0"+month;
-	}
-	var date=new String(today.getDate());
-	if(date.length==1){
-		date="0"+date;
-	}
-	var currentDate = (today.getFullYear()) + "-" + month + "-" + date;
-
-	function MM_openBrWindow(theURL,winName,features) { //v2.0
-		alert('MM_openBrWindow');
-	  window.open(theURL,winName,features);
-	}
-
-	function onChanageDate(){
-		var Date =document.getElementById("selDate").value;
-		
-		if(Date!=currentDate){
-		 document.getElementById("fromTime").disabled = "disabled";
-		 document.getElementById("toTime").disabled = "disabled";
-		}else{
-		 document.getElementById("fromTime").disabled = "";
-		 document.getElementById("toTime").disabled = "";
-		}
-		//判断是显示六列还是七列
-		if(Date!=null && Date!="" && Date < "2015-02-07"){
-			document.getElementById("modId").setAttribute("colspan", "7");
-		}
-	}
-
-	function setIframeHeight(){
-		var bHeight = document.body.scrollHeight;
-		var dHeight = document.body.clientHeight;
-		var height = Math.min(bHeight,dHeight);
-		parent.document.getElementById("ctnIfr").height = height;
-	}
-
-    </script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+    无标题页
+</title>
+    <link href="master.css" rel="stylesheet" type="text/css"/>
 </head>
-<body onload="setIframeHeight();">
-<div class="about_exchange">
-    <p class="tip">*仅提供查询最多二个月内的牌价交易价格*</p>
-    <table width="100%" border="0" cellpadding="5" cellspacing="0"
-           align="center" class="exchangeTab">
-        <tr>
-            <td id="modId" height="30" colspan="6" align="left">
-                <form name="queryForm" action="">
-                    &nbsp;&nbsp;历史牌价查询 日期： <select id="selDate"
-                                                   name="selDate" onchange="javascript:onChanageDate();">
-                    <option>请选择日期</option>
-
-                    <option value="2016-01-10"
-                    >2016-01-10
-                    </option>
-
-                    <option value="2016-01-09"
-                    >2016-01-09
-                    </option>
-
-                    <option value="2016-01-08"
-                    >2016-01-08
-                    </option>
-
-                    <option value="2016-01-07"
-                    >2016-01-07
-                    </option>
-
-                    <option value="2016-01-06"
-                    >2016-01-06
-                    </option>
-
-                    <option value="2016-01-05"
-                    >2016-01-05
-                    </option>
-
-                    <option value="2016-01-04"
-                    >2016-01-04
-                    </option>
-
-                    <option value="2016-01-03"
-                    >2016-01-03
-                    </option>
-
-                    <option value="2016-01-02"
-                    >2016-01-02
-                    </option>
-
-                    <option value="2016-01-01"
-                    >2016-01-01
-                    </option>
-
-                    <option value="2015-12-31"
-                    >2015-12-31
-                    </option>
-
-                    <option value="2015-12-30"
-                    >2015-12-30
-                    </option>
-
-                    <option value="2015-12-29"
-                    >2015-12-29
-                    </option>
-
-                    <option value="2015-12-28"
-                    >2015-12-28
-                    </option>
-
-                    <option value="2015-12-27"
-                    >2015-12-27
-                    </option>
-
-                    <option value="2015-12-26"
-                    >2015-12-26
-                    </option>
-
-                    <option value="2015-12-25"
-                    >2015-12-25
-                    </option>
-
-                    <option value="2015-12-24"
-                    >2015-12-24
-                    </option>
-
-                    <option value="2015-12-23"
-                    >2015-12-23
-                    </option>
-
-                    <option value="2015-12-22"
-                    >2015-12-22
-                    </option>
-
-                    <option value="2015-12-21"
-                    >2015-12-21
-                    </option>
-
-                    <option value="2015-12-20"
-                    >2015-12-20
-                    </option>
-
-                    <option value="2015-12-19"
-                    >2015-12-19
-                    </option>
-
-                    <option value="2015-12-18"
-                    >2015-12-18
-                    </option>
-
-                    <option value="2015-12-17"
-                    >2015-12-17
-                    </option>
-
-                    <option value="2015-12-16"
-                    >2015-12-16
-                    </option>
-
-                    <option value="2015-12-15"
-                    >2015-12-15
-                    </option>
-
-                    <option value="2015-12-14"
-                    >2015-12-14
-                    </option>
-
-                    <option value="2015-12-13"
-                    >2015-12-13
-                    </option>
-
-                    <option value="2015-12-12"
-                    >2015-12-12
-                    </option>
-
-                    <option value="2015-12-11"
-                    >2015-12-11
-                    </option>
-
-                    <option value="2015-12-10"
-                    >2015-12-10
-                    </option>
-
-                    <option value="2015-12-09"
-                    >2015-12-09
-                    </option>
-
-                    <option value="2015-12-08"
-                    >2015-12-08
-                    </option>
-
-                    <option value="2015-12-07"
-                    >2015-12-07
-                    </option>
-
-                    <option value="2015-12-06"
-                    >2015-12-06
-                    </option>
-
-                    <option value="2015-12-05"
-                    >2015-12-05
-                    </option>
-
-                    <option value="2015-12-04"
-                    >2015-12-04
-                    </option>
-
-                    <option value="2015-12-03"
-                    >2015-12-03
-                    </option>
-
-                    <option value="2015-12-02"
-                    >2015-12-02
-                    </option>
-
-                    <option value="2015-12-01"
-                    >2015-12-01
-                    </option>
-
-                    <option value="2015-11-30"
-                    >2015-11-30
-                    </option>
-
-                    <option value="2015-11-29"
-                    >2015-11-29
-                    </option>
-
-                    <option value="2015-11-28"
-                    >2015-11-28
-                    </option>
-
-                    <option value="2015-11-27"
-                    >2015-11-27
-                    </option>
-
-                    <option value="2015-11-26"
-                    >2015-11-26
-                    </option>
-
-                    <option value="2015-11-25"
-                    >2015-11-25
-                    </option>
-
-                    <option value="2015-11-24"
-                    >2015-11-24
-                    </option>
-
-                    <option value="2015-11-23"
-                    >2015-11-23
-                    </option>
-
-                    <option value="2015-11-22"
-                    >2015-11-22
-                    </option>
-
-                    <option value="2015-11-21"
-                    >2015-11-21
-                    </option>
-
-                    <option value="2015-11-20"
-                    >2015-11-20
-                    </option>
-
-                    <option value="2015-11-19"
-                    >2015-11-19
-                    </option>
-
-                    <option value="2015-11-18"
-                    >2015-11-18
-                    </option>
-
-                    <option value="2015-11-17"
-                    >2015-11-17
-                    </option>
-
-                    <option value="2015-11-16"
-                    >2015-11-16
-                    </option>
-
-                    <option value="2015-11-15"
-                    >2015-11-15
-                    </option>
-
-                    <option value="2015-11-14"
-                    >2015-11-14
-                    </option>
-
-                    <option value="2015-11-13"
-                    >2015-11-13
-                    </option>
-
-                    <option value="2015-11-12"
-                    >2015-11-12
-                    </option>
-
-                    <option value="2015-11-11"
-                    >2015-11-11
-                    </option>
-
-                    <option value="2015-11-10"
-                    >2015-11-10
-                    </option>
-
-                    <option value="2015-11-09"
-                    >2015-11-09
-                    </option>
-
-                    <option value="2015-11-08"
-                    >2015-11-08
-                    </option>
-
-                    <option value="2015-11-07"
-                    >2015-11-07
-                    </option>
-
-                    <option value="2015-11-06"
-                    >2015-11-06
-                    </option>
-
-                    <option value="2015-11-05"
-                    >2015-11-05
-                    </option>
-
-                    <option value="2015-11-04"
-                    >2015-11-04
-                    </option>
-
-                    <option value="2015-11-03"
-                    >2015-11-03
-                    </option>
-
-                    <option value="2015-11-02"
-                    >2015-11-02
-                    </option>
-
-                    <option value="2015-11-01"
-                    >2015-11-01
-                    </option>
-
-                    <option value="2015-10-31"
-                    >2015-10-31
-                    </option>
-
-                    <option value="2015-10-30"
-                    >2015-10-30
-                    </option>
-
-                    <option value="2015-10-29"
-                    >2015-10-29
-                    </option>
-
-                    <option value="2015-10-28"
-                    >2015-10-28
-                    </option>
-
-                    <option value="2015-10-27"
-                    >2015-10-27
-                    </option>
-
-                    <option value="2015-10-26"
-                    >2015-10-26
-                    </option>
-
-                    <option value="2015-10-25"
-                    >2015-10-25
-                    </option>
-
-                    <option value="2015-10-24"
-                    >2015-10-24
-                    </option>
-
-                    <option value="2015-10-23"
-                    >2015-10-23
-                    </option>
-
-                    <option value="2015-10-22"
-                    >2015-10-22
-                    </option>
-
-                    <option value="2015-10-21"
-                    >2015-10-21
-                    </option>
-
-                    <option value="2015-10-20"
-                    >2015-10-20
-                    </option>
-
-                    <option value="2015-10-19"
-                    >2015-10-19
-                    </option>
-
-                    <option value="2015-10-18"
-                    >2015-10-18
-                    </option>
-
-                    <option value="2015-10-17"
-                    >2015-10-17
-                    </option>
-
-                    <option value="2015-10-16"
-                    >2015-10-16
-                    </option>
-
-                    <option value="2015-10-15"
-                    >2015-10-15
-                    </option>
-
-                    <option value="2015-10-14"
-                    >2015-10-14
-                    </option>
-
-                    <option value="2015-10-13"
-                    >2015-10-13
-                    </option>
-
-                    <option value="2015-10-12"
-                    >2015-10-12
-                    </option>
-
-                    <option value="2015-10-11"
-                    >2015-10-11
-                    </option>
-
-                </select> 从 <select id="fromTime" name="fromTime">
-
-                    <option value="08:00"
-                            selected>08:00
-                    </option>
-
-                    <option value="09:00">09:00</option>
-
-                    <option value="10:00">10:00</option>
-
-                    <option value="11:00">11:00</option>
-
-                    <option value="12:00">12:00</option>
-
-                    <option value="13:00">13:00</option>
-
-                    <option value="14:00">14:00</option>
-
-                    <option value="15:00">15:00</option>
-
-                    <option value="16:00">16:00</option>
-
-                    <option value="17:00">17:00</option>
-
-                    <option value="18:00">18:00</option>
-
-                    <option value="19:00">19:00</option>
-
-                    <option value="20:00">20:00</option>
-
-                    <option value="21:00">21:00</option>
-
-                    <option value="22:00">22:00</option>
-
-                </select> 到 <select id="toTime" name="toTime">
-
-                    <option value="08:00">08:00</option>
-
-                    <option value="09:00">09:00</option>
-
-                    <option value="10:00">10:00</option>
-
-                    <option value="11:00">11:00</option>
-
-                    <option value="12:00">12:00</option>
-
-                    <option value="13:00">13:00</option>
-
-                    <option value="14:00">14:00</option>
-
-                    <option value="15:00">15:00</option>
-
-                    <option value="16:00">16:00</option>
-
-                    <option value="17:00">17:00</option>
-
-                    <option value="18:00">18:00</option>
-
-                    <option value="19:00">19:00</option>
-
-                    <option value="20:00">20:00</option>
-
-                    <option value="21:00"
-                            selected>21:00
-                    </option>
-
-                    <option value="22:00">22:00</option>
-
-                </select> <input type="submit" name="Submit" value="提交">
-                    <input type="hidden" value="simple" id="type" name="type"> </input>
-                </form>
-            </td>
-        </tr>
-
-
-        <tr>
-            <td colspan="6">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td width="*" align="left"><B>更新时间：2016-01-10 21:06:07<B></td>
-                        <td width="120" align="center"><B>单位: 人民币元</B></td>
-                    </tr>
-                </table>
-            </TD>
-        </TR>
-        <tr class="t_thead">
-            <td width="*" height="15" align="center" valign="middle">币种</td>
-            <td width="100px" align="center" valign="middle">单位</td>
-            <td width="100px" align="center" valign="middle">现汇买入价</td>
-            <td width="100px" align="center" valign="middle">现汇卖出价<br/></td>
-            <td width="100px" align="center" valign="middle">现钞买入价<br/></td>
-            <td width="100px" align="center" valign="middle">现钞卖出价<br/></td>
-        </tr>
-        <tr class="t_thead">
-            <td align="center" valign="middle">Currency</td>
-            <td align="center" valign="middle">Per</td>
-            <td align="center" valign="middle">ExchBid</td>
-            <td align="center" valign="middle">ExchOffer</td>
-            <td align="center" valign="middle">CashBid</td>
-            <td align="center" valign="middle">CashOffer</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">澳大利亚元(AUD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">458.33</td>
-            <td align="center">461.53</td>
-            <td align="center">445.22</td>
-            <td align="center">461.53</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">加拿大元(CAD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">465.13</td>
-            <td align="center">468.85</td>
-            <td align="center">450.18</td>
-            <td align="center">468.85</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">瑞士法郎(CHF/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">659.52</td>
-            <td align="center">664.80</td>
-            <td align="center">638.33</td>
-            <td align="center">664.80</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">丹麦克郎(DKK/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">95.98</td>
-            <td align="center">96.74</td>
-            <td align="center">92.90</td>
-            <td align="center">96.74</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">欧元(EUR/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">716.38</td>
-            <td align="center">721.40</td>
-            <td align="center">693.01</td>
-            <td align="center">721.40</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">英镑(GBP/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">956.43</td>
-            <td align="center">963.13</td>
-            <td align="center">925.23</td>
-            <td align="center">963.13</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">港币(HKD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">84.79</td>
-            <td align="center">85.11</td>
-            <td align="center">84.11</td>
-            <td align="center">85.11</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">日元(JPY/CNY)</td>
-            <td align="center">100000</td>
-            <td align="center">5576.19</td>
-            <td align="center">5615.35</td>
-            <td align="center">5397.13</td>
-            <td align="center">5615.35</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">韩元(KRW/CNY)</td>
-            <td align="center">100000</td>
-            <td align="center">-</td>
-            <td align="center">566.07</td>
-            <td align="center">526.73</td>
-            <td align="center">566.07</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">澳门元(MOP/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">82.35</td>
-            <td align="center">82.67</td>
-            <td align="center">81.69</td>
-            <td align="center">82.67</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">挪威克郎(NOK/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">73.81</td>
-            <td align="center">74.39</td>
-            <td align="center">71.44</td>
-            <td align="center">74.39</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">新西兰元(NZD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">430.19</td>
-            <td align="center">433.63</td>
-            <td align="center">416.37</td>
-            <td align="center">433.63</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">菲律宾比索(PHP/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">-</td>
-            <td align="center">-</td>
-            <td align="center">13.50</td>
-            <td align="center">-</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">瑞典克郎(SEK/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">77.25</td>
-            <td align="center">77.87</td>
-            <td align="center">74.77</td>
-            <td align="center">77.87</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">新加坡元(SGD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">455.92</td>
-            <td align="center">459.12</td>
-            <td align="center">441.05</td>
-            <td align="center">459.12</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">泰铢(THB/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">18.06</td>
-            <td align="center">18.20</td>
-            <td align="center">17.48</td>
-            <td align="center">18.20</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">新台币(TWD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">-</td>
-            <td align="center">-</td>
-            <td align="center">19.00</td>
-            <td align="center">20.58</td>
-        </tr>
-
-        <tr class="data">
-            <td align="center">美元(USD/CNY)</td>
-            <td align="center">100</td>
-            <td align="center">658.04</td>
-            <td align="center">660.66</td>
-            <td align="center">652.76</td>
-            <td align="center">660.66</td>
-        </tr>
-
-
-    </table>
-    <p class="tip">牌价非实际交易价格，仅供参考。各分行实际开办币种可能存在差异，具体请洽当地营业网点。</p>
-    <script>
-onChanageDate();
-
-
-    </script>
-</div>
+<body>
+<div id="wrap">
+    <div id="head">
+        <div id="head_top">
+            <div class="left"><a href="/"><img src="/images/logo.gif" alt="返回首页 - 北京银行" width="256" height="39"/></a>
+            </div>
+            <div class="right">
+                <p class="time f_333_12">
+                    <script language=JavaScript>
+<!--
+var enabled = 0; today = new Date();
+var day; var date;
+if(today.getDay()==0) day = " 星期日"
+if(today.getDay()==1) day = " 星期一"
+if(today.getDay()==2) day = " 星期二"
+if(today.getDay()==3) day = " 星期三"
+if(today.getDay()==4) day = " 星期四"
+if(today.getDay()==5) day = " 星期五"
+if(today.getDay()==6) day = " 星期六"
+document.fgColor = "000000";
+date = (today.getFullYear()) + "年" + (today.getMonth() + 1 ) + "月" + today.getDate() + "日" + day;
+document.write(date);
+// -->
+
+                    </script>
+                </p>
+                <p class="navtop"><span class="f_666_12"><a href="/about/index.html">今日京行</a> | <a
+                        href="/branch/index.html">机构网点</a> | <a href="/branch/fh_tianjin.html">各地分行</a> | <a
+                        href="http://recruit.bankofbeijing.com.cn/" target="_blank">人才招聘</a> | </span><span
+                        class="f_red_12"><a href="/en2011/index.html" target="_blank">ENGLISH</a></span></p>
+            </div>
+        </div>
+        <div id="head_middle">
+            <div id="mainnav" class="f_fff_13">
+                <p><a href="/index.html">首&nbsp;页</a><span>|</span><a
+                        href="/personal/index.html">个人金融服务</a><span>|</span><a href="/corporation/index.html">公司金融服务</a><span>|</span><a
+                        href="/international/index.html">金融市场及国际业务</a><span>|</span><a
+                        href="/investor/index.html">投资者关系</a><span>|</span> <a
+                        href="/ebank/index.html">电子银行</a><span>|</span><a href="/creditcard/index.html" target="_blank">信用卡中心</a>
+                </p>
+            </div>
+            <link href="/style/nowadays.css" rel="stylesheet" type="text/css"/>
+            <div id="head_bottom">
+                <div class="left"><a href="#"><img src="/images/banner_cor5.jpg" alt="今日京行" title="今日京行" width="580"
+                                                   height="120"/></a></div>
+                <div class="right2">
+                    <div class="stock_info">
+                        <table width="95%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td width="165" height="20" class="f_000_12">北京银行股票信息</td>
+                            </tr>
+                            <tr>
+                                <td height="20">
+                                    <iframe allowtransparency="true" scrolling="no" width="170" height="80"
+                                            frameborder="0"
+                                            src="http://financeinfo.bankofbeijing.com.cn:9080/bjbank/quotehq/quote.jsp"></iframe>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="area">
+                <div class="clear"></div>
+                <div class="content_left">
+                    <div id="navquick2">
+                        <div class="navquick_left2">
+                            <div class="left">
+                                <div class="right"><span class="f_red_12">您的位置：</span></div>
+                            </div>
+                        </div>
+                        <div class="navquick_right"><span class="f_666_12"><a href="/index.html">首页</a></span> > <span
+                                class="f_666_12">存贷款利率</span> > <span class="f_666_12">外汇牌价</span></div>
+                    </div>
+                    <div class="box_konghang"></div>
+                    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="4"><img src="/images/personal_tab_h1.jpg"/></td>
+                            <td width="120" height="24" align="center" bgcolor="#FD0000"><span
+                                    class="f_fff_13_b">外汇牌价</span></td>
+                            <td width="4"><img src="/images/personal_tab_h2.jpg"/></td>
+                            <td align="center"></td>
+                        </tr>
+                        <tr>
+                            <td height="1" colspan="4" style="border-top:#FD0000 1px solid;"></td>
+                        </tr>
+                    </table>
+                    <div class="box_konghang"></div>
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
+                        <tr>
+                            <td width="25%" colspan="2" align="center"><b class="f_red_12b">外汇牌价表 </b><br/>
+                                <span class="f_000_12">(注：此汇率表供参考，以实际交易汇率为准)</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="a1">
+
+
+                                <form method="post" action="whpj.aspx" id="form1">
+                                    <div class="aspNetHidden">
+                                        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                                               value="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"/>
+                                    </div>
+
+                                    20160111
+                                    <div>
+                                        <table cellspacing="0" rules="all" border="1" id="GridView1"
+                                               style="border-collapse:collapse;">
+                                            <tr style="font-size:12px;">
+                                                <td>英文代码</td>
+                                                <td>中文代码</td>
+                                                <td>报价单位</td>
+                                                <td>现汇买入价</td>
+                                                <td>现钞买入价</td>
+                                                <td>卖出价</td>
+                                                <td>中间价</td>
+                                                <td>基准价</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>GBP/CNY</td>
+                                                <td>英镑/人民币</td>
+                                                <td>100</td>
+                                                <td>954.14</td>
+                                                <td>931.18</td>
+                                                <td>959.89</td>
+                                                <td>957.02</td>
+                                                <td>955.85</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>HKD/CNY</td>
+                                                <td>港币/人民币</td>
+                                                <td>100</td>
+                                                <td>84.63</td>
+                                                <td>84.14</td>
+                                                <td>84.92</td>
+                                                <td>84.78</td>
+                                                <td>84.54</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>USD/CNY</td>
+                                                <td>美元/人民币</td>
+                                                <td>100</td>
+                                                <td>656.72</td>
+                                                <td>653.76</td>
+                                                <td>659.35</td>
+                                                <td>658.04</td>
+                                                <td>656.26</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>CHF/CNY</td>
+                                                <td>瑞士法郎/人民币</td>
+                                                <td>100</td>
+                                                <td>658.00</td>
+                                                <td>642.16</td>
+                                                <td>661.95</td>
+                                                <td>659.98</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>SGD/CNY</td>
+                                                <td>新加坡元/人民币</td>
+                                                <td>100</td>
+                                                <td>456.36</td>
+                                                <td>445.38</td>
+                                                <td>459.11</td>
+                                                <td>457.74</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>SEK/CNY</td>
+                                                <td>瑞典克朗/人民币</td>
+                                                <td>100</td>
+                                                <td>77.09</td>
+                                                <td>75.23</td>
+                                                <td>77.55</td>
+                                                <td>77.32</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>DKK/CNY</td>
+                                                <td>丹麦克朗/人民币</td>
+                                                <td>100</td>
+                                                <td>95.75</td>
+                                                <td>93.45</td>
+                                                <td>96.33</td>
+                                                <td>96.04</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>NOK/CNY</td>
+                                                <td>挪威克朗/人民币</td>
+                                                <td>100</td>
+                                                <td>73.76</td>
+                                                <td>71.99</td>
+                                                <td>74.21</td>
+                                                <td>73.99</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>JPY/CNY</td>
+                                                <td>日元/人民币</td>
+                                                <td>100</td>
+                                                <td>5.5801</td>
+                                                <td>5.4458</td>
+                                                <td>5.6137</td>
+                                                <td>5.5969</td>
+                                                <td>5.6163</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>CAD/CNY</td>
+                                                <td>加拿大元/人民币</td>
+                                                <td>100</td>
+                                                <td>463.61</td>
+                                                <td>452.45</td>
+                                                <td>466.41</td>
+                                                <td>465.01</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>AUD/CNY</td>
+                                                <td>澳大利亚元/人民币</td>
+                                                <td>100</td>
+                                                <td>457.95</td>
+                                                <td>446.93</td>
+                                                <td>460.71</td>
+                                                <td>459.33</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>EUR/CNY</td>
+                                                <td>欧元/人民币</td>
+                                                <td>100</td>
+                                                <td>714.18</td>
+                                                <td>697.70</td>
+                                                <td>718.47</td>
+                                                <td>716.33</td>
+                                                <td>719.36</td>
+                                            </tr>
+                                            <tr style="font-size:12px;">
+                                                <td>NZD/CNY</td>
+                                                <td>新西兰元/人民币</td>
+                                                <td>100</td>
+                                                <td>429.41</td>
+                                                <td>419.08</td>
+                                                <td>432.00</td>
+                                                <td>430.71</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </form>
+                                <br/>
+                                备注：<br/>
+                                <span class="f_000_12">此牌价仅供客户参考，资金交割以柜台实际成交价格为准。</span><br/>
+                                <br/>
+                                <br/></td>
+                        </tr>
+                    </table>
+                    <p>&nbsp;</p>
+                    <div class="box_konghang">&nbsp;</div>
+                </div>
+                <div class="content_right content_right_one">
+                    <div class="title">外汇牌价</div>
+                    <div class="content_right_in">
+                        <div class="content_right_1">
+
+                        </div>
+                        <div class="box_konghang">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div id="footet">
+                <div id="left" class="f_666_12"><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备05049400号</a>
+                </div>
+                <div id="center" class="f_666_12">
+                    <p><a href="/contents/201/3234.html">安全说明</a> | <a href="/contents/201/3235.html">网站声明</a> | <a
+                            href="/contents/201/3236.html">隐私保密条款</a> | <a href="/about/online.html">在线反馈</a></p>
+                    <p>总行地址：北京市西城区金融大街丙17号&nbsp;&nbsp;&nbsp;&nbsp;邮编：100033</p>
+                </div>
+                <div id="right">>&nbsp;24小时客服电话：<span class="tel">95526</span></div>
+            </div>
+        </div>
 </body>
 </html>
