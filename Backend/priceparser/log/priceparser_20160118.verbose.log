@@ -1,0 +1,336 @@
+2016-01-18 00:44:20,639 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-18 00:44:20,639 - ucms.birdie.parser.price - INFO - price parser started
+2016-01-18 00:44:20,639 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-18 00:44:20,736 - ucms.birdie.parser.price - INFO - MYSQL connected.
+2016-01-18 00:44:20,755 - ucms.birdie.parser.price - INFO - 12 rows deleted
+2016-01-18 00:44:21,127 - ucms.birdie.parser.price - INFO - CMHO rate imported
+2016-01-18 00:44:24,042 - ucms.birdie.parser.price - WARNING - <class 'mysql.connector.errors.ProgrammingError'>:Not enough parameters for the SQL statement
+2016-01-18 00:44:24,042 - ucms.birdie.parser.price - ERROR - EXCEPTION:
+Traceback (most recent call last):
+  File "/Users/initialb/Projects/UCMS/Backend/priceparser/priceparser.py", line 152, in get_ICBC_rate
+    cursor.execute(add_product, rate_data)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 495, in execute
+    stmt = RE_PY_PARAM.sub(psub, stmt)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 68, in __call__
+    "Not enough parameters for the SQL statement")
+ProgrammingError: Not enough parameters for the SQL statement
+2016-01-18 00:44:24,581 - ucms.birdie.parser.price - INFO - BCHO rate imported
+2016-01-18 00:44:24,670 - ucms.birdie.parser.price - INFO - ABCI rates imported
+2016-01-18 00:44:24,799 - ucms.birdie.parser.price - INFO - CCBH rate imported
+2016-01-18 00:44:24,954 - ucms.birdie.parser.price - INFO - CTIB rate imported
+2016-01-18 00:44:25,112 - ucms.birdie.parser.price - INFO - BCOH rate imported
+2016-01-18 00:44:25,394 - ucms.birdie.parser.price - INFO - EBBC rate imported
+2016-01-18 00:44:25,743 - ucms.birdie.parser.price - INFO - IBCN rate imported
+2016-01-18 00:44:25,844 - ucms.birdie.parser.price - INFO - SPDB rate imported
+2016-01-18 00:44:26,136 - ucms.birdie.parser.price - INFO - DESZ rate imported
+2016-01-18 00:44:26,500 - ucms.birdie.parser.price - INFO - BKSH rate imported
+2016-01-18 00:44:26,672 - ucms.birdie.parser.price - DEBUG - 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	无标题页
+</title><link href="master.css" rel="stylesheet" type="text/css"/></head>
+<body>
+<div id="wrap">
+<div id="head">
+<div id="head_top">
+<div class="left"><a href="/"><img alt="返回首页 - 北京银行" height="39" src="/images/logo.gif" width="256"/></a></div>
+<div class="right">
+<p class="time f_333_12">
+<script language="JavaScript">
+<!--
+var enabled = 0; today = new Date();
+var day; var date;
+if(today.getDay()==0) day = " 星期日"
+if(today.getDay()==1) day = " 星期一"
+if(today.getDay()==2) day = " 星期二"
+if(today.getDay()==3) day = " 星期三"
+if(today.getDay()==4) day = " 星期四"
+if(today.getDay()==5) day = " 星期五"
+if(today.getDay()==6) day = " 星期六"
+document.fgColor = "000000";
+date = (today.getFullYear()) + "年" + (today.getMonth() + 1 ) + "月" + today.getDate() + "日" + day;
+document.write(date);
+// -->
+</script>
+</p>
+<p class="navtop"><span class="f_666_12"><a href="/about/index.html">今日京行</a> | <a href="/branch/index.html">机构网点</a> | <a href="/branch/fh_tianjin.html">各地分行</a> | <a href="http://recruit.bankofbeijing.com.cn/" target="_blank">人才招聘</a> | </span><span class="f_red_12"><a href="/en2011/index.html" target="_blank">ENGLISH</a></span></p>
+</div>
+</div>
+<div id="head_middle">
+<div class="f_fff_13" id="mainnav">
+<p><a href="/index.html">首 页</a><span>|</span><a href="/personal/index.html">个人金融服务</a><span>|</span><a href="/corporation/index.html">公司金融服务</a><span>|</span><a href="/international/index.html">金融市场及国际业务</a><span>|</span><a href="/investor/index.html">投资者关系</a><span>|</span> <a href="/ebank/index.html">电子银行</a><span>|</span><a href="/creditcard/index.html" target="_blank">信用卡中心</a></p>
+</div>
+<link href="/style/nowadays.css" rel="stylesheet" type="text/css"/>
+<div id="head_bottom">
+<div class="left"><a href="#"><img alt="今日京行" height="120" src="/images/banner_cor5.jpg" title="今日京行" width="580"/></a></div>
+<div class="right2">
+<div class="stock_info">
+<table border="0" cellpadding="0" cellspacing="0" width="95%">
+<tr>
+<td class="f_000_12" height="20" width="165">北京银行股票信息</td>
+</tr>
+<tr>
+<td height="20"><iframe allowtransparency="true" frameborder="0" height="80" scrolling="no" src="http://financeinfo.bankofbeijing.com.cn:9080/bjbank/quotehq/quote.jsp" width="170"></iframe></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="area">
+<div class="clear"></div>
+<div class="content_left">
+<div id="navquick2">
+<div class="navquick_left2">
+<div class="left">
+<div class="right"><span class="f_red_12">您的位置：</span></div>
+</div>
+</div>
+<div class="navquick_right"><span class="f_666_12"><a href="/index.html">首页</a></span> &gt; <span class="f_666_12">存贷款利率</span> &gt; <span class="f_666_12">外汇牌价</span></div>
+</div><div class="box_konghang"></div><table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="4"><img src="/images/personal_tab_h1.jpg"/></td>
+<td align="center" bgcolor="#FD0000" height="24" width="120"><span class="f_fff_13_b">外汇牌价</span></td>
+<td width="4"><img src="/images/personal_tab_h2.jpg"/></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td colspan="4" height="1" style="border-top:#FD0000 1px solid;"></td>
+</tr>
+</table>
+<div class="box_konghang"></div>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="95%">
+<tr>
+<td align="center" colspan="2" width="25%"><b class="f_red_12b">外汇牌价表 </b><br/>
+<span class="f_000_12">(注：此汇率表供参考，以实际交易汇率为准)</span></td>
+</tr>
+<tr>
+<td class="a1" colspan="2">
+<form action="whpj.aspx" id="form1" method="post">
+<input id="__VIEWSTATE" name="__VIEWSTATE" type="hidden" value="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"/>
+
+    20160117
+        <div>
+<table border="1" cellspacing="0" id="GridView1" rules="all">
+<tr>
+<td>英文代码</td><td>中文代码</td><td>报价单位</td><td>现汇买入价</td><td>现钞买入价</td><td>卖出价</td><td>中间价</td><td>基准价</td>
+</tr><tr>
+<td>GBP/CNY</td><td>英镑/人民币</td><td>100</td><td>936.09</td><td>913.56</td><td>941.73</td><td>938.91</td><td>948.62</td>
+</tr><tr>
+<td>HKD/CNY</td><td>港币/人民币</td><td>100</td><td>84.38</td><td>83.89</td><td>84.67</td><td>84.53</td><td>84.40</td>
+</tr><tr>
+<td>USD/CNY</td><td>美元/人民币</td><td>100</td><td>657.17</td><td>654.21</td><td>659.81</td><td>658.49</td><td>656.37</td>
+</tr><tr>
+<td>CHF/CNY</td><td>瑞士法郎/人民币</td><td>100</td><td>654.74</td><td>638.98</td><td>658.69</td><td>656.72</td><td>0.00</td>
+</tr><tr>
+<td>SGD/CNY</td><td>新加坡元/人民币</td><td>100</td><td>455.75</td><td>444.78</td><td>458.50</td><td>457.13</td><td>0.00</td>
+</tr><tr>
+<td>SEK/CNY</td><td>瑞典克朗/人民币</td><td>100</td><td>76.51</td><td>74.67</td><td>76.97</td><td>76.74</td><td>0.00</td>
+</tr><tr>
+<td>DKK/CNY</td><td>丹麦克朗/人民币</td><td>100</td><td>96.01</td><td>93.70</td><td>96.59</td><td>96.30</td><td>0.00</td>
+</tr><tr>
+<td>NOK/CNY</td><td>挪威克朗/人民币</td><td>100</td><td>74.42</td><td>72.62</td><td>74.86</td><td>74.64</td><td>0.00</td>
+</tr><tr>
+<td>JPY/CNY</td><td>日元/人民币</td><td>100</td><td>5.6089</td><td>5.4739</td><td>5.6426</td><td>5.6258</td><td>5.5661</td>
+</tr><tr>
+<td>CAD/CNY</td><td>加拿大元/人民币</td><td>100</td><td>451.54</td><td>440.67</td><td>454.26</td><td>452.90</td><td>0.00</td>
+</tr><tr>
+<td>AUD/CNY</td><td>澳大利亚元/人民币</td><td>100</td><td>451.06</td><td>440.20</td><td>453.77</td><td>452.42</td><td>0.00</td>
+</tr><tr>
+<td>EUR/CNY</td><td>欧元/人民币</td><td>100</td><td>716.35</td><td>699.83</td><td>720.67</td><td>718.51</td><td>713.97</td>
+</tr><tr>
+<td>NZD/CNY</td><td>新西兰元/人民币</td><td>100</td><td>424.24</td><td>414.03</td><td>426.79</td><td>425.52</td><td>0.00</td>
+</tr>
+</table>
+</div>
+</form>
+<br/>
+                备注：<br/>
+<span class="f_000_12">此牌价仅供客户参考，资金交割以柜台实际成交价格为准。</span><br/>
+<br/>
+<br/></td>
+</tr>
+</table>
+<p> </p>
+<div class="box_konghang"> </div>
+</div>
+<div class="content_right content_right_one">
+<div class="title">外汇牌价</div>
+<div class="content_right_in">
+<div class="content_right_1">
+</div>
+<div class="box_konghang"> </div>
+</div>
+</div><div class="clear"></div>
+</div>
+<div id="footet">
+<div class="f_666_12" id="left"><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备05049400号</a></div>
+<div class="f_666_12" id="center">
+<p><a href="/contents/201/3234.html">安全说明</a> | <a href="/contents/201/3235.html">网站声明</a> | <a href="/contents/201/3236.html">隐私保密条款</a> |  <a href="/about/online.html">在线反馈</a></p>
+<p>总行地址：北京市西城区金融大街丙17号    邮编：100033</p>
+</div>
+<div id="right">&gt; 24小时客服电话：<span class="tel">95526</span></div>
+</div>
+</div>
+</div></div></body>
+</html>
+
+2016-01-18 00:44:26,686 - ucms.birdie.parser.price - INFO - 1st date: 20160117
+2016-01-18 00:44:26,897 - ucms.birdie.parser.price - DEBUG - 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	无标题页
+</title><link href="master.css" rel="stylesheet" type="text/css"/></head>
+<body>
+<div id="wrap">
+<div id="head">
+<div id="head_top">
+<div class="left"><a href="/"><img alt="返回首页 - 北京银行" height="39" src="/images/logo.gif" width="256"/></a></div>
+<div class="right">
+<p class="time f_333_12">
+<script language="JavaScript">
+<!--
+var enabled = 0; today = new Date();
+var day; var date;
+if(today.getDay()==0) day = " 星期日"
+if(today.getDay()==1) day = " 星期一"
+if(today.getDay()==2) day = " 星期二"
+if(today.getDay()==3) day = " 星期三"
+if(today.getDay()==4) day = " 星期四"
+if(today.getDay()==5) day = " 星期五"
+if(today.getDay()==6) day = " 星期六"
+document.fgColor = "000000";
+date = (today.getFullYear()) + "年" + (today.getMonth() + 1 ) + "月" + today.getDate() + "日" + day;
+document.write(date);
+// -->
+</script>
+</p>
+<p class="navtop"><span class="f_666_12"><a href="/about/index.html">今日京行</a> | <a href="/branch/index.html">机构网点</a> | <a href="/branch/fh_tianjin.html">各地分行</a> | <a href="http://recruit.bankofbeijing.com.cn/" target="_blank">人才招聘</a> | </span><span class="f_red_12"><a href="/en2011/index.html" target="_blank">ENGLISH</a></span></p>
+</div>
+</div>
+<div id="head_middle">
+<div class="f_fff_13" id="mainnav">
+<p><a href="/index.html">首 页</a><span>|</span><a href="/personal/index.html">个人金融服务</a><span>|</span><a href="/corporation/index.html">公司金融服务</a><span>|</span><a href="/international/index.html">金融市场及国际业务</a><span>|</span><a href="/investor/index.html">投资者关系</a><span>|</span> <a href="/ebank/index.html">电子银行</a><span>|</span><a href="/creditcard/index.html" target="_blank">信用卡中心</a></p>
+</div>
+<link href="/style/nowadays.css" rel="stylesheet" type="text/css"/>
+<div id="head_bottom">
+<div class="left"><a href="#"><img alt="今日京行" height="120" src="/images/banner_cor5.jpg" title="今日京行" width="580"/></a></div>
+<div class="right2">
+<div class="stock_info">
+<table border="0" cellpadding="0" cellspacing="0" width="95%">
+<tr>
+<td class="f_000_12" height="20" width="165">北京银行股票信息</td>
+</tr>
+<tr>
+<td height="20"><iframe allowtransparency="true" frameborder="0" height="80" scrolling="no" src="http://financeinfo.bankofbeijing.com.cn:9080/bjbank/quotehq/quote.jsp" width="170"></iframe></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="area">
+<div class="clear"></div>
+<div class="content_left">
+<div id="navquick2">
+<div class="navquick_left2">
+<div class="left">
+<div class="right"><span class="f_red_12">您的位置：</span></div>
+</div>
+</div>
+<div class="navquick_right"><span class="f_666_12"><a href="/index.html">首页</a></span> &gt; <span class="f_666_12">存贷款利率</span> &gt; <span class="f_666_12">外汇牌价</span></div>
+</div><div class="box_konghang"></div><table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="4"><img src="/images/personal_tab_h1.jpg"/></td>
+<td align="center" bgcolor="#FD0000" height="24" width="120"><span class="f_fff_13_b">外汇牌价</span></td>
+<td width="4"><img src="/images/personal_tab_h2.jpg"/></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td colspan="4" height="1" style="border-top:#FD0000 1px solid;"></td>
+</tr>
+</table>
+<div class="box_konghang"></div>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="95%">
+<tr>
+<td align="center" colspan="2" width="25%"><b class="f_red_12b">外汇牌价表 </b><br/>
+<span class="f_000_12">(注：此汇率表供参考，以实际交易汇率为准)</span></td>
+</tr>
+<tr>
+<td class="a1" colspan="2">
+<form action="whpj.aspx" id="form1" method="post">
+<input id="__VIEWSTATE" name="__VIEWSTATE" type="hidden" value="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"/>
+
+    20160117
+        <div>
+<table border="1" cellspacing="0" id="GridView1" rules="all">
+<tr>
+<td>英文代码</td><td>中文代码</td><td>报价单位</td><td>现汇买入价</td><td>现钞买入价</td><td>卖出价</td><td>中间价</td><td>基准价</td>
+</tr><tr>
+<td>GBP/CNY</td><td>英镑/人民币</td><td>100</td><td>936.09</td><td>913.56</td><td>941.73</td><td>938.91</td><td>948.62</td>
+</tr><tr>
+<td>HKD/CNY</td><td>港币/人民币</td><td>100</td><td>84.38</td><td>83.89</td><td>84.67</td><td>84.53</td><td>84.40</td>
+</tr><tr>
+<td>USD/CNY</td><td>美元/人民币</td><td>100</td><td>657.17</td><td>654.21</td><td>659.81</td><td>658.49</td><td>656.37</td>
+</tr><tr>
+<td>CHF/CNY</td><td>瑞士法郎/人民币</td><td>100</td><td>654.74</td><td>638.98</td><td>658.69</td><td>656.72</td><td>0.00</td>
+</tr><tr>
+<td>SGD/CNY</td><td>新加坡元/人民币</td><td>100</td><td>455.75</td><td>444.78</td><td>458.50</td><td>457.13</td><td>0.00</td>
+</tr><tr>
+<td>SEK/CNY</td><td>瑞典克朗/人民币</td><td>100</td><td>76.51</td><td>74.67</td><td>76.97</td><td>76.74</td><td>0.00</td>
+</tr><tr>
+<td>DKK/CNY</td><td>丹麦克朗/人民币</td><td>100</td><td>96.01</td><td>93.70</td><td>96.59</td><td>96.30</td><td>0.00</td>
+</tr><tr>
+<td>NOK/CNY</td><td>挪威克朗/人民币</td><td>100</td><td>74.42</td><td>72.62</td><td>74.86</td><td>74.64</td><td>0.00</td>
+</tr><tr>
+<td>JPY/CNY</td><td>日元/人民币</td><td>100</td><td>5.6089</td><td>5.4739</td><td>5.6426</td><td>5.6258</td><td>5.5661</td>
+</tr><tr>
+<td>CAD/CNY</td><td>加拿大元/人民币</td><td>100</td><td>451.54</td><td>440.67</td><td>454.26</td><td>452.90</td><td>0.00</td>
+</tr><tr>
+<td>AUD/CNY</td><td>澳大利亚元/人民币</td><td>100</td><td>451.06</td><td>440.20</td><td>453.77</td><td>452.42</td><td>0.00</td>
+</tr><tr>
+<td>EUR/CNY</td><td>欧元/人民币</td><td>100</td><td>716.35</td><td>699.83</td><td>720.67</td><td>718.51</td><td>713.97</td>
+</tr><tr>
+<td>NZD/CNY</td><td>新西兰元/人民币</td><td>100</td><td>424.24</td><td>414.03</td><td>426.79</td><td>425.52</td><td>0.00</td>
+</tr>
+</table>
+</div>
+</form>
+<br/>
+                备注：<br/>
+<span class="f_000_12">此牌价仅供客户参考，资金交割以柜台实际成交价格为准。</span><br/>
+<br/>
+<br/></td>
+</tr>
+</table>
+<p> </p>
+<div class="box_konghang"> </div>
+</div>
+<div class="content_right content_right_one">
+<div class="title">外汇牌价</div>
+<div class="content_right_in">
+<div class="content_right_1">
+</div>
+<div class="box_konghang"> </div>
+</div>
+</div><div class="clear"></div>
+</div>
+<div id="footet">
+<div class="f_666_12" id="left"><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备05049400号</a></div>
+<div class="f_666_12" id="center">
+<p><a href="/contents/201/3234.html">安全说明</a> | <a href="/contents/201/3235.html">网站声明</a> | <a href="/contents/201/3236.html">隐私保密条款</a> |  <a href="/about/online.html">在线反馈</a></p>
+<p>总行地址：北京市西城区金融大街丙17号    邮编：100033</p>
+</div>
+<div id="right">&gt; 24小时客服电话：<span class="tel">95526</span></div>
+</div>
+</div>
+</div></div></body>
+</html>
+
+2016-01-18 00:44:26,915 - ucms.birdie.parser.price - INFO - 2nd date: 20160117
+2016-01-18 00:44:26,940 - ucms.birdie.parser.price - INFO - BOBJ rate imported
+2016-01-18 00:44:26,951 - ucms.birdie.parser.price - INFO - All rates retrieved
+
+

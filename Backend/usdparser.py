@@ -12,9 +12,9 @@ import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
 from decimal import Decimal
-from butils import decode
-from butils import fix_json
-from butils import ppprint
+from butils.butils import decode
+from butils.butils import fix_json
+from butils.butils import ppprint
 from datetime import datetime
 
 import sys
@@ -27,6 +27,8 @@ pp = pprint.PrettyPrinter(indent=4)
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+import random
+from retrying import retry
 
 def get_CMHO_product():
     # 招商银行
@@ -607,22 +609,25 @@ def get_CW_product():
 
     for page_index in xrange(1, total_page + 1):
 
-        while True:
-            try:
-                response = requests.post(index_url,
-                                         data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"},
-                                         timeout=10)
-            except requests.exceptions.ConnectionError, e:
-                print e
-                continue
-            except requests.exceptions.Timeout, e:
-                print e
-                continue
-            break
+        @retry(stop_max_attempt_number=10, wait_fixed=500)
+        def request_content():
+            return requests.post(index_url,
+                                data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"},
+                                timeout=5)
+        response = request_content()
 
-        # response = requests.post(index_url, data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"})
-        # j.append(response.text.encode('utf-8'))
-        # data_string = json.loads(j[page_index - 1])
+        # while True:
+        #     try:
+        #         response = requests.post(index_url,
+        #                                  data={"cpzt": "02,04", "pagenum": page_index, "drawPageToolEnd": "5"},
+        #                                  timeout=10)
+        #     except requests.exceptions.ConnectionError, e:
+        #         print e
+        #         continue
+        #     except requests.exceptions.Timeout, e:
+        #         print e
+        #         continue
+        #     break
 
         data_string = json.loads(response.text.encode('utf-8'))
         product_data = []
@@ -681,7 +686,6 @@ def get_CW_product():
     cursor.close()
     logging.info(unicode(count) + ' ChinaWealth products imported')
 
-
     # sample = {
     #              "yjkhzdnsyl 预计最低收益率": "3.6",
     #              "cpyjzzrq 产品预计终止日期": "2016/03/02",
@@ -739,9 +743,9 @@ if __name__ == '__main__':
     else:
         logging.info('MYSQL connected.')
 
-    # get_CW_product()
-    get_CMHO_product()
-    get_ICBC_product()
+    get_CW_product()
+    # get_CMHO_product()
+    # get_ICBC_product()
     # get_CCBH_product()
     # get_ABCI_product()
     # get_BCOH_product()
