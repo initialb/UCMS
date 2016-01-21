@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append('..')
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -41,7 +40,8 @@ LOCALTIME = time.strftime('%Y%m%d', time.localtime(time.time()))
 LOGNAME = 'log/priceparser_' + LOCALTIME + '.log'
 
 # initialize root logger to write verbose log file
-logging.basicConfig(filename="log/priceparser_" + LOCALTIME + ".verbose.log",
+logging.basicConfig(level=logging.DEBUG,
+                    filename="log/priceparser_" + LOCALTIME + ".verbose.log",
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # initialize a local logger
@@ -55,7 +55,7 @@ logger_local_fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(level
 
 # initialize a local logger console handler
 logger_local_ch = logging.StreamHandler()
-logger_local_ch.setLevel(logging.DEBUG)
+logger_local_ch.setLevel(logging.INFO)
 logger_local_ch.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
 
 # add handler to local logger
@@ -502,7 +502,7 @@ def get_DESZ_rate():
 
         rates = soup.find_all("td", class_="tac")
 
-        rate_data = ['C10310',
+        rate_data = ['C10307',
                      'USD',
                      rates[2].string.strip(),
                      rates[3].string.strip(),
