@@ -444,7 +444,7 @@ def get_CTIB_product():
                     if child.has_attr("field") and child["field"] == 'prod_no':
                         print child["finname"].encode("utf-8")
 
-    f.close
+    f.close()
 
 
 # 光大银行
@@ -560,7 +560,7 @@ def get_IBCN_product():
                     if child.has_attr("field") and child["field"] == 'prod_no':
                         print child["finname"].encode("utf-8")
 
-    f.close
+    f.close()
 
 
 # 浦发银行
@@ -757,4 +757,4 @@ if __name__ == '__main__':
     # get_BKSH_product()
     # get_BOBJ_product()
 
-    cnx.close
+    cnx.close()

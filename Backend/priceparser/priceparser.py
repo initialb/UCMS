@@ -700,8 +700,8 @@ if __name__ == '__main__':
     logger_local.info('====================================================================================')
 
     try:
-        cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
-        # cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             logger_local.error("Something is wrong with your user name or password")
@@ -754,5 +754,5 @@ if __name__ == '__main__':
 
         cnx.commit()
         cursor.close()
-        cnx.close
+        cnx.close()
         logger_local.info('All rates retrieved\n\n')
