@@ -42,7 +42,7 @@ VERSION = 0.5
 def get_FSM_fund_product():
     try:
         index_url = 'http://www.fundsupermart.com.hk/hk/main/fundinfo/generateTable.svdo?lang=zh'
-        logging.info("Fetching " + index_url + " ...")
+        logging.info("Retrieving " + index_url + " ...")
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
@@ -144,7 +144,7 @@ def get_FSM_fund_product():
         ws.append(ws_title)
         for fund in fund_data:
             ws.append(fund)
-        wb.save(output_file)
+        wb.save(output_destination)
 
         # delete all duplicated records:
         cursor = cnx.cursor()
@@ -183,11 +183,11 @@ if __name__ == '__main__':
 
         opts, args = getopt.getopt(sys.argv[1:], "hvo:", ["help", "version", "output="])
 
-        output_file = ''
+        output_destination = ''
 
         for op, value in opts:
             if op == '-o':
-                output_file = value
+                output_destination = value
             elif op == '-h' or op == '--help':
                 usage()
                 exit(0)
@@ -195,8 +195,10 @@ if __name__ == '__main__':
                 version()
                 exit(0)
 
-        if not output_file:
+        if not output_destination:
             output_file = "output/fund_FSM_" + LOCALTIME + ".xlsx"
+        else:
+            output_file = output_destination + "fund_FSM_" + LOCALTIME + ".xlsx"
 
 
         # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
