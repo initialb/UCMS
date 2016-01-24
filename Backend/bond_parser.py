@@ -177,8 +177,8 @@ if __name__ == '__main__':
         if not output_file:
             output_file = "output/bond_FSM_" + LOCALTIME + ".xlsx"
 
-        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
+        # cnx = mysql.connector.connect(user='root', password='passwd', database=DB_NAME)
         logging.info('MYSQL connected.')
 
         get_FSM_bond_product()
