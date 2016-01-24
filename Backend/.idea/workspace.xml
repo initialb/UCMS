@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/butils/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/butils/butils.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/butils/pprint.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/butils/testmysql.py" />
-    </list>
+    <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="" />
     <ignored path="Backend.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
