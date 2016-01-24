@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys, getopt
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 import math
 import codecs
@@ -17,14 +20,10 @@ from multiprocessing import Pool
 from decimal import Decimal
 from butils.butils import decode
 from butils.butils import fix_json
-from butils.butils import ppprint
+from butils.pprint import pprint
 from datetime import datetime
 from HTMLParser import HTMLParser
-from butils.pprint import pprint
 
-import sys, getopt
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -162,11 +161,11 @@ if __name__ == '__main__':
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hvo:", ["help", "version", "output="])
 
-        output_file = ''
+        output_destination = ''
 
         for op, value in opts:
             if op == '-o':
-                output_file = value
+                output_destination = value
             elif op == '-h' or op == '--help':
                 usage()
                 exit(0)
@@ -174,8 +173,10 @@ if __name__ == '__main__':
                 version()
                 exit(0)
 
-        if not output_file:
+        if not output_destination:
             output_file = "output/bond_FSM_" + LOCALTIME + ".xlsx"
+        else:
+            output_file = output_destination + "bond_FSM_" + LOCALTIME + ".xlsx"
 
         cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
         # cnx = mysql.connector.connect(user='root', password='passwd', database=DB_NAME)
