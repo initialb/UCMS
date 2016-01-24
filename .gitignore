@@ -1,4 +1,24 @@
-# ignore sys files
+# OS generated files #
+# ######################
 .DS_Store
-# except foo.html which is maintained by hand
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# # except foo.html which is maintained by hand
 !foo.html
+
+# # ignore log files #
+# ####################
+*.log
+
+# # python compiled source #
+# ##########################
+*.pyc
+
+# Vim temporary file #
+.*.un~
+
