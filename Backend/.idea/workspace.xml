@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bond_FSM_20160123.xlsx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fund_FSM_20160123.xlsx" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bond_parser.py" afterPath="$PROJECT_DIR$/bond_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fund_parser.py" afterPath="$PROJECT_DIR$/fund_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/priceparser/log/priceparser_20160123.log" afterPath="$PROJECT_DIR$/priceparser/log/priceparser_20160123.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/priceparser/log/priceparser_20160123.verbose.log" afterPath="$PROJECT_DIR$/priceparser/log/priceparser_20160123.verbose.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/priceparser/priceparser.py" afterPath="$PROJECT_DIR$/priceparser/priceparser.py" />
-    </list>
+    <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="" />
     <ignored path="Backend.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

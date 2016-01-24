@@ -1,4 +1,0 @@
-2016-01-24 09:50:01,328 - ucms.birdie.parser.price - INFO - ====================================================================================
-2016-01-24 09:50:01,329 - ucms.birdie.parser.price - INFO - price parser started
-2016-01-24 09:50:01,329 - ucms.birdie.parser.price - INFO - ====================================================================================
-2016-01-24 09:50:01,333 - ucms.birdie.parser.price - ERROR - 2003: Can't connect to MySQL server on '127.0.0.1:3306' (61 Connection refused)
