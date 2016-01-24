@@ -535,6 +535,7 @@ def get_BKSH_rate():
 
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
+        print soup
 
         rate_data = []
         rate_list_tr = soup.find("table", class_="table01").tbody.find_all("tr")

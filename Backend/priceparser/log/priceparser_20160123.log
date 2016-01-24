@@ -62,3 +62,67 @@ ProgrammingError: Not enough parameters for the SQL statement
 2016-01-23 22:49:00,547 - ucms.birdie.parser.price - INFO - All rates retrieved
 
 
+2016-01-23 23:09:21,529 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-23 23:09:21,533 - ucms.birdie.parser.price - INFO - price parser started
+2016-01-23 23:09:21,534 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-23 23:09:21,536 - ucms.birdie.parser.price - INFO - MYSQL connected.
+2016-01-23 23:09:21,537 - ucms.birdie.parser.price - INFO - 12 rows deleted
+2016-01-23 23:09:21,915 - ucms.birdie.parser.price - INFO - CMHO rate imported
+2016-01-23 23:09:25,241 - ucms.birdie.parser.price - WARNING - <class 'mysql.connector.errors.ProgrammingError'>:Not enough parameters for the SQL statement
+2016-01-23 23:09:25,241 - ucms.birdie.parser.price - ERROR - EXCEPTION:
+Traceback (most recent call last):
+  File "/Users/initialb/Projects/UCMS/Backend/priceparser/priceparser.py", line 152, in get_ICBC_rate
+    cursor.execute(add_product, rate_data)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 495, in execute
+    stmt = RE_PY_PARAM.sub(psub, stmt)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 68, in __call__
+    "Not enough parameters for the SQL statement")
+ProgrammingError: Not enough parameters for the SQL statement
+2016-01-23 23:09:25,923 - ucms.birdie.parser.price - INFO - BCHO rate imported
+2016-01-23 23:09:26,003 - ucms.birdie.parser.price - INFO - ABCI rates imported
+2016-01-23 23:09:26,110 - ucms.birdie.parser.price - INFO - CCBH rate imported
+2016-01-23 23:09:26,252 - ucms.birdie.parser.price - INFO - CTIB rate imported
+2016-01-23 23:09:26,416 - ucms.birdie.parser.price - INFO - BCOH rate imported
+2016-01-23 23:09:26,690 - ucms.birdie.parser.price - INFO - EBBC rate imported
+2016-01-23 23:09:28,680 - ucms.birdie.parser.price - INFO - IBCN rate imported
+2016-01-23 23:09:28,791 - ucms.birdie.parser.price - INFO - SPDB rate imported
+2016-01-23 23:09:29,044 - ucms.birdie.parser.price - INFO - DESZ rate imported
+2016-01-23 23:09:31,715 - ucms.birdie.parser.price - INFO - BKSH rate imported
+2016-01-23 23:09:31,884 - ucms.birdie.parser.price - INFO - 1st date: 20160123
+2016-01-23 23:09:31,884 - ucms.birdie.parser.price - INFO - 2nd date: 20160123
+2016-01-23 23:09:31,886 - ucms.birdie.parser.price - INFO - BOBJ rate imported
+2016-01-23 23:09:31,887 - ucms.birdie.parser.price - INFO - All rates retrieved
+
+
+2016-01-23 23:40:44,842 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-23 23:40:44,843 - ucms.birdie.parser.price - INFO - price parser started
+2016-01-23 23:40:44,844 - ucms.birdie.parser.price - INFO - ====================================================================================
+2016-01-23 23:40:44,853 - ucms.birdie.parser.price - INFO - MYSQL connected.
+2016-01-23 23:40:44,856 - ucms.birdie.parser.price - INFO - 12 rows deleted
+2016-01-23 23:40:45,274 - ucms.birdie.parser.price - INFO - CMHO rate imported
+2016-01-23 23:40:49,409 - ucms.birdie.parser.price - WARNING - <class 'mysql.connector.errors.ProgrammingError'>:Not enough parameters for the SQL statement
+2016-01-23 23:40:49,409 - ucms.birdie.parser.price - ERROR - EXCEPTION:
+Traceback (most recent call last):
+  File "/Users/initialb/Projects/UCMS/Backend/priceparser/priceparser.py", line 152, in get_ICBC_rate
+    cursor.execute(add_product, rate_data)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 495, in execute
+    stmt = RE_PY_PARAM.sub(psub, stmt)
+  File "/Library/Python/2.7/site-packages/mysql/connector/cursor.py", line 68, in __call__
+    "Not enough parameters for the SQL statement")
+ProgrammingError: Not enough parameters for the SQL statement
+2016-01-23 23:40:51,020 - ucms.birdie.parser.price - INFO - BCHO rate imported
+2016-01-23 23:40:51,102 - ucms.birdie.parser.price - INFO - ABCI rates imported
+2016-01-23 23:40:51,207 - ucms.birdie.parser.price - INFO - CCBH rate imported
+2016-01-23 23:40:51,328 - ucms.birdie.parser.price - INFO - CTIB rate imported
+2016-01-23 23:40:51,477 - ucms.birdie.parser.price - INFO - BCOH rate imported
+2016-01-23 23:40:51,770 - ucms.birdie.parser.price - INFO - EBBC rate imported
+2016-01-23 23:40:52,113 - ucms.birdie.parser.price - INFO - IBCN rate imported
+2016-01-23 23:40:52,219 - ucms.birdie.parser.price - INFO - SPDB rate imported
+2016-01-23 23:40:52,544 - ucms.birdie.parser.price - INFO - DESZ rate imported
+2016-01-23 23:40:53,098 - ucms.birdie.parser.price - INFO - BKSH rate imported
+2016-01-24 00:42:35,799 - ucms.birdie.parser.price - INFO - 1st date: 20160123
+2016-01-24 00:42:35,799 - ucms.birdie.parser.price - INFO - 2nd date: 20160123
+2016-01-24 00:42:35,805 - ucms.birdie.parser.price - INFO - BOBJ rate imported
+2016-01-24 00:42:35,807 - ucms.birdie.parser.price - INFO - All rates retrieved
+
+

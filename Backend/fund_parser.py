@@ -22,7 +22,7 @@ from datetime import datetime
 from HTMLParser import HTMLParser
 from butils.pprint import pprint
 
-import sys
+import sys, getopt
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -33,6 +33,7 @@ import random
 from retrying import retry
 
 LOCALTIME = time.strftime('%Y%m%d', time.localtime(time.time()))
+VERSION = 0.5
 
 # FundSuperMart
 # 请求格式：http post
@@ -40,7 +41,8 @@ LOCALTIME = time.strftime('%Y%m%d', time.localtime(time.time()))
 
 def get_FSM_fund_product():
     try:
-        index_url = 'http://www.fundsupermart.com.hk/hk/main/fundinfo/generateTable.svdo'
+        index_url = 'http://www.fundsupermart.com.hk/hk/main/fundinfo/generateTable.svdo?lang=zh'
+        logging.info("Fetching " + index_url + " ...")
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
@@ -142,7 +144,7 @@ def get_FSM_fund_product():
         ws.append(ws_title)
         for fund in fund_data:
             ws.append(fund)
-        wb.save("fund_FSM_" + LOCALTIME + ".xlsx")
+        wb.save(output_file)
 
         # delete all duplicated records:
         cursor = cnx.cursor()
@@ -166,11 +168,37 @@ def get_FSM_fund_product():
         raise
 
 
+def usage():
+    print "-o [output_file] -v -h"
+
+
+def version():
+    print VERSION
+
 
 if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
+
+        opts, args = getopt.getopt(sys.argv[1:], "hvo:", ["help", "version", "output="])
+
+        output_file = ''
+
+        for op, value in opts:
+            if op == '-o':
+                output_file = value
+            elif op == '-h' or op == '--help':
+                usage()
+                exit(0)
+            elif op == '-v' or op == '--version':
+                version()
+                exit(0)
+
+        if not output_file:
+            output_file = "output/fund_FSM_" + LOCALTIME + ".xlsx"
+
+
         # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
         cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
         logging.info('MYSQL connected.')
