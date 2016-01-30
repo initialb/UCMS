@@ -82,13 +82,19 @@ def get_FSM_bond_product():
 
         for idx, bond in enumerate(bond_list):
             tds = bond.find_all("td")
+
+            try:
+                io = re.sub(r".*/", "", tds[5].img["src"].strip()).replace(".gif", "")
+            except:
+                io = ""
+
             bond_data.append([tds[0].input["value"],
                               tds[1].span.text.strip(),
                               tds[1].a.span.text.strip(),
                               tds[2].span.text.strip(),
                               tds[3].span.text.strip(),
                               tds[4].span.text.strip(),
-                              re.sub(r".*/", "", tds[5].img["src"].strip()).replace(".gif",""),
+                              io,
                               tds[6].span.text.strip(),
                               tds[7].span.text.strip(),
                               tds[8].span.text.strip(),
