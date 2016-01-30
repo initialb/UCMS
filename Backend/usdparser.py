@@ -777,8 +777,7 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-        # cnx = mysql.connector.connect(host='139.196.16.157', user='zyq', password='zyq', database=DB_NAME)
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
