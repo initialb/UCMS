@@ -111,8 +111,7 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
         logging.info('MYSQL connected.')
 
         import_xlsx()
