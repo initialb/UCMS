@@ -20,5 +20,10 @@ Thumbs.db
 *.pyc
 
 # Vim temporary file #
+######################
 .*.un~
 
+# Microsoft office file #
+#########################
+*.xlsx
+*.csv
