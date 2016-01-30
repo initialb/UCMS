@@ -15,20 +15,23 @@ from decimal import Decimal
 from butils.butils import decode
 from butils.butils import fix_json
 from butils.butils import ppprint
+from butils.pprint import pprint
 from datetime import datetime
 
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
+import pprint as ppr
+pp = ppr.PrettyPrinter(indent=4)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 import random
 from retrying import retry
+
+TIMEOUT = 10
 
 def get_CMHO_product():
     # 招商银行
@@ -93,6 +96,22 @@ def get_CMHO_product():
                                      data_string["list"][i]["TypeCode"],
                                      u'OW'])
                 logging.debug(product_data[-1])
+
+#
+#                 query = ("SELECT first_name, last_name, hire_date FROM employees "
+# #              "WHERE hire_date BETWEEN %s AND %s")
+# #
+# # hire_start = datetime.date(1999, 1, 1)
+# # hire_end = datetime.date(1999, 12, 31)
+# #
+# # cursor.execute(query, (hire_start, hire_end))
+# #
+# # for (first_name, last_name, hire_date) in cursor:
+# #   print("{}, {} was hired on {:%d %b %Y}".format(
+# #     last_name, first_name, hire_date))
+
+
+
                 add_product = ("""INSERT INTO t_product
                                   (issuer_code, sales_region, start_date, currency, end_date, value_date, tenor,
                                    increasing_amount, starting_amount, buyable, expected_highest_yield, prod_code,
@@ -188,7 +207,7 @@ def get_CCBH_product():
             if child.has_attr("onmouseover"):
                 if child["onmouseover"] == "this.className='table_select_bg AcqProductItem'":
                     cells = child.find_all("td")
-                    product_data.append([u'CCBH',
+                    product_data.append([u'C10105',
                                          cells[13]["id"],
                                          cells[0]["title"],
                                          u'USD',
@@ -202,20 +221,19 @@ def get_CCBH_product():
                                          ]
                                         )
 
+    pprint(product_data)
+
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='CCBH' and date(UPDATE_DATE)=curdate()""")
+    cursor.execute("""DELETE FROM t_product WHERE data_source='OW' and issuer_code='C10105'
+                      and date(update_time)=curdate()""")
     logging.info(unicode(cursor.rowcount) + ' CCBH products deleted')
 
     for p in product_data:
-        for m in p:
-            print m + ',',
-        print
-
-        add_product = ("""INSERT INTO PRODUCT
-                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME,CURRENCY, TENOR, YIELD, RISK, STATUS, REMARK,
-                    UPDATE_DATE)
-                    VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
+        add_product = ("""INSERT INTO t_product
+                          (issuer_code, prod_code, prod_name,currency, tenor_desc, expected_highest_yield, risk_desc,
+                           status, remark, data_source, update_time)
+                          VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, 'OW', now())""")
         cursor.execute(add_product, p)
 
     cnx.commit()
@@ -242,28 +260,48 @@ def get_ABCI_product():
 
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='ABCI' and date(UPDATE_DATE)=curdate()""")
+    cursor.execute("""DELETE FROM t_product WHERE data_source='OW' and issuer_code='C10103'
+                      and date(update_time)=curdate()""")
     logging.info(unicode(cursor.rowcount) + ' ABCI products deleted')
 
     product_data = []
 
-    for i in range(len(data_string["Data"]["Table"])):
-        product_data.append([u'ABCI',
-                             data_string["Data"]["Table"][i]["ProductNo"],
-                             data_string["Data"]["Table"][i]["ProdName"],
-                             u'USD',
-                             data_string["Data"]["Table"][i]["ProdLimit"],
-                             decode(re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"]),
-                                    u'', u'0',
-                                    re.sub(r'[^\d.]+', '', data_string["Data"]["Table"][i]["ProdProfit"])),
-                             decode(data_string["Data"]["Table"][i]["ProdYildType"], u'保证收益', u'Y', u'N')
-                             ]
-                            )
+# <ProductNo>BF161002</ProductNo>
+# <ProdName>“金钥匙·本利丰”2016年第1002期美元理财产品</ProdName>
+# <ProdClass>封闭</ProdClass>
+# <ProdLimit>363天</ProdLimit>
+# <ProdProfit>1.3%</ProdProfit>
+# <ProdYildType>保证收益</ProdYildType>
+# <PrdYildTypeOrder>0</PrdYildTypeOrder>
+# <ProdArea>全国发行</ProdArea>
+# <szComDat>2016.01.12</szComDat>
+# <ProdSaleDate>16.01.12-16.01.18</ProdSaleDate>
+# <IsCanBuy>0</IsCanBuy>
+# <PurStarAmo>9000.00</PurStarAmo>
+# <RowNumber>1</RowNumber>
 
-        add_product = ("""INSERT INTO PRODUCT
-                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, PRESERVABLE, UPDATE_DATE)
-                    VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, now())""")
-        cursor.execute(add_product, product_data[i])
+    for p in data_string["Data"]["Table"]:
+        product_data.append([u'C10103',
+                             u'USD',
+                             p["ProductNo"],
+                             p["ProdName"],
+                             p["ProdClass"],
+                             p["ProdLimit"],
+                             decode(re.sub(r'[^\d.]+', '', p["ProdProfit"]),
+                                    u'', u'0',
+                                    re.sub(r'[^\d.]+', '', p["ProdProfit"])),
+                             decode(p["ProdYildType"], u'保证收益', u'Y', u'N'),
+                             p["ProdArea"],
+                             p["szComDat"],
+                             p["ProdSaleDate"].split("-")[0],
+                             p["ProdSaleDate"].split("-")[1]])
+
+        add_product = ("""INSERT INTO t_product
+                    (issuer_code, currency, prod_code, prod_name, redeemable, tenor, expected_highest_yield,
+                     preservable, sales_region_desc, start_date, open_start_date, open_end_date, data_source,
+                     update_time)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'OW', now())""")
+        cursor.execute(add_product, product_data[-1])
 
     cnx.commit()
     cursor.close()
@@ -281,40 +319,49 @@ def get_BCOH_product():
 
     response = requests.get(index_url)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
-    pl_data_list = soup.find_all("div", class_="con_main")
+    dl_data_list = soup.find("div", class_="con_main").find_all("dl")
 
     product_data = []
-    __yield = 0
 
-    for pl in pl_data_list:
-        for child in pl.children:
-            if isinstance(child, bs4.element.Tag):
-                cells = child.dt.find_all("span")
-                for string in child.dd.h3.strings:
-                    __yield = unicode(string)
-                    break
-                product_data.append({"ProdID": child["id"].strip(),
-                                     "ProdName": cells[0].string.strip(),
-                                     "Tenor": re.sub(ur'[^\d\u5929]+', '', cells[1].string),
-                                     "ValueDate": re.sub(r'[^\d-]+', '', cells[2].string),
-                                     "Risk": cells[4].string.strip()[7:],
-                                     "Yield": __yield})
+    for dl in dl_data_list:
+        span_list = dl.dt.find_all("span")
+        product_data.append([dl["id"].strip(),
+                             span_list[0].text.strip(),
+                             span_list[1].text.strip(),
+                             span_list[2].text.strip(),
+                             span_list[3].text.strip().replace(" ",""),
+                             span_list[4].text.strip(),
+                             dl.dd.h3.text.strip()])
+
+    pprint(product_data)
+
+    # for pl in pl_data_list:
+    #     for child in pl.children:
+    #         if isinstance(child, bs4.element.Tag):
+    #             cells = child.dt.find_all("span")
+    #             for string in child.dd.h3.strings:
+    #                 __yield = unicode(string)
+    #                 break
+    #             product_data.append({"ProdID": child["id"].strip(),
+    #                                  "ProdName": cells[0].string.strip(),
+    #                                  "Tenor": re.sub(ur'[^\d\u5929]+', '', cells[1].string),
+    #                                  "ValueDate": re.sub(r'[^\d-]+', '', cells[2].string),
+    #                                  "Risk": cells[4].string.strip()[7:],
+    #                                  "Yield": __yield})
+
+
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM PRODUCT WHERE LEGAL_GROUP='BCOH' and date(UPDATE_DATE)=curdate()""")
+    cursor.execute("""DELETE FROM t_product WHERE issuer_code='C10301' and data_source='OW'
+                      and date(update_time)=curdate()""")
     logging.info(unicode(cursor.rowcount) + ' BCOH products deleted')
 
-    for i in range(len(product_data)):
-        product_detail = [u'BCOH',
-                          product_data[i]["ProdID"],
-                          product_data[i]["ProdName"],
-                          u'USD',
-                          product_data[i]["Tenor"],
-                          product_data[i]["Yield"]]
-        add_product = ("""INSERT INTO PRODUCT
-                    (PROD_ID, LEGAL_GROUP, PROD_CODE, PROD_NAME, CURRENCY, TENOR, YIELD, UPDATE_DATE)
-                    VALUES (NULL, %s, %s, %s, %s, %s, %s, now())""")
-        cursor.execute(add_product, product_detail)
+    for p in product_data:
+        add_product = ("""INSERT INTO t_product
+                    (issuer_code, prod_code, prod_name, tenor, maturity_date, starting_amount, risk_desc,
+                     expected_highest_yield, data_source, update_time)
+                    VALUES ('C10301', %s, %s, %s, %s, %s, %s, %s, 'OW', now())""")
+        cursor.execute(add_product, p)
 
     cnx.commit()
     cursor.close()
@@ -539,11 +586,9 @@ def get_EBBC_product():
 # 返回格式：html
 
 def get_IBCN_product():
-    root_url = 'http://finance.ccb.com'
-    index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
+    index_url = 'http://www.cib.com.cn/cn/Financing_Release/sale/mb22.html'
 
-    response = requests.post(index_url, data={"curr_type": "014", "orderasc": "desc", "branch_id": "701100",
-                                              "skeywordsfin": "代码/名称"})
+    response = requests.get(index_url, timeout=TIMEOUT)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     print soup
 
@@ -732,7 +777,8 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-        cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
@@ -743,8 +789,8 @@ if __name__ == '__main__':
     else:
         logging.info('MYSQL connected.')
 
-    get_CW_product()
-    # get_CMHO_product()
+    # get_CW_product()
+    get_CMHO_product()
     # get_ICBC_product()
     # get_CCBH_product()
     # get_ABCI_product()

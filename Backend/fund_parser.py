@@ -144,7 +144,7 @@ def get_FSM_fund_product():
         ws.append(ws_title)
         for fund in fund_data:
             ws.append(fund)
-        wb.save(output_destination)
+        wb.save(output_file)
 
         # delete all duplicated records:
         cursor = cnx.cursor()
@@ -199,7 +199,6 @@ if __name__ == '__main__':
             output_file = "output/fund_FSM_" + LOCALTIME + ".xlsx"
         else:
             output_file = output_destination + "fund_FSM_" + LOCALTIME + ".xlsx"
-
 
         # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database=DB_NAME)
         cnx = mysql.connector.connect(user='zyq', password='zyq', database=DB_NAME)
