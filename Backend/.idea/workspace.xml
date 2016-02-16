@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/priceparser/priceparser.py" afterPath="$PROJECT_DIR$/price_parser.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../DB/ZYQ.mwb" afterPath="$PROJECT_DIR$/../DB/ZYQ.mwb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../DB/ZYQ.mwb.bak" afterPath="$PROJECT_DIR$/../DB/ZYQ.mwb.bak" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wmp_parser.py" afterPath="$PROJECT_DIR$/wmp_parser.py" />
     </list>
     <ignored path="Backend.iws" />
@@ -27,24 +24,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="wmp_parser.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="wmp_parser.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wmp_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.71945137">
+              <caret line="1157" column="24" selection-start-line="1157" selection-start-column="24" selection-end-line="1157" selection-end-column="24" />
               <folding>
                 <element signature="e#25#35#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wmp_parser_20160216.verbose.log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160216.verbose.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="277" column="58" selection-start-line="277" selection-start-column="58" selection-end-line="277" selection-end-column="58" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -62,38 +49,18 @@
       <file leaf-file-name="temp.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/temp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.625">
               <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wmp_parser_20160215.log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1317" column="24" selection-start-line="1317" selection-start-column="24" selection-end-line="1317" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wmp_parser_20160215.verbose.log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.verbose.log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11241" column="46" selection-start-line="11241" selection-start-column="46" selection-end-line="11241" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="price_parser.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="price_parser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/price_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3179551">
-              <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -134,8 +101,8 @@
         <option value="$PROJECT_DIR$/html_sample/IBCN_detail.html" />
         <option value="$PROJECT_DIR$/temp.html" />
         <option value="$PROJECT_DIR$/temp.sql" />
-        <option value="$PROJECT_DIR$/wmp_parser.py" />
         <option value="$PROJECT_DIR$/price_parser.py" />
+        <option value="$PROJECT_DIR$/wmp_parser.py" />
       </list>
     </option>
   </component>
@@ -273,7 +240,7 @@
       <recent name="$PROJECT_DIR$/html_sample" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.price_parser">
+  <component name="RunManager" selected="Python.wmp_parser">
     <configuration default="false" name="bond_parser" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -490,8 +457,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.price_parser" />
-        <item index="1" class="java.lang.String" itemvalue="Python.wmp_parser" />
+        <item index="0" class="java.lang.String" itemvalue="Python.wmp_parser" />
+        <item index="1" class="java.lang.String" itemvalue="Python.price_parser" />
         <item index="2" class="java.lang.String" itemvalue="Python.fund_parser" />
         <item index="3" class="java.lang.String" itemvalue="Python.xlsx_import" />
         <item index="4" class="java.lang.String" itemvalue="Python.bond_parser" />
@@ -899,30 +866,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.verbose.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11241" column="46" selection-start-line="11241" selection-start-column="46" selection-end-line="11241" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1317" column="24" selection-start-line="1317" selection-start-column="24" selection-end-line="1317" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/temp.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/temp.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -939,21 +882,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wmp_parser.py">
+    <entry file="file://$PROJECT_DIR$/price_parser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#35#0" expanded="true" />
-          </folding>
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/price_parser.py">
+    <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.verbose.log">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3179551">
-          <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.6864516">
+          <caret line="11241" column="46" selection-start-line="11241" selection-start-column="46" selection-end-line="11241" selection-end-column="46" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log/wmp_parser_20160215.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49501246">
+          <caret line="1317" column="24" selection-start-line="1317" selection-start-column="24" selection-end-line="1317" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.625">
+          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wmp_parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.71945137">
+          <caret line="1157" column="24" selection-start-line="1157" selection-start-column="24" selection-end-line="1157" selection-end-column="24" />
+          <folding>
+            <element signature="e#25#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

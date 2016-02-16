@@ -1024,13 +1024,13 @@ def generate_report():
     max_avg = []
     cursor = cnx.cursor()
 
-    query = ("""SELECT issuer_code, prod_name, expected_highest_yield, round(tenor/30) as tnr FROM t_product
+    query = ("""SELECT issuer_code, prod_code, prod_name, expected_highest_yield, round(tenor/30) as tnr FROM t_product
                 WHERE data_source = 'OW' AND buyable = 'Y' AND currency = 'USD'
                 AND expected_highest_yield <> '' AND tenor <> ''
                 AND DATE(update_time) = (SELECT MAX(DATE(update_time)) FROM t_product) ORDER BY tnr""")
     cursor.execute(query)
-    for (issuer_code, prod_name, expected_highest_yield, tnr) in cursor:
-        prod_list.append([issuer_code, prod_name, expected_highest_yield, u"%g" % tnr])
+    for (issuer_code, prod_code, prod_name, expected_highest_yield, tnr) in cursor:
+        prod_list.append([issuer_code, prod_code, prod_name, round(float(expected_highest_yield),2), u"%g" % tnr])
 
 
     # 30天内最大最小值
@@ -1044,28 +1044,27 @@ def generate_report():
     for (max, avg, tnr) in cursor:
         max_avg.append([max, avg, u"%g" % tnr])
 
-    prod_list_rt = []
     # 无效率实现, 后续用lambda或pandas重写
-    prod_list_rt.append(prod_list[0])
+    prod_list_rt = [prod_list[0][:]]
     for p in prod_list:
-        if p[3] == prod_list_rt[-1][3]:
-            if p[2] >= prod_list_rt[-1][2]:
+        if p[4] == prod_list_rt[-1][4]:
+            if p[3] >= prod_list_rt[-1][3]:
                 prod_list_rt.pop()
                 prod_list_rt.append(p)
         else:
             prod_list_rt.append(p)
 
-    for idx,p in enumerate(prod_list_rt):
+    for idx, p in enumerate(prod_list_rt):
         for pp in max_avg:
-            if pp[2] == p[3]:
+            if pp[2] == p[4]:
                 prod_list_rt[idx].append(round(float(pp[0])*100,2))
                 prod_list_rt[idx].append(round(float(pp[1])*100,2))
 
     cursor.execute("""DELETE FROM t_product_screening""")
 
     add_product = ("""INSERT INTO t_product_screening
-                      (issuer_code, prod_name, expected_highest_yield, tenor_type, max_yield, avg_yield)
-                      VALUES (%s, %s, %s, %s, %s, %s)""")
+                      (issuer_code, prod_code, prod_name, expected_highest_yield, tenor_type, max_yield, avg_yield)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s)""")
 
     for p in prod_list_rt:
         cursor.execute(add_product, p)
