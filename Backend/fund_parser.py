@@ -39,6 +39,7 @@ VERSION = 0.5
 # 请求格式：http post
 # 返回格式：html
 
+
 def get_FSM_fund_product():
     try:
         index_url = 'http://www.fundsupermart.com.hk/hk/main/fundinfo/generateTable.svdo?lang=zh'
@@ -46,7 +47,8 @@ def get_FSM_fund_product():
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.post(index_url, timeout=60, data={"baseCur": "fundCurrency"})
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency"})
 
         response = request_content()
 
@@ -168,6 +170,58 @@ def get_FSM_fund_product():
         raise
 
 
+def get_MS_fund_page_num():
+    try:
+        index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
+        logging.info("Retrieving " + index_url + " ...")
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return requests.get(index_url)
+
+        response = request_content()
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        total_record = soup.find("span", id="MainContent_TotalResultLabel").text
+        return int(total_record)/30+1
+
+    except:
+        raise
+
+
+def get_MS_fund_product(page):
+    index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
+
+    @retry(stop_max_attempt_number=10, wait_fixed=2000)
+    def request_content():
+        return requests.post(index_url, timeout=60, data={"__EVENTTARGET": "ctl00$MainContent$AspNetPager1",
+                                                          "__EVENTARGUMENT": page+1,
+                                                          "__VIEWSTATE": ""})
+
+    response = request_content()
+    soup = bs4.BeautifulSoup(response.text, "html.parser")
+    prod_list_tr = soup.find("table", id="MainContent_gridResult").find_all("tr")
+
+    print "Fetching page: ", page+1
+    prod_list = []
+
+    for prod in prod_list_tr:
+        if prod.has_attr("class"):
+            prod_list_td = prod.find_all("td")
+            prod_list.append([prod_list_td[0].a["href"],
+                              prod_list_td[0].text,
+                              prod_list_td[1].text,
+                              prod_list_td[2].img["src"] if prod_list_td[2].find("img") else "--",
+                              prod_list_td[3].text,
+                              prod_list_td[4].text])
+
+    add_product = ("""INSERT INTO t_fund_product(remark, prod_code, prod_name, risk_rating, currency, latest_nav_price,
+                      data_source, update_time)
+                      VALUES (%s, %s, %s, %s, %s, %s, 'MS', now())""")
+
+    for fund in prod_list:
+        cursor.execute(add_product, fund)
+
+
 def usage():
     print "-o [output_file] -v -h"
 
@@ -180,7 +234,7 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-
+        # setup console parameters
         opts, args = getopt.getopt(sys.argv[1:], "hvo:", ["help", "version", "output="])
 
         output_destination = ''
@@ -201,9 +255,24 @@ if __name__ == '__main__':
             output_file = output_destination + "fund_FSM_" + LOCALTIME + ".xlsx"
 
         cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
+        cursor = cnx.cursor()
+
         logging.info('MYSQL connected.')
 
-        get_FSM_fund_product()
+        # get_FSM_fund_product()
+
+        cursor.execute("""DELETE FROM t_fund_product WHERE data_source='MS' and date(update_time)=curdate()""")
+
+        total_page = get_MS_fund_page_num()
+        print "Total page: ", total_page
+
+        # pool = Pool(3)
+        # results = pool.map(get_MS_fund_product, range(total_page))
+
+        for page in range(total_page):
+            get_MS_fund_product(page)
+
+        cursor.close()
 
         cnx.commit()
         cnx.close()
