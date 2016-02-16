@@ -80,7 +80,11 @@ def get_CMHO_product():
     for page_index in xrange(1, total_page + 1):
         _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + \
                      '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=200'
-        response = requests.get(_index_url)
+
+        @retry(stop_max_attempt_number=10, wait_fixed=500)
+        def request_content():
+            return requests.get(_index_url)
+        response = request_content()
         data_string = json.loads(fix_json(response.text.encode('utf-8')))
 
         for pd in data_string["list"]:
@@ -1144,14 +1148,14 @@ if __name__ == '__main__':
     else:
         logger_local.info('MYSQL connected.')
 
-    # get_CMHO_product()
-    # get_ICBC_product()
-    # get_ABCI_product()
-    # get_CCBH_product()
-    # get_CTIB_product()
-    # get_BCOH_product()
-    # get_EBBC_product()
-    # get_DESZ_product()
+    get_CMHO_product()
+    get_ICBC_product()
+    get_ABCI_product()
+    get_CCBH_product()
+    get_CTIB_product()
+    get_BCOH_product()
+    get_EBBC_product()
+    get_DESZ_product()
     # get_IBCN_product()
     # get_SPDB_product()
     # get_BKSH_product()

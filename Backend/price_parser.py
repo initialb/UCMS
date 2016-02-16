@@ -37,11 +37,11 @@ from butils.pprint import pprint
 # pp = pprint.PrettyPrinter(indent=4)
 TIMEOUT = 10
 LOCALTIME = time.strftime('%Y%m%d', time.localtime(time.time()))
-LOGNAME = 'log/priceparser_' + LOCALTIME + '.log'
+LOGNAME = 'log/price_parser_' + LOCALTIME + '.log'
 
 # initialize root logger to write verbose log file
 logging.basicConfig(level=logging.DEBUG,
-                    filename="log/priceparser_" + LOCALTIME + ".verbose.log",
+                    filename="log/price_parser_" + LOCALTIME + ".verbose.log",
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # initialize a local logger
@@ -714,7 +714,7 @@ if __name__ == '__main__':
         logger_local.info('MYSQL connected.')
 
         cursor = cnx.cursor()
-        cursor.execute("""DELETE FROM t_listing_rate WHERE date(update_time)=curdate()""")
+        cursor.execute("""DELETE FROM t_listing_rate""")
         logger_local.info(unicode(cursor.rowcount) + ' rows deleted')
 
         pool = ThreadPool(8) # Sets the pool size to 4
