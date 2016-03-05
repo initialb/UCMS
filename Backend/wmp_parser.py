@@ -16,9 +16,9 @@ import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
 from decimal import Decimal
-from butils.butils import decode
-from butils.butils import fix_json
-from butils.butils import ppprint
+from butils import decode
+from butils import fix_json
+from butils import ppprint
 from butils.pprint import pprint
 from datetime import datetime
 from retrying import retry
@@ -67,10 +67,10 @@ def get_CMHO_product():
     product_data = []
     root_url = 'http://www.cmbchina.com'
 
-    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=' \
+    # 保本
+    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=Y' \
                 '&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
     # currency = 32 means USD
-    # currency = 29 means AUD
 
     logger_local.info(unicode(legal_group) + ' - Begin parsing...')
 
@@ -79,7 +79,7 @@ def get_CMHO_product():
 
     for page_index in xrange(1, total_page + 1):
         _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + \
-                     '&salestatus=&baoben=&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=200'
+                     '&salestatus=&baoben=Y&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=200'
 
         @retry(stop_max_attempt_number=10, wait_fixed=500)
         def request_content():
@@ -98,8 +98,8 @@ def get_CMHO_product():
                                      filter(unicode.isdigit, pd["FinDate"]),
                                      pd["IncresingMoney"],
                                      pd["InitMoney"],
-                                     u"Y",
-                                     # pd["IsCanBuy"],
+                                     u"Y",  # pd["IsCanBuy"]
+                                     u"Y",  # preservable
                                      # pd["IsNewFlag"],
                                      re.sub(r'[^\d.]+', '', pd["NetValue"]),
                                      pd["PrdCode"],
@@ -116,8 +116,8 @@ def get_CMHO_product():
                 #                                                              ensure_ascii=False,
                 #                                                              indent=2))
 
-    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=' \
-                '&currency=29&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
+    index_url = 'http://www.cmbchina.com/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=1&salestatus=&baoben=N' \
+                '&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=20&orderby=ord1'
     # currency = 32 means USD
     # currency = 29 means AUD
 
@@ -126,7 +126,7 @@ def get_CMHO_product():
 
     for page_index in xrange(1, total_page + 1):
         _index_url = root_url + '/CFWEB/svrajax/product.ashx?op=search&type=m&pageindex=' + unicode(page_index) + \
-                     '&salestatus=&baoben=&currency=29&term=&keyword=&series=01&risk=&city=&date=&pagesize=200'
+                     '&salestatus=&baoben=N&currency=32&term=&keyword=&series=01&risk=&city=&date=&pagesize=200'
         response = requests.get(_index_url)
         data_string = json.loads(fix_json(response.text.encode('utf-8')))
 
@@ -135,14 +135,14 @@ def get_CMHO_product():
                 product_data.append([issuer_code,
                                      pd["AreaCode"],
                                      filter(unicode.isdigit, pd["BeginDate"]),
-                                     u'AUD',
+                                     u'USD',
                                      filter(unicode.isdigit, pd["EndDate"]),
                                      filter(unicode.isdigit, pd["ExpireDate"]),
                                      filter(unicode.isdigit, pd["FinDate"]),
                                      pd["IncresingMoney"],
                                      pd["InitMoney"],
-                                     u"Y",
-                                     # pd["IsCanBuy"],
+                                     u"Y",  # pd["IsCanBuy"]
+                                     u"N",  # preservable
                                      # pd["IsNewFlag"],
                                      re.sub(r'[^\d.]+', '', pd["NetValue"]),
                                      pd["PrdCode"],
@@ -164,10 +164,10 @@ def get_CMHO_product():
 
     add_product = ("""INSERT INTO t_product
                       (issuer_code, sales_region, start_date, currency, end_date, value_date, tenor,
-                       increasing_amount, starting_amount, buyable, expected_highest_yield, prod_code,
+                       increasing_amount, starting_amount, buyable, preservable, expected_highest_yield, prod_code,
                        prod_name, risk_desc, sales_channel, sales_channel_desc, status, coupon_type_desc,
                        tenor_desc, coupon_type, data_source, update_time)
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                               'OW', now())""")
 
     for p in product_data:
@@ -176,6 +176,18 @@ def get_CMHO_product():
     cnx.commit()
     cursor.close()
     logger_local.info(unicode(legal_group) + ' - ' + unicode(len(product_data)) + ' products imported')
+
+
+def get_CMHO2_product():
+
+    index_url = 'https://pbsz.ebank.cmbchina.com/CmbBank_Invest/UI/InvestPC/Financing/CFHomeV3.aspx'
+    index_url = 'https://mall.bank.ecitic.com/fmall/pd/fin-pic-index.htm'
+
+
+    response = requests.post(index_url)
+    soup = bs4.BeautifulSoup(response.text, "html.parser")
+    print soup
+
 
 
 def get_ICBC_product():
@@ -280,6 +292,7 @@ def get_ABCI_product():
 
     for p in data_string["Data"]["Table"]:
         product_data.append([issuer_code,
+                             issuer_list[issuer_code],
                              u'USD',
                              p["ProductNo"],
                              p["ProdName"],
@@ -302,10 +315,10 @@ def get_ABCI_product():
     logger_local.info(unicode(legal_group) + ' - ' + unicode(cursor.rowcount) + ' rows deleted')
 
     add_product = ("""INSERT INTO t_product
-                (issuer_code, currency, prod_code, prod_name, redeemable, tenor, expected_highest_yield,
+                (issuer_code, issuer_name, currency, prod_code, prod_name, redeemable, tenor, expected_highest_yield,
                  preservable, sales_region_desc, start_date, open_start_date, open_end_date, buyable, data_source,
                  update_time)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'Y', 'OW', now())""")
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'Y', 'OW', now())""")
 
     for p in product_data:
         cursor.execute(add_product, p)
@@ -1090,35 +1103,6 @@ def generate_report():
 
 
 
-def tenor_decoder(tenor_desc):
-    result = decode(tenor_desc,
-                    u'1个月', '30',
-                    u'2个月', '60',
-                    u'3个月', '90',
-                    u'6个月', '180',
-                    u'9个月', '270',
-                    u'12个月', '360',
-                    u'半年', '180',
-                    u'1年', '360',
-                    u'一年', '360',
-                    u'2年', '720',
-                    u'二年', '720',
-                    u'3年', '1080',
-                    u'三年', '1080',
-                    u'5年', '1800',
-                    u'五年', '1800',
-                    '')
-    return result
-
-
-def currency_decoder(tenor_desc):
-    result = decode(tenor_desc,
-                    u'美元', 'USD',
-                    u'澳元', 'AUD',
-                    '')
-    return result
-
-
 def repr_zh(obj):
     return re.sub(r"\\u([a-f0-9]{4})", lambda mg: unichr(int(mg.group(1), 16)), obj.__repr__())
 
@@ -1127,13 +1111,11 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
     logger_local.info('')
     logger_local.info('')
-    logger_local.info('============================================================'
-                      '============================================================')
+    logger_local.info('============================================================')
     logger_local.info('')
     logger_local.info('WMP Parser starting...')
     logger_local.info('')
-    logger_local.info('============================================================'
-                      '============================================================')
+    logger_local.info('============================================================')
 
     try:
         cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
@@ -1147,14 +1129,26 @@ if __name__ == '__main__':
     else:
         logger_local.info('MYSQL connected.')
 
-    get_CMHO_product()
-    get_ICBC_product()
-    get_ABCI_product()
-    get_CCBH_product()
-    get_CTIB_product()
-    get_BCOH_product()
-    get_EBBC_product()
-    get_DESZ_product()
+    issuer_list = {}
+    cursor = cnx.cursor()
+
+    query = """select issuer_code, en_short_name from t_issuer where en_short_name is not null"""
+    cursor.execute(query)
+    for (issuer_code, en_short_name) in cursor:
+        issuer_list[issuer_code] = en_short_name
+    cursor.close()
+    logger_local.info(issuer_list)
+
+    # get_CMHO_product()
+    get_CMHO2_product()
+
+    # get_ICBC_product()
+    # get_ABCI_product()
+    # get_CCBH_product()
+    # get_CTIB_product()
+    # get_BCOH_product()
+    # get_EBBC_product()
+    # get_DESZ_product()
     # get_IBCN_product()
     # get_SPDB_product()
     # get_BKSH_product()

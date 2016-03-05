@@ -16,9 +16,9 @@ import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
 from decimal import Decimal
-from butils.butils import decode
-from butils.butils import fix_json
-from butils.butils import ppprint
+from butils import decode
+from butils import fix_json
+from butils import ppprint
 from HTMLParser import HTMLParser
 from butils.pprint import pprint
 
@@ -38,7 +38,7 @@ def import_xlsx():
 
     result = []
 
-    wb = load_workbook('./xlsx/20160130.xlsx')
+    wb = load_workbook('./xlsx/20160226_2.xlsx')
     ws = wb['国内银行总汇']
 
     # for row_index, row in enumerate(ws.rows):
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
-        cnx = mysql.connector.connect(host='139.196.16.157', user='zyq', password='zyq', database=DB_NAME)
+        cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
         # cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
         logging.info('MYSQL connected.')
 

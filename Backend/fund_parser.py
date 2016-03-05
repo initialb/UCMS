@@ -4,6 +4,7 @@ import math
 import codecs
 import argparse
 import logging
+import traceback
 import re
 import requests
 import bs4
@@ -170,6 +171,613 @@ def get_FSM_fund_product():
         raise
 
 
+def get_FSM_fund_classified_product():
+    try:
+        index_url = 'http://www.fundsupermart.com.hk/hk/main/fundinfo/generateTable.svdo'
+        logging.info("Retrieving " + index_url + " ...")
+        fund_data = []
+        fund_data_or = []
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "AI"})
+            # 另类基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "另类基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "MB"})
+            # 均衡基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "均衡基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "EG"})
+            # 股票基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "股票基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "FI"})
+            # 定息基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "定息基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "MA"})
+            # 混合资产基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "混合资产基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency", "sectormaincode": "DG"})
+            # 货币市场基金
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "货币市场基金",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data)
+
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.post(index_url, timeout=20, data={"baseCur": "fundCurrency"})
+
+        response = request_content()
+
+        buf = StringIO.StringIO(response.text)
+        f = StringIO.StringIO()
+
+        is_first_tr = True
+        line = True
+
+        # 处理返回结果中<tr>未闭合的问题, 否则soup分析出错.
+        while line:
+            line = buf.readline()
+            if " --------------Start displaying fund list-------------------  " in line:
+                while True:
+                    line = buf.readline()
+                    if "<tr" in line:
+                        # 第一行前不增加</br>
+                        if is_first_tr is True:
+                            is_first_tr = False
+                        else:
+                            f.write(" "*17*4 + "</tr>\n")
+                    # 读取到table最后一个tr
+                    if "</table>" in line:
+                        break
+                    # 跳过空行
+                    if line.strip() == "":
+                        continue
+                    f.write(line)
+                break
+
+        buf.close()
+
+        # 回到文件头, 读取至soup分析
+        f.seek(0)
+        fund_list_html = f.read()
+        f.close()
+
+        soup = bs4.BeautifulSoup(fund_list_html, "html.parser")
+        fund_list = soup.find_all("tr")
+
+        for idx, fund in enumerate(fund_list):
+            tds = fund.find_all("td")
+            if len(tds) == 22:
+                fund_data_or.append([tds[0].input["value"],
+                                  tds[1].a.font.text.strip(),
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  tds[2].font.text.strip(),
+                                  tds[3].font.text.strip(),
+                                  tds[4].font.text.strip(),
+                                  tds[5].font.text.strip(),
+                                  tds[6].font.text.strip(),
+                                  tds[7].font.text.strip(),
+                                  tds[8].font.text.strip(),
+                                  tds[9].font.text.strip(),
+                                  tds[10].font.text.strip(),
+                                  tds[11].font.text.strip(),
+                                  tds[12].font.text.strip(),
+                                  tds[13].font.text.strip(),
+                                  tds[14].font.text.strip(),
+                                  tds[15].font.text.strip(),
+                                  tds[16].font.text.strip(),
+                                  tds[17].font.text.strip(),
+                                  tds[18].font.text.strip(),
+                                  tds[19].font.text.strip(),
+                                  tds[20].font.text.strip(),
+                                  tds[21].font.text.strip()])
+        logging.debug(fund_data_or)
+
+
+        for data in fund_data_or:
+            exists = 0
+            for d in fund_data:
+                if data[0] == d[0]:
+                    exists += 1
+            if exists == 0:
+                fund_data.append(data)
+
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "FUNDLIST"
+        ws_title = ["prod_code",
+                    "prod_name",
+                    "prod_type",
+                    "placeholder_1"
+                    "placeholder_2"
+                    "placeholder_3"
+                    "risk_rating",
+                    "currency",
+                    "latest_nav_price",
+                    "3year_risk_return_ratio",
+                    "sharpe_ratio",
+                    "valuation_date",
+                    "cp_1m",
+                    "cp_3m",
+                    "cp_6m",
+                    "cp_ytd",
+                    "cp_1y",
+                    "cp_3y",
+                    "cp_5y",
+                    "cp_since_launch",
+                    "launch_date",
+                    "cyp_1",
+                    "cyp_2",
+                    "cyp_3",
+                    "cyp_4",
+                    "cyp_5"]
+        ws.append(ws_title)
+        for fund in fund_data:
+            ws.append(fund)
+        wb.save(output_file)
+
+        # delete all duplicated records:
+        # cursor = cnx.cursor()
+        # cursor.execute("""DELETE FROM t_fund_product WHERE data_source='FSM' and date(update_time)=curdate()""")
+        # logging.info(unicode(cursor.rowcount) + ' FSM funds deleted')
+        #
+        # add_product = ("""INSERT INTO t_fund_product(prod_code, prod_name, risk_rating, currency, latest_nav_price,
+        #                   3year_risk_return_ratio, sharpe_ratio, valuation_date, cp_1m, cp_3m, cp_6m, cp_ytd,
+        #                   cp_1y, cp_3y, cp_5y, cp_since_launch, launch_date, cyp_1, cyp_2, cyp_3, cyp_4, cyp_5,
+        #                   data_source, update_time)
+        #                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+        #                           %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'FSM', now())""")
+        #
+        # for fund in fund_data:
+        #     cursor.execute(add_product, fund)
+
+        logging.info(unicode(len(fund_data)) + ' FSM funds imported')
+        cursor.close()
+
+    except:
+        raise
+
+
 def get_MS_fund_page_num():
     try:
         index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
@@ -222,6 +830,118 @@ def get_MS_fund_product(page):
         cursor.execute(add_product, fund)
 
 
+def get_jpm_fund_product():
+    root_url = 'https://www.jpmorganam.com.hk'
+    index_url = 'https://www.jpmorganam.com.hk/jpm/am/zh/funds/performance'
+    fund_data = []
+    logging.info("Retrieving " + index_url + " ...")
+
+
+    try:
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            logging.info("Retrieving " + index_url + " ...")
+            return requests.get(index_url, timeout=20)
+
+        response = request_content()
+
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        fund_list_tb = soup.find("table", id="priceColumn").find_all("tr")
+
+        for idx, fund in enumerate(fund_list_tb):
+            if idx == 0:
+                pass
+            else:
+                fund_td = fund.find_all("td")
+                if fund_td[1].a:
+                    prod_name = fund_td[1].a.text.strip()
+                    prod_url = root_url + fund_td[1].a["href"]
+                else:
+                    prod_name = fund_td[1].text.strip()
+                    prod_url = ""
+                fund_data.append([fund_td[0].text.strip(),  # prod code
+                                  prod_name,
+                                  prod_url,
+                                  fund_td[2].text.strip(),  # start date
+                                  fund_td[3].text.strip(),  # currency
+                                  fund_td[4].text.strip(),  # cp ytd
+                                  fund_td[5].text.strip(),  # cp 1y
+                                  fund_td[6].text.strip(),  # cp 3y
+                                  fund_td[7].text.strip(),  # cp 5y
+                                  fund_td[8].text.strip()])  # cp since launch
+                # logging.info(fund_data[-1])
+                ppprint(fund_data[-1])
+
+                @retry(stop_max_attempt_number=10, wait_fixed=2000)
+                def request_content():
+                    logging.info("Retrieving " + index_url + " ...")
+                    return requests.get(prod_url,
+                                        cookies=response.cookies,
+                                        headers={"referer": index_url, "Host": "www.jpmorganam.com.hk"},
+                                        timeout=20)
+
+                pd_response = request_content()
+
+                pd_soup = bs4.BeautifulSoup(pd_response.text, "html.parser")
+
+                print pd_soup
+                exit(0)
+
+
+        # wb = openpyxl.Workbook()
+        # ws = wb.active
+        # ws.title = "FUNDLIST"
+        # ws_title = ["prod_code",
+        #             "prod_name",
+        #             "risk_rating",
+        #             "currency",
+        #             "latest_nav_price",
+        #             "3year_risk_return_ratio",
+        #             "sharpe_ratio",
+        #             "valuation_date",
+        #             "cp_1m",
+        #             "cp_3m",
+        #             "cp_6m",
+        #             "cp_ytd",
+        #             "cp_1y",
+        #             "cp_3y",
+        #             "cp_5y",
+        #             "cp_since_launch",
+        #             "launch_date",
+        #             "cyp_1",
+        #             "cyp_2",
+        #             "cyp_3",
+        #             "cyp_4",
+        #             "cyp_5"]
+        # ws.append(ws_title)
+        # for fund in fund_data:
+        #     ws.append(fund)
+        # wb.save(output_file)
+        #
+        # # delete all duplicated records:
+        # cursor = cnx.cursor()
+        # cursor.execute("""DELETE FROM t_fund_product WHERE data_source='FSM' and date(update_time)=curdate()""")
+        # logging.info(unicode(cursor.rowcount) + ' FSM funds deleted')
+        #
+        # add_product = ("""INSERT INTO t_fund_product(prod_code, prod_name, risk_rating, currency, latest_nav_price,
+        #                   3year_risk_return_ratio, sharpe_ratio, valuation_date, cp_1m, cp_3m, cp_6m, cp_ytd,
+        #                   cp_1y, cp_3y, cp_5y, cp_since_launch, launch_date, cyp_1, cyp_2, cyp_3, cyp_4, cyp_5,
+        #                   data_source, update_time)
+        #                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+        #                           %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'FSM', now())""")
+        #
+        # for fund in fund_data:
+        #     cursor.execute(add_product, fund)
+        #
+        # logging.info(unicode(len(fund_data)) + ' FSM funds imported')
+        # cursor.close()
+
+    except Exception, err:
+        logging.warning(unicode(sys.exc_info()[0]) + u':' + unicode(sys.exc_info()[1]))
+        logging.exception("Exception:")
+        logging.exception(traceback.format_exc())
+
+
 def usage():
     print "-o [output_file] -v -h"
 
@@ -259,18 +979,20 @@ if __name__ == '__main__':
 
         logging.info('MYSQL connected.')
 
-        # get_FSM_fund_product()
+        # get_FSM_fund_classified_product()
+        get_jpm_fund_product()
 
-        cursor.execute("""DELETE FROM t_fund_product WHERE data_source='MS' and date(update_time)=curdate()""")
 
-        total_page = get_MS_fund_page_num()
-        print "Total page: ", total_page
+        # cursor.execute("""DELETE FROM t_fund_product WHERE data_source='MS' and date(update_time)=curdate()""")
+
+        # total_page = get_MS_fund_page_num()
+        # print "Total page: ", total_page
 
         # pool = Pool(3)
         # results = pool.map(get_MS_fund_product, range(total_page))
 
-        for page in range(total_page):
-            get_MS_fund_product(page)
+        # for page in range(total_page):
+        #     get_MS_fund_product(page)
 
         cursor.close()
 
