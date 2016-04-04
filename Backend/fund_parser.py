@@ -16,9 +16,9 @@ import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
 from decimal import Decimal
-from butils.butils import decode
-from butils.butils import fix_json
-from butils.butils import ppprint
+from butils import decode
+from butils import fix_json
+from butils import ppprint
 from datetime import datetime
 from HTMLParser import HTMLParser
 from butils.pprint import pprint
@@ -27,13 +27,36 @@ import sys, getopt
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-
 import random
 from retrying import retry
 
+TIMEOUT = 60
 LOCALTIME = time.strftime('%Y%m%d', time.localtime(time.time()))
+LOGNAME = 'log/fund_parser_' + LOCALTIME + '.log'
+
+# initialize root logger to write verbose log file (inculding logs from all called packages like requests etc.)
+logging.basicConfig(level=logging.DEBUG,
+                    filename="log/fund_parser_" + LOCALTIME + ".verbose.log",
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# initialize a local logger
+logger_local = logging.getLogger("ucms.birdie.parser.fund")
+logger_local.setLevel(logging.DEBUG)
+
+# initialize a local logger file handler
+logger_local_fh = logging.FileHandler(LOGNAME)
+logger_local_fh.setLevel(logging.INFO)
+logger_local_fh.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+
+# initialize a local logger console handler
+logger_local_ch = logging.StreamHandler()
+logger_local_ch.setLevel(logging.INFO)
+logger_local_ch.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+
+# add handlers to local logger
+logger_local.addHandler(logger_local_fh)
+logger_local.addHandler(logger_local_ch)
+
 VERSION = 0.5
 
 # FundSuperMart
@@ -781,54 +804,225 @@ def get_FSM_fund_classified_product():
 def get_MS_fund_page_num():
     try:
         index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
-        logging.info("Retrieving " + index_url + " ...")
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.get(index_url)
+            return requests.get(index_url, timeout=TIMEOUT)
 
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         total_record = soup.find("span", id="MainContent_TotalResultLabel").text
+        logger_local.info('[FI]Total record: %s' % total_record)
+        logger_local.info('[FI]Total page: %s' % (int(total_record)/30+1))
+
         return int(total_record)/30+1
 
     except:
         raise
 
 
-def get_MS_fund_product(page):
+def get_MS_fund_product(total_page):
     index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
 
-    @retry(stop_max_attempt_number=10, wait_fixed=2000)
-    def request_content():
-        return requests.post(index_url, timeout=60, data={"__EVENTTARGET": "ctl00$MainContent$AspNetPager1",
-                                                          "__EVENTARGUMENT": page+1,
-                                                          "__VIEWSTATE": ""})
+    cursor.execute("""
+                   DELETE FROM t_fund_product WHERE date(update_time)=curdate() and data_source='MS'
+                   """)
+    logger_local.info('MS - ' + unicode(cursor.rowcount) + ' rows deleted')
 
-    response = request_content()
-    soup = bs4.BeautifulSoup(response.text, "html.parser")
-    prod_list_tr = soup.find("table", id="MainContent_gridResult").find_all("tr")
+    for page in range(total_page):
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return requests.post(index_url, timeout=60, data={"__EVENTTARGET": "ctl00$MainContent$AspNetPager1",
+                                                              "__EVENTARGUMENT": page+1,
+                                                              "__VIEWSTATE": ""})
 
-    print "Fetching page: ", page+1
+        response = request_content()
+
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        prod_list_tr = soup.find("table", id="MainContent_gridResult").find_all("tr")
+
+        print "Fetching page: ", page+1
+        prod_list = []
+
+        for prod in prod_list_tr:
+            if prod.has_attr("class"):
+                prod_list_td = prod.find_all("td")
+                prod_list.append([re.sub(r"\.\.", "", prod_list_td[0].a["href"]),
+                                  prod_list_td[0].text,
+                                  prod_list_td[1].text,
+                                  re.sub(r"[^\d]",
+                                         "",
+                                         prod_list_td[2].img["src"] if prod_list_td[2].find("img") else "--"),
+                                  prod_list_td[3].text,
+                                  prod_list_td[4].text])
+
+        add_product = ("""INSERT INTO t_fund_product(remark, prod_code, prod_name, risk_rating, currency,
+                          latest_nav_price, data_source, update_time)
+                          VALUES (%s, %s, %s, %s, %s, %s, 'MS', now())""")
+
+        for fund in prod_list:
+            cursor.execute(add_product, fund)
+
+
+def get_MS_fund_product_detail():
+    index_url = 'http://www.hk.morningstar.com/ap'
     prod_list = []
 
-    for prod in prod_list_tr:
-        if prod.has_attr("class"):
-            prod_list_td = prod.find_all("td")
-            prod_list.append([prod_list_td[0].a["href"],
-                              prod_list_td[0].text,
-                              prod_list_td[1].text,
-                              prod_list_td[2].img["src"] if prod_list_td[2].find("img") else "--",
-                              prod_list_td[3].text,
-                              prod_list_td[4].text])
+    query = "select uid, prod_name, remark from t_fund_product where data_source='MS' and date(update_time)='2016-03-19'"
+    cursor.execute(query)
+    for (uid, prod_name, remark) in cursor:
+        prod_list.append([uid, prod_name, index_url+remark])
 
-    add_product = ("""INSERT INTO t_fund_product(remark, prod_code, prod_name, risk_rating, currency, latest_nav_price,
-                      data_source, update_time)
-                      VALUES (%s, %s, %s, %s, %s, %s, 'MS', now())""")
+    for p in range(len(prod_list)):
+    # for p in range(2):
+        logger_local.info("(%s/%s) requesting %s [%s]" % (p+1, len(prod_list), prod_list[p][1], prod_list[p][2]))
 
-    for fund in prod_list:
-        cursor.execute(add_product, fund)
+        """
+        检索概况页面信息
+        """
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return requests.get(prod_list[p][2], timeout=TIMEOUT)
 
+        response = request_content()
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        try:
+            GIFS_type = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_GIFSText").text
+        except AttributeError, e:
+            GIFS_type = None
+        try:
+            IFA_category = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_IFASectorText").text
+        except AttributeError, e:
+            IFA_category = None
+        try:
+            industry_1 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_0").find_parent("li").span.text
+        except AttributeError, e:
+            industry_1 = None
+        try:
+            industry_pct_1 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_0").find_parent("ul").find("li", class_="regionbreakdown_col2").span.text
+        except AttributeError, e:
+            industry_pct_1 = None
+        try:
+            industry_2 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_1").find_parent("li").span.text
+        except AttributeError, e:
+            industry_2 = None
+        try:
+            industry_pct_2 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_1").find_parent("ul").find("li", class_="regionbreakdown_col2").span.text
+        except AttributeError, e:
+            industry_pct_2 = None
+        try:
+            industry_3 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_2").find_parent("li").span.text
+        except AttributeError, e:
+            industry_3 = None
+        try:
+            industry_pct_3 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_2").find_parent("ul").find("li", class_="regionbreakdown_col2").span.text
+        except AttributeError, e:
+            industry_pct_3 = None
+        try:
+            industry_4 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_3").find_parent("li").span.text
+        except AttributeError, e:
+            industry_4 = None
+        try:
+            industry_pct_4 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_3").find_parent("ul").find("li", class_="regionbreakdown_col2").span.text
+        except AttributeError, e:
+            industry_pct_4 = None
+        try:
+            industry_5 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_4").find_parent("li").span.text
+        except AttributeError, e:
+            industry_5 = None
+        try:
+            industry_pct_5 = soup.find("img", id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_4").find_parent("ul").find("li", class_="regionbreakdown_col2").span.text
+        except AttributeError, e:
+            industry_pct_5 = None
+
+        """
+        检索回报页面信息
+        """
+        prod_code = re.sub(r".+(?==)=", "", prod_list[p][2])
+        total_return_url = "http://www.hk.morningstar.com/ap/quicktake/returns.aspx?PerformanceId=" + prod_code + "&activetab=TotalReturn"
+
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return requests.get(total_return_url, timeout=TIMEOUT)
+
+        response = request_content()
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+        try:
+            cp_1m = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label11").text
+        except AttributeError, e:
+            cp_1m = None
+        try:
+            cp_3m = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label16").text
+        except AttributeError, e:
+            cp_3m = None
+        try:
+            cp_6m = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label26").text
+        except AttributeError, e:
+            cp_6m = None
+        try:
+            cp_ytd = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label21").text
+        except AttributeError, e:
+            cp_ytd = None
+        try:
+            cp_1y = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label26").text
+        except AttributeError, e:
+            cp_1y = None
+        try:
+            cp_3y = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label31").text
+        except AttributeError, e:
+            cp_3y = None
+        try:
+            cp_5y = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label36").text
+        except AttributeError, e:
+            cp_5y = None
+        try:
+            cp_10y = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label41").text
+        except AttributeError, e:
+            cp_10y = None
+
+        update_product = ("""UPDATE t_fund_product SET GIFS_type=%s, IFA_category=%s, industry_1=%s, industry_pct_1=%s,
+                             industry_2=%s, industry_pct_2=%s, industry_3=%s, industry_pct_3=%s, industry_4=%s,
+                             industry_pct_4=%s, industry_5=%s, industry_pct_5=%s, cp_1m=%s, cp_3m=%s, cp_6m=%s,
+                             cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s
+                             WHERE uid=%s""")
+
+        cursor.execute(update_product, (GIFS_type, IFA_category, industry_1, industry_pct_1, industry_2, industry_pct_2,
+                                        industry_3, industry_pct_3, industry_4, industry_pct_4, industry_5,
+                                        industry_pct_5, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y, cp_10y,
+                                        prod_code, prod_list[p][0]))
+        cnx.commit()
+
+
+def set_MS_region():
+    prod_list = []
+    query = "select uid, ifa_category from t_fund_product where data_source='MS'"
+    cursor.execute(query)
+    for (uid, ifa_category) in cursor:
+        if "Equity" in ifa_category:
+            region = ifa_category.replace("Equity", "").strip()
+            category = "Equity"
+        elif "Asset Allocation" in ifa_category:
+            region = ifa_category.replace("Asset Allocation", "").strip()
+            category = "Asset Allocation"
+        elif "Fixed Income" in ifa_category:
+            region = ifa_category.replace("Fixed Income", "").strip()
+            category = "Fixed Income"
+        elif "Money Market" in ifa_category:
+            region = ifa_category.replace("Money Market", "").strip()
+            category = "Money Market"
+        elif "Smaller Companies" in ifa_category:
+            region = ifa_category.replace("Smaller Companies", "").strip()
+            category = "Smaller Companies"
+        else:
+            region = None
+            category = ifa_category
+
+        prod_list.append([uid, category, region])
+
+    update_product = """update t_fund_product set category=%s, region=%s where uid=%s"""
+    for p in prod_list:
+        cursor.execute(update_product, (p[1], p[2], p[0]))
 
 def get_jpm_fund_product():
     root_url = 'https://www.jpmorganam.com.hk'
@@ -980,7 +1174,11 @@ if __name__ == '__main__':
         logging.info('MYSQL connected.')
 
         # get_FSM_fund_classified_product()
-        get_jpm_fund_product()
+        # get_jpm_fund_product()
+        # ms_page = get_MS_fund_page_num()
+        # get_MS_fund_product(ms_page)
+        # get_MS_fund_product_detail()
+        set_MS_region()
 
 
         # cursor.execute("""DELETE FROM t_fund_product WHERE data_source='MS' and date(update_time)=curdate()""")

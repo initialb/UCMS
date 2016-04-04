@@ -38,7 +38,7 @@ def import_xlsx():
 
     result = []
 
-    wb = load_workbook('./xlsx/20160226_2.xlsx')
+    wb = load_workbook('./xlsx/20160403.xlsx')
     ws = wb['国内银行总汇']
 
     # for row_index, row in enumerate(ws.rows):

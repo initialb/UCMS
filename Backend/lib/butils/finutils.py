@@ -32,3 +32,12 @@ def currency_decoder(tenor_desc):
                            u'英镑', 'GBP',
                            '')
     return result
+
+def currency_encoder(tenor_desc):
+    result = butils.decode(tenor_desc,
+                           'USD', u'美元',
+                           'AUD', u'澳元',
+                           'EUR', u'欧元',
+                           'GBP', u'英镑',
+                           '')
+    return result

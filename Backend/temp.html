@@ -1,167 +1,2139 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <LINK rel=stylesheet type=text/css
-          href="/gateway/styles/quote/main.css">
-    <LINK rel=stylesheet type=text/css
-          href="/gateway/styles/quote/datalist.css">
-
-    <title>人民币外汇牌价查询结果</title>
-
+<head id="HeaderOfMasterPage">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="keywords"/>
+    <meta name="description"/>
+    <title>
+        Morningstar Asia Quicktake Report - 香港 | [AB FCP I American Growth Portfolio I] | [0P000019ZZ]
+    </title>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/body.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/pmaster.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/main3.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/header.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/autocomplete.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/quicktake.css" text="text/css" rel="stylesheet"/>
+    <link href="/ap/Localization/HKG/HK/skin/default/css/footer.css" text="text/css" rel="stylesheet"/>
 </head>
+<script language=javascript>
+function getCookie(c_name)
+{
+var c_value = document.cookie;
+var c_start = c_value.indexOf(" " + c_name + "=");
+if (c_start == -1)
+  {
+  c_start = c_value.indexOf(c_name + "=");
+  }
+if (c_start == -1)
+  {
+  c_value = null;
+  }
+else
+  {
+  c_start = c_value.indexOf("=", c_start) + 1;
+  var c_end = c_value.indexOf(";", c_start);
+  if (c_end == -1)
+  {
+c_end = c_value.length;
+}
+c_value = unescape(c_value.substring(c_start,c_end));
+}
+return c_value;
+}
+
+
+
+	var sMarket ="HKG";
+	var url =window.location.href.toString().toLowerCase();
+	if (sMarket=="HKG" || sMarket=="SGP")
+	{
+		if (document.referrer==null  || document.referrer == "" )
+        {
+	         var IntroPage = getCookie("IntroAd_"+sMarket);
+
+             if (IntroPage == null)
+	             window.location ="/ap/IntroPage.aspx?backurl="+escape(window.location);
+
+	       }
+	}
+
+
+</script>
+<script type="text/javascript">
+    var _errorMessage = "";
+    var _allowcopy = true;
+    var viewid1 = Math.round(Math.random() * 100000000);
+    var viewid2 = Math.round(Math.random() * 100000000);
+
+</script>
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[
+
+ function popHelp(url){
+
+			var sUrl;
+	sUrl=url;
+	var newwindow=window.open(sUrl,"name","resizable=yes,scrollbars=yes,menubar=no,location=no,toolbar=no,status=no,width=640,height=400");
+	newwindow.focus();
+
+			}
+
+    function ShowInfo()
+    {
+        var marqueewidth=150
+        var marqueeheight=18
+        var sp=2
+        var marqueecontents='';
+        var ver = navigator.appVersion;
+        if (ver.indexOf("MSIE") != -1)
+        {
+            document.write('<marquee scrollAmount='+sp+' scrolldelay="100" style="width:950px" onmouseover="this.stop()" onmouseout="this.start()" ><div style="width:700px;float:left;">'+marqueecontents+'</div style="width:950px;"></marquee>');
+        }else
+            document.write('')
+    }
+
+     function RecursiveOffsetTop(thisObject,isFirst) {
+		    if(thisObject.offsetParent) {
+			    if ( thisObject.style.position == "absolute" && !isFirst && typeof(document.designMode) != "undefined" ) {
+				    return 0;
+			    }
+			    return (thisObject.offsetTop + RecursiveOffsetTop(thisObject.offsetParent,false));
+		    } else {
+			    return thisObject.offsetTop;
+		    }
+	    }
+
+        function RecursiveOffsetLeft(thisObject,isFirst) {
+		    if(thisObject.offsetParent) {
+			    if ( thisObject.style.position == "absolute" && !isFirst && typeof(document.designMode) != "undefined" ) {
+				    return 0;
+			    }
+			    return (thisObject.offsetLeft + RecursiveOffsetLeft(thisObject.offsetParent,false));
+		    } else {
+			    return thisObject.offsetLeft;
+		    }
+	    }
+
+        function DivOverlay_SetVisibility(isVisible, outlayer, inlayer) {
+            var inDiv = document.getElementById(inlayer);
+            var outDiv = document.getElementById(outlayer);
+
+            if (inDiv != null)
+            {
+                var isIE = ( typeof( inDiv.dataSrc ) != "undefined" ); // dataSrc is an IE-only property which is unlikely to be supported elsewhere
+                //var TopOffset = outDiv.offsetHeight + RecursiveOffsetTop(outDiv,true);
+                var TopOffset = RecursiveOffsetTop(outDiv,true);
+
+                if (!isIE)
+                    TopOffset = TopOffset - 3;
+
+                inDiv.style.width = ( outDiv.offsetWidth ) + "px";
+                inDiv.style.top = TopOffset + "px";
+                inDiv.style.left = (RecursiveOffsetLeft(outDiv,true) ) + "px";
+                inDiv.style.position = "absolute";
+                inDiv.style.zIndex = 9999;
+            }
+
+		    //var isIE = ( typeof( theList.dataSrc ) != "undefined" ); // dataSrc is an IE-only property which is unlikely to be supported elsewhere
+
+			if ( isVisible ) {
+				inDiv.style.display = "block";
+			} else {
+				inDiv.style.display = "none";
+			}
+
+//		if ( isIE ) {
+//			if ( isVisible ) {
+//				theList.style.visibility = "visible";
+//			} else {
+//				theList.style.visibility = "hidden";
+//			}
+//		} else {
+//			if ( isVisible ) {
+//				theList.style.display = "block";
+//			} else {
+//				theList.style.display = "none";
+//			}
+//		}
+		}
+        //]]>
+
+</script>
+
+
 <body>
-<TABLE align="center" class="tablestyle" style="" cellSpacing="0" cellPadding="0">
-    <TBODY>
-    <TR>
-        <TD class=tabletitle2></TD>
-    </TR>
-    <TR>
-        <TD height=3>&nbsp;</TD>
-    </TR>
-    <TR>
-        <TD height=3>
-            <TABLE width="98%" align="center" class="table_list" style="" cellSpacing="1" cellPadding="0">
-                <THEAD class=table_list_head>
-                <TR>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>货币种类</DIV>
-                    </TD>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>代码</DIV>
-                    </TD>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>现汇买入价</DIV>
-                    </TD>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>现钞买入价</DIV>
-                    </TD>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>现汇现钞卖出价</DIV>
-                    </TD>
-                    <TD width="10%">
-                        <DIV class=table_list_head_td align=center>现汇中间价</DIV>
-                    </TD>
-                    <TD width="15%">
-                        <DIV class=table_list_head_td align=center>发布时间</DIV>
-                    </TD>
-                </TR>
-                </THEAD>
-                <TBODY>
+<div id="Wrapper">
+    <form method="post" action="./overview.aspx?PerformanceId=0P000019ZZ" id="form1">
+        <div class="aspNetHidden">
+            <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value=""/>
+            <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""/>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+                   value="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6K2J5Yi45a+m54++6ZW35pyf6LOH5pys5aKe5YC844CC5pys5Z+676SK5bCL5rGC6YeN6bue5oqV6LOH5pa8576O5ZyL5bCR76Wp5aSn5Z6L57K+6YG45YSq6LOq5YWs5Y+455qE6IKh56Wo6K2J5Yi477yI5pmu6YCa6IKh44CB5Y+v6L2J5o+b54K65pmu6YCa6IKh55qE6K2J5Yi45Y+K5Y+v6KqN6LO85oiW6LO86LK35pmu6YCa6IKh55qE5qyK76ed5Y+K5qyK6K2J77yJ77yM6ICM5oqV6LOH566h76ek5Lq66KqN54K66Kmy562J5YWs5Y+45pyJ5Y+v6IO96YGU6Ie05Y2T6LaK55qE55uI76ed5aKe6ZW344CCICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCSg9kFgoCAw8PFgIfBAUkQUIgRkNQIEkgQW1lcmljYW4gR3Jvd3RoIFBvcnRmb2xpbyBJZGQCBQ8PFgIfBAUKMjAxNi0wMS0zMWRkAgcPZBYKAgMPDxYCHwUFLn4vTG9jYWxpemF0aW9uL1B1YmxpYy9ISy9pbWFnZXMvU3R5bGVCb3gwMy5naWZkZAINDxYCHwICBBYIAgEPZBYCZg8VBAbogqHnpagGMTAwLjAwAS0GMTAwLjAwZAICD2QWAmYPFQQG5YK15Yi4BDAuMDABLQQwLjAwZAIDD2QWAmYPFQQG54++6YeRBDAuMDABLQQwLjAwZAIED2QWAmYPFQQG5YW25LuWBDAuMDABLQQwLjAwZAITDxYCHwICBRYKAgEPZBYCZg8VAgbnvo7lnIsFOTguOTBkAgIPZBYCZg8VAgnmrZDlhYPljYAEMS4xMGQCAw9kFgJmDxUCCeWKoOaLv+WkpwQwLjAwZAIED2QWAmYPFQIM5ouJ5LiB576O5rSyBDAuMDBkAgUPZBYCZg8VAgboi7HlnIsEMC4wMGQCGQ8WAh8CAgUWCgIBD2QWBAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzMxMS5naWZkZAICDxUCBuenkeaKgAUzMy40MmQCAg9kFgQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8yMDYuZ2lmZGQCAg8VAg3lgaXlurforbfnkIYgBTI2LjIwZAIDD2QWBAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzEwMi5naWZkZAICDxUCECDlkajmnJ/mgKfmtojosrsFMTguMzlkAgQPZBYEAgEPDxYCHwUFHn4vY29tbW9uL2ltYWdlcy9TZWN0b3JfMjA1LmdpZmRkAgIPFQIP6Ziy5a6I5oCn5raI6LK7BDcuMTZkAgUPZBYEAgEPDxYCHwUFHn4vY29tbW9uL2ltYWdlcy9TZWN0b3JfMzEwLmdpZmRkAgIPFQIG5bel5qWtBDYuMjRkAiEPFgIfAgIFFgoCAQ9kFgZmDxUBGEZhY2Vib29rLCBJbmMuIC0gQ2xhc3MgQWQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8zMTEuZ2lmZGQCAg8VAgbnp5HmioAENS43M2QCAg9kFgZmDxUBGEFscGhhYmV0LCBJbmMuIC0gQ2xhc3MgQ2QCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8zMTEuZ2lmZGQCAg8VAgbnp5HmioAENS4xN2QCAw9kFgZmDxUBC0FwcGxlLCBJbmMuZAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzMxMS5naWZkZAICDxUCBuenkeaKgAQ1LjExZAIED2QWBmYPFQEYSW50dWl0aXZlIFN1cmdpY2FsLCBJbmMuZAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzIwNi5naWZkZAICDxUCDeWBpeW6t+itt+eQhiAENC43NGQCBQ9kFgZmDxUBDEJpb2dlbiwgSW5jLmQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8yMDYuZ2lmZGQCAg8VAg3lgaXlurforbfnkIYgBDQuNDJkAgkPDxYCHwNoZBYMAgUPFgIfAgIFFgoCAQ9kFgJmDxUCGEZhY2Vib29rLCBJbmMuIC0gQ2xhc3MgQQQ1LjczZAICD2QWAmYPFQIYQWxwaGFiZXQsIEluYy4gLSBDbGFzcyBDBDUuMTdkAgMPZBYCZg8VAgtBcHBsZSwgSW5jLgQ1LjExZAIED2QWAmYPFQIYSW50dWl0aXZlIFN1cmdpY2FsLCBJbmMuBDQuNzRkAgUPZBYCZg8VAgxCaW9nZW4sIEluYy4ENC40MmQCCw8PFgIfBAUBLWRkAg8PDxYCHwQFAS1kZAITDw8WAh8EBQEtZGQCGQ8PFgIfBQUvfi9Mb2NhbGl6YXRpb24vUHVibGljL0hLL2ltYWdlcy9CU3R5bGVCb3gwMC5naWZkZAIjDxYCHwICBBYIAgEPZBYCZg8VBAbogqHnpagGMTAwLjAwAS0GMTAwLjAwZAICD2QWAmYPFQQG5YK15Yi4BDAuMDABLQQwLjAwZAIDD2QWAmYPFQQG54++6YeRBDAuMDABLQQwLjAwZAIED2QWAmYPFQQG5YW25LuWBDAuMDABLQQwLjAwZAILDw8WAh8DaGQWEgIDDw8WAh8FBS5+L0xvY2FsaXphdGlvbi9QdWJsaWMvSEsvaW1hZ2VzL1N0eWxlQm94MDMuZ2lmZGQCBw8PFgIfBQUvfi9Mb2NhbGl6YXRpb24vUHVibGljL0hLL2ltYWdlcy9CU3R5bGVCb3gwMC5naWZkZAIRDxYCHwICBBYIAgEPZBYCZg8VBAbogqHnpagGMTAwLjAwAS0GMTAwLjAwZAICD2QWAmYPFQQG5YK15Yi4BDAuMDABLQQwLjAwZAIDD2QWAmYPFQQG54++6YeRBDAuMDABLQQwLjAwZAIED2QWAmYPFQQG5YW25LuWBDAuMDABLQQwLjAwZAIXDw8WAh8EBQEtZGQCGw8PFgIfBAUBLWRkAh8PDxYCHwQFAS1kZAIlDxYCHwICBRYKAgEPZBYCZg8VAgbnvo7lnIsFOTguOTBkAgIPZBYCZg8VAgnmrZDlhYPljYAEMS4xMGQCAw9kFgJmDxUCCeWKoOaLv+WkpwQwLjAwZAIED2QWAmYPFQIM5ouJ5LiB576O5rSyBDAuMDBkAgUPZBYCZg8VAgboi7HlnIsEMC4wMGQCKw8WAh8CAgUWCgIBD2QWBAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzMxMS5naWZkZAICDxUCBuenkeaKgAUzMy40MmQCAg9kFgQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8yMDYuZ2lmZGQCAg8VAg3lgaXlurforbfnkIYgBTI2LjIwZAIDD2QWBAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzEwMi5naWZkZAICDxUCECDlkajmnJ/mgKfmtojosrsFMTguMzlkAgQPZBYEAgEPDxYCHwUFHn4vY29tbW9uL2ltYWdlcy9TZWN0b3JfMjA1LmdpZmRkAgIPFQIP6Ziy5a6I5oCn5raI6LK7BDcuMTZkAgUPZBYEAgEPDxYCHwUFHn4vY29tbW9uL2ltYWdlcy9TZWN0b3JfMzEwLmdpZmRkAgIPFQIG5bel5qWtBDYuMjRkAjMPFgIfAgIFFgoCAQ9kFgZmDxUBGEZhY2Vib29rLCBJbmMuIC0gQ2xhc3MgQWQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8zMTEuZ2lmZGQCAg8VAgbnp5HmioAENS43M2QCAg9kFgZmDxUBGEFscGhhYmV0LCBJbmMuIC0gQ2xhc3MgQ2QCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8zMTEuZ2lmZGQCAg8VAgbnp5HmioAENS4xN2QCAw9kFgZmDxUBC0FwcGxlLCBJbmMuZAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzMxMS5naWZkZAICDxUCBuenkeaKgAQ1LjExZAIED2QWBmYPFQEYSW50dWl0aXZlIFN1cmdpY2FsLCBJbmMuZAIBDw8WAh8FBR5+L2NvbW1vbi9pbWFnZXMvU2VjdG9yXzIwNi5naWZkZAICDxUCDeWBpeW6t+itt+eQhiAENC43NGQCBQ9kFgZmDxUBDEJpb2dlbiwgSW5jLmQCAQ8PFgIfBQUefi9jb21tb24vaW1hZ2VzL1NlY3Rvcl8yMDYuZ2lmZGQCAg8VAg3lgaXlurforbfnkIYgBDQuNDJkAgIPDxYCHwNoZGQCBw9kFgJmDxYCHwQF4wM8c2NyaXB0IGxhbmd1YWdlPWphdmFzY3JpcHQ+DQo8IS0tICAgICANCiAgICAgIGFkc2VydmVyID0gImh0dHA6Ly9tc21lZGlhLm1vcm5pbmdzdGFyLmNvbS9tc3Rhci9qc2VydmVyIjsNCiAgICAgIHRhcmdldCA9ICIvU2l0ZT1tcy5oay9BcmVhPXNuYXBzaG90LmZ1bmRzLnJlcG9ydC9TaXplPTE2MHg2MDAsMzAweDYwMC9wb3M9cmlnaHQvY291bnRyeT1oay9sYW5ndWFnZT16aC1oay9wbGF0Zm9ybT13ZWIvRnVuZENhdD1FVUNBMDAwNTI3L3JhbmRvbT0iICsgdmlld2lkMSArICIvdmlld2lkPSIgKyB2aWV3aWQxOw0KICAgICANCiAgICAgIGRvY3VtZW50LndyaXRlKCc8c2NyJyk7DQogICAgICBkb2N1bWVudC53cml0ZSgnaXB0IHNyYz0iJyArIGFkc2VydmVyICsgIHRhcmdldCArICciPicpOw0KICAgICAgZG9jdW1lbnQud3JpdGUoJzwvc2NyJyk7DQogICAgICBkb2N1bWVudC53cml0ZSgnaXB0PicpOw0KDQogICAgIC8vLS0+DQo8L3NjcmlwdD5kAgcPZBYCZg8WAh8EBdsDPHNjcmlwdCBsYW5ndWFnZT1qYXZhc2NyaXB0Pg0KPCEtLSAgICAgDQogICAgICBhZHNlcnZlciA9ICJodHRwOi8vbXNtZWRpYS5tb3JuaW5nc3Rhci5jb20vbXN0YXIvanNlcnZlciI7DQogICAgICB0YXJnZXQgPSAiL1NpdGU9bXMuaGsvQXJlYT1zbmFwc2hvdC5mdW5kcy5yZXBvcnQvU2l6ZT03Mjh4OTAvcG9zPWJvdHRvbS9jb3VudHJ5PWhrL2xhbmd1YWdlPXpoLWhrL3BsYXRmb3JtPXdlYi9GdW5kQ2F0PUVVQ0EwMDA1MjcvcmFuZG9tPSIgKyB2aWV3aWQxICsgIi92aWV3aWQ9IiArIHZpZXdpZDE7DQogICAgIA0KICAgICAgZG9jdW1lbnQud3JpdGUoJzxzY3InKTsNCiAgICAgIGRvY3VtZW50LndyaXRlKCdpcHQgc3JjPSInICsgYWRzZXJ2ZXIgKyAgdGFyZ2V0ICsgJyI+Jyk7DQogICAgICBkb2N1bWVudC53cml0ZSgnPC9zY3InKTsNCiAgICAgIGRvY3VtZW50LndyaXRlKCdpcHQ+Jyk7DQoNCiAgICAgLy8tLT4NCjwvc2NyaXB0PmQCCQ9kFgJmDxYCHwQF2wM8c2NyaXB0IGxhbmd1YWdlPWphdmFzY3JpcHQ+DQo8IS0tICAgICANCiAgICAgIGFkc2VydmVyID0gImh0dHA6Ly9tc21lZGlhLm1vcm5pbmdzdGFyLmNvbS9tc3Rhci9qc2VydmVyIjsNCiAgICAgIHRhcmdldCA9ICIvU2l0ZT1tcy5oay9BcmVhPXNuYXBzaG90LmZ1bmRzLnJlcG9ydC9TaXplPTE5NXg5MC9wb3M9Ym90dG9tL2NvdW50cnk9aGsvbGFuZ3VhZ2U9emgtaGsvcGxhdGZvcm09d2ViL0Z1bmRDYXQ9RVVDQTAwMDUyNy9yYW5kb209IiArIHZpZXdpZDIgKyAiL3ZpZXdpZD0iICsgdmlld2lkMjsNCiAgICAgDQogICAgICBkb2N1bWVudC53cml0ZSgnPHNjcicpOw0KICAgICAgZG9jdW1lbnQud3JpdGUoJ2lwdCBzcmM9IicgKyBhZHNlcnZlciArICB0YXJnZXQgKyAnIj4nKTsNCiAgICAgIGRvY3VtZW50LndyaXRlKCc8L3NjcicpOw0KICAgICAgZG9jdW1lbnQud3JpdGUoJ2lwdD4nKTsNCg0KICAgICAvLy0tPg0KPC9zY3JpcHQ+ZBgDBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAgUkY3RsMDAkY3RsMDAkUGFnZXJIZWFkZXIkYnRTZWFyY2hGdW5kBR1jdGwwMCRjdGwwMCRQYWdlckhlYWRlciRidG5HbwU6Y3RsMDAkY3RsMDAkTWFpbkNvbnRlbnQkUXVpY2tUYWtlTWFpbkNvbnRlbnQkUXVpY2tUYWtlRm9ybQ8UKwAHZGRkZGQWAAIFZAU1Y3RsMDAkY3RsMDAkTWFpbkNvbnRlbnQkUXVpY2t0YWtlaGVhZGVyJFF1aWNrVGFrZUZvcm0PFCsAB2RkZGRkFgACAWQ="/>
+        </div>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>USDCNY</TD>
-                    <TD class=table_list_body align=center>1</TD>
-                    <TD class=table_list_body align=center> 649.5100</TD>
-                    <TD class=table_list_body align=center> 644.3000</TD>
-                    <TD class=table_list_body align=center> 652.1100</TD>
-                    <TD class=table_list_body align=center> 650.8100</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+        <script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>HKDCNY</TD>
-                    <TD class=table_list_body align=center>2</TD>
-                    <TD class=table_list_body align=center> 83.6600</TD>
-                    <TD class=table_list_body align=center> 82.9900</TD>
-                    <TD class=table_list_body align=center> 84.0000</TD>
-                    <TD class=table_list_body align=center> 83.8300</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+        </script>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>EURCNY</TD>
-                    <TD class=table_list_body align=center>3</TD>
-                    <TD class=table_list_body align=center> 713.4800</TD>
-                    <TD class=table_list_body align=center> 698.4400</TD>
-                    <TD class=table_list_body align=center> 719.2100</TD>
-                    <TD class=table_list_body align=center> 716.3500</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>JPYCNY</TD>
-                    <TD class=table_list_body align=center>4</TD>
-                    <TD class=table_list_body align=center> 5.6980</TD>
-                    <TD class=table_list_body align=center> 5.5779</TD>
-                    <TD class=table_list_body align=center> 5.7438</TD>
-                    <TD class=table_list_body align=center> 5.7209</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+        <h1 style="display:none;"></h1>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>GBPCNY</TD>
-                    <TD class=table_list_body align=center>5</TD>
-                    <TD class=table_list_body align=center> 922.7200</TD>
-                    <TD class=table_list_body align=center> 903.2700</TD>
-                    <TD class=table_list_body align=center> 930.1300</TD>
-                    <TD class=table_list_body align=center> 926.4300</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+        <div id="LayerHeader">
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>CHFCNY</TD>
-                    <TD class=table_list_body align=center>6</TD>
-                    <TD class=table_list_body align=center> 652.0500</TD>
-                    <TD class=table_list_body align=center> 638.4300</TD>
-                    <TD class=table_list_body align=center> 657.5500</TD>
-                    <TD class=table_list_body align=center> 654.8000</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>SGDCNY</TD>
-                    <TD class=table_list_body align=center>7</TD>
-                    <TD class=table_list_body align=center> 471.3000</TD>
-                    <TD class=table_list_body align=center> 461.5500</TD>
-                    <TD class=table_list_body align=center> 475.4700</TD>
-                    <TD class=table_list_body align=center> 473.3900</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+            <script type="text/javascript" src="../javascripts/jquery.1.7.1.min.js"></script>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>SEKCNY</TD>
-                    <TD class=table_list_body align=center>8</TD>
-                    <TD class=table_list_body align=center> 76.4900</TD>
-                    <TD class=table_list_body align=center> 74.9100</TD>
-                    <TD class=table_list_body align=center> 77.1800</TD>
-                    <TD class=table_list_body align=center> 76.8300</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>CADCNY</TD>
-                    <TD class=table_list_body align=center>9</TD>
-                    <TD class=table_list_body align=center> 486.6300</TD>
-                    <TD class=table_list_body align=center> 476.5600</TD>
-                    <TD class=table_list_body align=center> 490.9300</TD>
-                    <TD class=table_list_body align=center> 488.7800</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+            <script type="text/javascript">
 
-                <TR class=table_list_body_odd>
-                    <TD class=table_list_body align=center>AUDCNY</TD>
-                    <TD class=table_list_body align=center>10</TD>
-                    <TD class=table_list_body align=center> 482.5600</TD>
-                    <TD class=table_list_body align=center> 471.9500</TD>
-                    <TD class=table_list_body align=center> 486.2400</TD>
-                    <TD class=table_list_body align=center> 484.4000</TD>
-                    <TD class=table_list_body align=center>2016-03-05 18:00:01</TD>
-                </TR>
+/*
+$(document).ready(function() {
+var currentURL = window.location;
 
-                </TBODY>
-            </TABLE>
-        </TD>
-    </TR>
-    <TR>
-        <TD height=3>&nbsp;</TD>
-    </TR>
-    <TR>
-        <TD class=tips>华夏银行于2007年5月14日开始实行人民币结售汇一日多价，客户办理结售汇业务请提前咨询或查询汇率。所列牌价仅供参考，以柜台实际成交价为准。</TD>
-    </TR>
-    </TBODY>
-</TABLE>
+var visitURL= currentURL.pathname.toUpperCase()+currentURL.search.toUpperCase();
+
+if (visitURL != null && visitURL!="")
+{
+if (visitURL.toUpperCase().indexOf("/AP/ARTICLES/DEFAULT.ASPX?ACTIVETAB=ETF")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ARTICLES/DEFAULT.ASPX?ACTIVETAB=ETFTIPS")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ARTICLES/DEFAULT.ASPX?ACTIVETAB=ETFEDU")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ETF/EXPLORE.ASPX")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ETF/DEFAULT.ASPX")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ETF/ETFSURVEY.ASPX")>=0 ||
+visitURL.toUpperCase().indexOf("/AP/ETF/QUICKRANK.ASPX")>=0
+)
+{
+var sMarket ="HKG";
+if (sMarket=="HKG" || sMarket=="TWN")
+{
+  var lan ="ZH-HK";
+if (lan !=null && lan !="")
+{
+    if (lan.toUpperCase()=="EN-US")
+        lan="en-GB";
+    else if (lan.toUpperCase()=="ZH-HK" || lan.toUpperCase()=="ZH-TW"  )
+        lan="ZH-HK";
+
+var footer = document.getElementById("Adfooter");
+var BannerLeft = document.getElementById("idAdBannerLeft");
+var AdButton = document.getElementById("AdButton");
+var AdSky = document.getElementById("AdSky");
+var admiddleCenter = document.getElementById("admiddleCenter");
+
+if (footer != null)
+    footer.innerHTML=footer.innerHTML.replace(/key1/g, lan);
+if (BannerLeft != null)
+    BannerLeft.innerHTML=BannerLeft.innerHTML.replace(/key1/g, lan);
+if (AdButton != null)
+    AdButton.innerHTML=AdButton.innerHTML.replace(/key1/g, lan);
+if (AdSky != null)
+    AdSky.innerHTML=AdSky.innerHTML.replace(/key1/g, lan);
+if (admiddleCenter != null)
+    admiddleCenter.innerHTML=admiddleCenter.innerHTML.replace(/key1/g, lan);
+
+}
+
+}
+}
+}
+
+           });
+*/
+  function SubmitKeyClick(button, eventTag)
+    {
+        var event = eventTag||window.event;
+        var currentKey = event.charCode||event.keyCode;
+
+        if (currentKey == 13)
+        {
+            if (window.event)
+                event.returnValue = false;
+            else
+                event.preventDefault();
+
+            document.getElementById(button).click();
+        }
+    }
+
+    function SelectCompany()
+    {
+        var company = $('#PagerHeader_lbCompany').val();
+        $('#PagerHeader_hfCompany').val(company);
+    }
+
+    function RecursiveOffsetTop(thisObject,isFirst) {
+		if(thisObject.offsetParent) {
+			if ( thisObject.style.position == "absolute" && !isFirst && typeof(document.designMode) != "undefined" ) {
+				return 0;
+			}
+			return (thisObject.offsetTop + RecursiveOffsetTop(thisObject.offsetParent,false));
+		} else {
+			return thisObject.offsetTop;
+		}
+	}
+    function RecursiveOffsetLeft(thisObject,isFirst) {
+		if(thisObject.offsetParent) {
+			if ( thisObject.style.position == "absolute" && !isFirst && typeof(document.designMode) != "undefined" ) {
+				return 0;
+			}
+			return (thisObject.offsetLeft + RecursiveOffsetLeft(thisObject.offsetParent,false));
+		} else {
+			return thisObject.offsetLeft;
+		}
+	}
+
+    function getInternetExplorerVersion()
+// Returns the version of Windows Internet Explorer or a -1
+// (indicating the use of another browser).
+{
+   var rv = -1; // Return value assumes failure.
+   if (navigator.appName == 'Microsoft Internet Explorer')
+   {
+      var ua = navigator.userAgent;
+      var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+      if (re.exec(ua) != null)
+         rv = parseFloat( RegExp.$1 );
+   }
+   return rv;
+}
+    function ToolsMenu_SetVisibility(isVisible) {
+        var theList = ToolsMenuPanel;
+        var ver = getInternetExplorerVersion();
+        var isIE = ( typeof( theList.dataSrc ) != "undefined" && ver <10); // dataSrc is an IE-only property which is unlikely to be supported elsewhere
+
+        if (ToolsMenuPanel != null)
+        {
+            theList.style.width = ( ToolsMenuButton.offsetWidth ) + "px";
+            theList.style.top = ( ToolsMenuButton.offsetHeight + RecursiveOffsetTop(ToolsMenuButton,true) ) + "px";
+          // alert( RecursiveOffsetLeft(ToolsMenuButton,true)  ) ;
+
+       if (!isIE ) {
+            theList.style.left = (RecursiveOffsetLeft(ToolsMenuButton,true) +1) + "px";
+           }
+           else
+           {
+                       theList.style.left = (ToolsMenuButton.offsetLeft+21)+ "px";
+           }
+            theList.style.position = "absolute";
+            theList.style.zIndex = 9999;
+        }
+
+
+			if ( isVisible ) {
+				theList.style.display = "block";
+			} else {
+				theList.style.display = "none";
+			}
+//		if ( isIE ) {
+//			if ( isVisible ) {
+//				theList.style.visibility = "visible";
+//			} else {
+//				theList.style.visibility = "hidden";
+//			}
+//		} else {
+//			if ( isVisible ) {
+//				theList.style.display = "block";
+//			} else {
+//				theList.style.display = "none";
+//			}
+//		}
+    }
+
+    function ToolsMenu1_SetVisibility(isVisible) {
+        var theList = ToolsMenuPanel1;
+
+        if (ToolsMenuPanel1 != null)
+        {
+            theList.style.width = ( ToolsMenuButton1.offsetWidth ) + "px";
+            theList.style.top = ( ToolsMenuButton1.offsetHeight + RecursiveOffsetTop(ToolsMenuButton1,true) ) + "px";
+            theList.style.left = (RecursiveOffsetLeft(ToolsMenuButton1,true) ) + "px";
+            theList.style.position = "absolute";
+            theList.style.zIndex = 9999;
+        }
+
+		var isIE = ( typeof( theList.dataSrc ) != "undefined" ); // dataSrc is an IE-only property which is unlikely to be supported elsewhere
+			if ( isVisible ) {
+				theList.style.display = "block";
+			} else {
+				theList.style.display = "none";
+			}
+
+    }
+
+            </script>
+            <script src="https://www.google-analytics.com/urchin.js" type="text/javascript">
+            </script>
+
+            <script type="text/javascript">
+
+try {
+
+pathArray = window.location.host.split(".");
+
+//alert(pathArray[1])
+
+
+
+if(pathArray[0] == "hk" || pathArray[1] == "hk")
+      _uacct = "UA-184317-14";
+else if(pathArray[0] == "tw"  || pathArray[1] == "tw")
+
+      _uacct = "UA-184317-15";
+
+else if(pathArray[0] == "sg"  || pathArray[1] == "sg")
+
+      _uacct = "UA-184317-17";
+
+else if (pathArray[0] == "oap"  || pathArray[1] == "oap")
+
+      _uacct = "UA-7294738-24";
+else
+
+      _uacct = "UA-184317-18";
+
+
+
+urchinTracker();
+
+
+
+} catch(err) {}
+
+
+
+
+            </script>
+
+            <div class="ms_body">
+
+                <div class="ms_header_bar">
+                </div>
+
+                <div>
+                    <div style="float:left;">
+                        <a href="/" target="_self"><img src="/ap/common/images/mslogo.jpg" border="0px"/></a>
+
+
+                    </div>
+
+
+                    <div id="LoginPanel">
+
+                        <ul>
+                            <li>
+                                <span id="PagerHeader_WelcomeUser" class="NoLinks last"></span></li>
+                            <li class="first">
+                                <span id="PagerHeader_DateLabel" class="NoLinks last"><span>2016年03月13日</span></span>
+                            </li>
+                            <li><a id="PagerHeader_SignUpLabel" class="registrationLinks"
+                                   href="/ap/membership/LoginRevamp.aspx"><span>註冊</span></a></li>
+                            <li>
+                                <a id="PagerHeader_LoginLabel" class="registrationLinks"
+                                   href="/ap/portfoliomanager/LoginRevamp.aspx"><span>登錄</span></a>
+                            </li>
+                            <li><a id="PagerHeader_SiteLink" class="registrationLinks"
+                                   href="http://corporate.morningstar.com/as" target="_blank"><span>公司資料</span></a></li>
+                            <li><a id="PagerHeader_contactLink" class="registrationLinks"
+                                   href="../../HKG/AboutUs/AboutUsCover.asp?CLang=CH" target="_blank"><span>聯絡我們</span></a>
+                            </li>
+                            <li><a id="PagerHeader_lbLang" class="registrationLinks "
+                                   href="javascript:__doPostBack(&#39;ctl00$ctl00$PagerHeader$lbLang&#39;,&#39;&#39;)"><span>English</span></a>
+                            </li>
+
+                        </ul>
+                        <input type="hidden" id="TxtUrlToRedirect" name="TxtUrlToRedirect">
+
+                    </div>
+                </div>
+
+
+                <div class="ms_space_row"></div>
+
+                <div class="ms_header_ad" style="height: 110px">
+
+                    <div class="ms_banner_ad_left">
+
+                        <div id="idAdBannerLeft"
+                             onmouseover="DivOverlay_SetVisibility(true,'idAdBannerLeft','idAdBannerLeftMask')"
+                             onmouseout="DivOverlay_SetVisibility(false,'idAdBannerLeft','idAdBannerLeftMask')">
+                            <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=728x90/pos=top/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid1 + "/viewid=" + viewid1;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="ms_banner_ad_right">
+                        <div id="idAdBannerRight"
+                             onmouseover="DivOverlay_SetVisibility(true,'idAdBannerRight','idAdBannerRightMask')"
+                             onmouseout="DivOverlay_SetVisibility(false,'idAdBannerRight','idAdBannerRightMask')">
+                            <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=195x90/pos=top/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid2 + "/viewid=" + viewid2;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                            </script>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="ms_space_row" style="height:10px"></div>
+
+                <div>
+                    <div class="ms_header_toolbar">
+                        <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="this.style.backgroundColor='#DBDBDB';"
+                             onclick="javascript:location='/ap/main/default.aspx';">
+                            <div>&nbsp;主頁</div>
+                        </div>
+                        <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="this.style.backgroundColor='#DBDBDB';"
+                             onclick="javascript:location='/ap/portfoliomanager/LoginRevamp.aspx';">
+                            <div>&nbsp;投資組合</div>
+                        </div>
+                        <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="this.style.backgroundColor='#DBDBDB';"
+                             onclick="javascript:location='/ap/fund/default.aspx';">
+                            <div>&nbsp;基金/市場動向</div>
+                        </div>
+                        <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="this.style.backgroundColor='#DBDBDB';"
+                             onclick="javascript:location='/ap/etf/default.aspx';">
+                            <div>&nbsp;ETF</div>
+                        </div>
+                        <div class='ms_header_tab_inactive' id='mpfDiv'
+                             onmouseover="this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="this.style.backgroundColor='#DBDBDB';"
+                             onclick="javascript:location='/ap/mpf/default.aspx';">
+                            <div>&nbsp;強積金/生活理財</div>
+                        </div>
+                        <div class='ms_header_tab_inactive' id='ToolsMenuButton'
+                             onmouseover="ToolsMenu_SetVisibility(true); this.style.backgroundColor='#E7EFFF';"
+                             onmouseout="ToolsMenu_SetVisibility(false); this.style.backgroundColor='#DBDBDB';">
+                            <div>&nbsp;基金工具</div>
+                        </div>
+                    </div>
+                    <div id="PagerHeader_searchdiv" class="ms_header_searchbar" style="background-color: #FDFDFD;">
+                        <div id="PagerHeader_searchtoolbar">
+
+                            <div style="padding-left:10px;padding-top:8px;float:left">
+                                <span id="PagerHeader_QuotesLabel">ISIN/基金名稱:</span>
+                            </div>
+                            <div style="padding-left:2px;padding-top:2px;float:left">
+                                <input name="ctl00$ctl00$PagerHeader$txtSearchFundname" type="text"
+                                       id="PagerHeader_txtSearchFundname"
+                                       onkeydown="SubmitKeyClick(&#39;PagerHeader_btSearchFund&#39;, event)"/>
+                            </div>
+                            <div style="padding-left:8px;padding-top:3px;float:left">
+
+                                <input type="image" name="ctl00$ctl00$PagerHeader$btSearchFund"
+                                       id="PagerHeader_btSearchFund" src="../common/images/Arrow.gif"/>
+                            </div>
+
+                            <div style="padding-left:10px;padding-top:8px;float:left">
+
+                                <span id="PagerHeader_LabelCompany">本地代理/分銷商</span>
+                            </div>
+                            <div style="padding-left:2px;padding-top:2px;float:left">
+                                <select name="ctl00$ctl00$PagerHeader$lbCompany" id="PagerHeader_lbCompany">
+                                    <option value=""></option>
+                                    <option value="0C00008VT7">Alquity Investment Management Limited</option>
+                                    <option value="0C00001MPA">Davis Funds SICAV</option>
+                                    <option value="0C00001OCZ">HSBC Institutional Trust Services (Asia)</option>
+                                    <option value="0C00001OGN">ICBC Credit Suisse Asset Mgmt Co.,Ltd</option>
+                                    <option value="0C000090IN">Momentum Global Investment Mgmt Ltd</option>
+                                    <option value="0C00002JSP">New Capital Fund Management Ltd</option>
+                                    <option value="0C0000B0LF">Old Mutual Global Investors (Asia Pacifi</option>
+                                    <option value="0C00001Q8Y">Old Mutual Hong Kong</option>
+                                    <option value="0C00001V2U">PIMCO Asia Limited</option>
+                                    <option value="0C00001QXL">RCM Asia Pacific Limited</option>
+                                    <option value="0C0000A3Y7">Taiping Assets Management (HK) Co Ltd</option>
+                                    <option value="0C000091U9">Wells Fargo Securities Asia Limited</option>
+                                    <option value="0C0000AJD9">上投摩根資產管理(香港)有限公司</option>
+                                    <option value="0C00006EIW">中信証券國際投資管理(香港)有限公司</option>
+                                    <option value="0C00009F5Z">中國國際金融香港資產管理有限公司</option>
+                                    <option value="0C000068ML">中國平安資產管理(香港)有限公司</option>
+                                    <option value="0C00001LMS">中銀國際英國保誠資產管理有限公司</option>
+                                    <option value="0C00009DJ7">中銀香港資產管理有限公司</option>
+                                    <option value="0C00008Q2O">交銀國際資產管理有限公司</option>
+                                    <option value="0C00009EG4">亨德森全球投資(香港)有限公司</option>
+                                    <option value="0C00003392">亨茂資產管理有限公司</option>
+                                    <option value="0C0000AYGH">以立投資管理有限公司</option>
+                                    <option value="0C0000AUFJ">信安投資及退休金服務有限公司</option>
+                                    <option value="0C00001TIO">信安環球投資(亞洲)有限公司</option>
+                                    <option value="0C00009UP4">僑豐資產管理有限公司</option>
+                                    <option value="0C0000AP7Q">加皇信託香港有限公司</option>
+                                    <option value="0C00009CWT">匯添富資產管理(香港)有限公司</option>
+                                    <option value="0C00001OCK">匯豐環球投資管理(香港)有限公司</option>
+                                    <option value="0C000098UT">南方東英資產管理有限公司</option>
+                                    <option value="0C00008R21">博時基金(國際)有限公司</option>
+                                    <option value="0C00009F5J">博茂(香港)有限公司</option>
+                                    <option value="0C00001LX1">卡拉莫斯全球基金公司</option>
+                                    <option value="0C00004HOO">嘉實國際資產管理有限公司</option>
+                                    <option value="0C00009CLL">國信證券(香港)資產管理有限公司</option>
+                                    <option value="0C00003GLK">國泰君安資產管理(亞洲)有限公司</option>
+                                    <option value="0C000093PP">大成國際資產管理有限公司</option>
+                                    <option value="0C00009BCB">天利投資管理香港有限公司</option>
+                                    <option value="0C0000245K">天達資產管理亞洲有限公司</option>
+                                    <option value="0C0000AX5K">天達資產管理香港有限公司</option>
+                                    <option value="0C000023VA">安信投資管理 (香港) 有限公司</option>
+                                    <option value="0C00009CZB">安信資產管理(香港)有限公司</option>
+                                    <option value="0C00001KAX">安本國際基金管理有限公司</option>
+                                    <option value="0C00008UBA">安盛投資管理亞洲有限公司</option>
+                                    <option value="0C00001KKT">安聯環球投資亞太有限公司</option>
+                                    <option value="0C00001PHH">宏利資產管理(香港)有限公司</option>
+                                    <option value="0C00001NO9">富蘭克林鄧普頓投資(亞洲)有限公司</option>
+                                    <option value="0C00001NF3">富達基金(香港)有限公司</option>
+                                    <option value="0C00009AIZ">富達基金(香港)有限公司</option>
+                                    <option value="0C000048Y9">工銀亞洲投資管理有限公司</option>
+                                    <option value="0C0000AAMA">工銀瑞信資產管理(國際)有限公司</option>
+                                    <option value="0C0000AJNH">廣發國際資產管理有限公司</option>
+                                    <option value="0C000051AQ">廣發資產管理(香港)有限公司</option>
+                                    <option value="0C00001URJ">建銀國際資產管理有限公司</option>
+                                    <option value="0C00001MTE">德意志資產管理(香港)有限公司</option>
+                                    <option value="0C00001O57">恒生投資管理有限公司</option>
+                                    <option value="0C00001TBH">惠理基金管理香港有限公司</option>
+                                    <option value="0C000095B1">招商證券資產管理(香港)有限公司</option>
+                                    <option value="0C000091ZA">摩根基金(亞洲)有限公司</option>
+                                    <option value="0C000023N9">摩根士丹利添惠有限公司</option>
+                                    <option value="0C00006C50">摩根資產管理</option>
+                                    <option value="0C00001T08">施羅德投資管理(香港)有限公司</option>
+                                    <option value="0C00001MQ1">日興資產管理香港有限公司</option>
+                                    <option value="0C0000914O">易方達資產管理 (香港) 有限公司</option>
+                                    <option value="0C00001OO1">景順投資管理亞洲有限公司</option>
+                                    <option value="0C00001OOI">景順投資管理有限公司</option>
+                                    <option value="0C00001OX3">木星資產管理有限公司</option>
+                                    <option value="0C00006HDE">未來資產環球投資（香港）有限公司</option>
+                                    <option value="0C00001UBT">東亞聯豐投資管理有限公司</option>
+                                    <option value="0C00001SY9">東方匯理資產管理香港有限公司</option>
+                                    <option value="0C00004IE0">柏瑞投資香港有限公司</option>
+                                    <option value="0C000097NS">法儲銀資產管理全球聯合公司</option>
+                                    <option value="0C00006ETY">法國巴黎投資管理亞洲有限公司</option>
+                                    <option value="0C0000AOAM">泰康資產管理 (香港) 有限公司</option>
+                                    <option value="0C00009DQB">海富通資產管理（香港）有限公司</option>
+                                    <option value="0C00006IE5">海通資產管理(香港)有限公司</option>
+                                    <option value="0C00001T0R">滙豐投資基金（香港）有限公司</option>
+                                    <option value="0C00008JFC">瀚亞投資(香港)有限公司</option>
+                                    <option value="0C00008JU0">瑞銀環球資產管理</option>
+                                    <option value="0C00008JPQ">瑞銀環球資產管理(香港)有限公司</option>
+                                    <option value="0C000092GH">環球投資 (香港) 有限公司</option>
+                                    <option value="0C00003JBN">申銀萬國投資管理(亞洲)有限公司</option>
+                                    <option value="0C00009MH9">百達資產管理(香港)有限公司</option>
+                                    <option value="0C00009EG3">紐銀梅隆資產管理香港有限公司</option>
+                                    <option value="0C00001UB2">美盛資產管理香港有限公司</option>
+                                    <option value="0C00002DTH">美盛資產管理香港有限公司</option>
+                                    <option value="0C00002YFD">聯博香港有限公司</option>
+                                    <option value="0C00001NCT">聯邦國際基金公眾有限公司</option>
+                                    <option value="0C00009EG5">麻省金融服務國際(香港)有限公司</option>
+                                    <option value="0C000049YI">花旗集團基金管理有限公司</option>
+                                    <option value="0C0000216E">英仕曼投資(香港)有限公司</option>
+                                    <option value="0C00001R28">荷寶香港</option>
+                                    <option value="0C00006J6D">華夏基金(香港)有限公司</option>
+                                    <option value="0C0000993A">華安資產管理(香港)有限公司</option>
+                                    <option value="0C00004BDM">行健資產管理有限公司</option>
+                                    <option value="0C00001OIM">豐收投資管理(香港)有限公司</option>
+                                    <option value="0C00008JUM">貝萊德資產管理北亞有限公司</option>
+                                    <option value="0C0000A662">路博邁亞洲有限公司</option>
+                                    <option value="0C00009MHV">銘基環球投資(香港)有限公司</option>
+                                    <option value="0C00001CVH">霸菱資產管理(亞洲)有限公司</option>
+                                    <option value="0C00001PEE">領先資產管理</option>
+                                    <option value="0C00002I6X">首域投資(香港)有限公司</option>
+                                    <option value="0C00009E3M">駿利資產管理亞洲有限公司</option>
+                                    <option value="0C000036CZ">麥格理基金管理(香港)有限公司</option>
+
+                                </select>
+                            </div>
+                            <div style="padding-left:8px;padding-top:3px;float:left">
+                                <input type="image" name="ctl00$ctl00$PagerHeader$btnGo" id="PagerHeader_btnGo"
+                                       src="../common/images/Arrow.gif" onclick="SelectCompany();"/>
+                            </div>
+
+                        </div>
+                        <div style="padding-left:10px;padding-top:8px;float:left">
+
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="ctl00$ctl00$PagerHeader$hfCompany" id="PagerHeader_hfCompany"/>
+
+                <div id="ToolsMenuPanel" onmouseover="ToolsMenu_SetVisibility(true)"
+                     onmouseout="ToolsMenu_SetVisibility(false)">
+                    <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                         onmouseout="this.style.backgroundColor='#DBDBDB';"
+                         onclick="javascript:location='/ap/fundselect/default.aspx';">
+                        <div>&nbsp;基金篩選器</div>
+                    </div>
+                    <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                         onmouseout="this.style.backgroundColor='#DBDBDB';"
+                         onclick="javascript:location='/ap/quickrank/default.aspx';">
+                        <div>&nbsp;基金檢閱</div>
+                    </div>
+                    <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                         onmouseout="this.style.backgroundColor='#DBDBDB';"
+                         onclick="javascript:location='/ap/CategoryReturns/CategoryReturns.aspx';">
+                        <div>&nbsp;組別排行榜</div>
+                    </div>
+                    <div class='ms_header_tab_inactive' onmouseover="this.style.backgroundColor='#E7EFFF';"
+                         onmouseout="this.style.backgroundColor='#DBDBDB';"
+                         onclick="javascript:location='/ap/fundgroup/FundGroup.aspx';">
+                        <div>&nbsp;保證基金</div>
+                    </div>
+                    <div style='line-height:1px;height:1px;border-top:solid 1px gray;'></div>
+                    <iframe src="javascript:false"
+                            style="display:none;position:absolute; visibility:inherit; top:0px; left:0px; width:125px; height:80px; z-index:-1;filter='progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)'; "></iframe>
+                </div>
+
+                <div id="ToolsMenuPanel1" onmouseover="ToolsMenu1_SetVisibility(true)"
+                     onmouseout="ToolsMenu1_SetVisibility(false)">
+
+                    <iframe src="javascript:false"
+                            style="display:none;position:absolute; visibility:inherit; top:0px; left:0px; width:125px; height:20px; z-index:-1;filter='progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)'; "></iframe>
+
+                </div>
+
+                <script type="text/javascript">
+
+        ToolsMenuPanel.style.display = "none";
+
+        ToolsMenuPanel1.style.display="none";
+
+
+                </script>
+
+                <div class="ms_space_row" style="height:10px">&nbsp;</div>
+
+                <div id="idAdBannerLeftMask"
+                     onmouseover="DivOverlay_SetVisibility(true,'idAdBannerLeft','idAdBannerLeftMask')"
+                     onmouseout="DivOverlay_SetVisibility(false,'idAdBannerLeft','idAdBannerLeftMask')"
+                     style="display: none;">
+
+                </div>
+                <div id="idAdBannerRightMask"
+                     onmouseover="DivOverlay_SetVisibility(true,'idAdBannerRight','idAdBannerRightMask')"
+                     onmouseout="DivOverlay_SetVisibility(false,'idAdBannerRight','idAdBannerRightMask')"
+                     style="display: none;">
+
+                </div>
+            </div>
+
+            <script type="text/javascript">
+//Award Banner showing logic
+/*
+var sMarket ="HKG";
+
+
+if ((sMarket !="" && sMarket=="HKG") || sMarket=="SGP" )
+{
+AwardBanner.style.display="block";
+}
+else
+{
+AwardBanner.style.display="none";
+}
+*/
+
+            </script>
+        </div>
+        <div id="LayerMainContent" class="bodywrap2" style="">
+
+            <div>
+                <div class="quicktake_left">
+
+
+                    <div>
+                        <div class='quicktake_tab_active'><span class='ms_bold'>摘要</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='NAVChart.aspx?PerformanceId=0P000019ZZ&activetab=NAVChart';">
+                            <span>圖表</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='returns.aspx?PerformanceId=0P000019ZZ&activetab=TotalReturn';">
+                            <span>總回報率</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='portfolio.aspx?PerformanceId=0P000019ZZ&activetab=Portfolio';">
+                            <span>投資組合</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='risk.aspx?PerformanceId=0P000019ZZ&activetab=MorningstarRisk';">
+                            <span>風險評估</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='management.aspx?PerformanceId=0P000019ZZ&activetab=Management';">
+                            <span>基金管理</span></div>
+                        <div class='quicktake_tab_inactive'
+                             onclick="javascript:location='PurchaseInfo.aspx?PerformanceId=0P000019ZZ&activetab=PurchaseInfo';">
+                            <span>費用</span></div>
+                        <a style="cursor:pointer;"
+                           onclick='javascript:popHelp("../FundTools/help/glossary.aspx?tab=&ismpf=0")'><img
+                                src="../Localization/Public/HK/images/glossary.gif"/></a>
+                    </div>
+                    <div class="ms_space_row" style="height:45px"></div>
+                </div>
+
+                <div class="quicktake_right">
+
+                    <table class="ms_table" cellspacing="0" id="MainContent_Quicktakeheader_QuickTakeForm"
+                           style="border-collapse:collapse;">
+                        <tr>
+                            <td colspan="2">
+
+                                <style type="text/css">
+                                    .ratingleft_col
+                                    {
+                                    width:320px;
+                                    float:left;
+                                    padding:0px 0px 0px 0px;
+                                    margin-right:10px;
+                                    }
+
+                                    .ratingright_col
+                                    {
+                                    width:240px;
+                                    float:left;
+                                    padding:0px 0px 0px 0px;
+                                    text-align:right;
+                                    }
+                                </style>
+
+                                <div>
+                                    <div>
+
+                                        <span id="MainContent_Quicktakeheader_QuickTakeForm_FundNameLabel"
+                                              class="quicktake_fundname">AB FCP I American Growth Portfolio I</span>
+
+                                    </div>
+
+
+                                    <div class="ms_space_row" style="height:10px"></div>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <div id="LayOut_MainContent">
+
+
+                        <table cellspacing="0" id="MainContent_QuickTakeMainContent_QuickTakeForm"
+                               style="border-collapse:collapse;">
+                            <tr>
+                                <td colspan="2">
+
+
+                                    <style type="text/css">
+                                        .adTitleBarHeading
+                                        { PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 10px;
+                                        PADDING-BOTTOM: 2px; COLOR: #000000; LINE-HEIGHT: normal; PADDING-TOP: 1px;
+                                        HEIGHT: 12px; BACKGROUND-COLOR: #ececec; TEXT-ALIGN: left}
+
+                                        .keystats_col1
+                                        {
+                                        width:150px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        margin-right:5px;
+                                        }
+
+                                        .keystats_col2
+                                        {
+                                        width:120px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .stock_sector_col1
+                                        {
+                                        width:40px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .stock_sector_col2
+                                        {
+                                        width:120px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .stock_sector_col3
+                                        {
+                                        width:100px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        }
+
+                                        .asset_allocation_col1
+                                        {
+                                        width:75px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .asset_allocation_col2
+                                        {
+                                        width:60px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        }
+                                        .asset_allocation_col3
+                                        {
+                                        width:80px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        }
+
+                                        .regionbreakdown_col1
+                                        {
+                                        width:175px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        height:19px;
+                                        }
+
+                                        .regionbreakdown_col2
+                                        {
+                                        width:100px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        height:19px;
+                                        }
+                                        .top_holding_col1
+                                        {
+                                        width:290px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .top_holding_col2
+                                        {
+                                        width:175px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .top_holding_col3
+                                        {
+                                        width:100px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        }
+
+                                        .trailing_returns_col0
+                                        {
+                                        width:185px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .trailing_returns_col1
+                                        {
+                                        width:85px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        text-align:right;
+                                        }
+
+                                        .calendar_returns_col0
+                                        {
+                                        width:55px;
+                                        float:left;
+                                        padding:0px 0px 0px 0px;
+                                        }
+
+                                        .calendar_returns_col1
+                                        {
+                                        width:52px;
+                                        float:left;
+                                        padding:0px 8px 0px 0px;
+                                        text-align:right;
+                                        margin-right:2px;
+                                        }
+                                        .textAlign
+                                        {
+                                        text-align:justify;
+                                        }
+                                        .ms_table ul li{
+
+                                        height:auto;
+                                        /*
+                                        float:left;
+                                        text-align:left;
+
+                                        */
+                                        }
+                                        #idAdMiddleCenter div{text-align:center;}
+                                    </style>
+
+                                    <div style="width:565px;">
+                                        <div style="width:275px;float:left;margin-right:15px;">
+                                            <div class="quicktake_bar_half">
+                                                <div class="quicktake_bar_title">
+                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_PerformanceHistoryLabel">基金表現</span>
+                                                </div>
+                                                <div class="quicktake_bar_date">2016-02-29</div>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="fontsmall" style=" font-weight:bold;">
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Growth10kLabel"
+                                                      class="fontsmall">$10,000 之升幅</span> (<span
+                                                    id="MainContent_QuickTakeMainContent_QuickTakeForm_CurrencyGrowthLabel"
+                                                    class="fontsmall">美元</span>)
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div>
+                                                <img id="MainContent_QuickTakeMainContent_QuickTakeForm_PerformanceImage"
+                                                     src="http://hk.morningstar.com/ChartCenter/CNWebGrowth10kLineChart.aspx?p_SecId=F0GBR05XJA&amp;p_CurrencyId=CU$$$$$USD&amp;p_TargetCurrencyId=CU$$$$$USD&amp;p_startDate=&amp;p_endDate=2016-03-11&amp;p_CategoryId=EUCA000527&amp;p_TargetRegionId=2&amp;p_PeerGroupId=1&amp;p_IndexId=XIUSA000KO&amp;p_Width=270&amp;p_Height=&amp;p_ImageType=HKG10kOV&amp;p_Period=4YY"/>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+
+                                            <div class="ms_table">
+
+                                                <ul>
+                                                    <li class="calendar_returns_col0"><span class="fontsmall"><img
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_PerformanceHistoryRepeater_ReturnImage_0"
+                                                            src="../common/images/red_dot.gif"/> 基金 </span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">36.82</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">13.73</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">10.50</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">-6.80</span></li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="calendar_returns_col0"><span class="fontsmall"><img
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_PerformanceHistoryRepeater_ReturnImage_1"
+                                                            src="../common/images/orange_dot.gif"/> +/- 組別 </span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">3.79</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">4.00</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">7.76</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">1.48</span></li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="calendar_returns_col0"><span class="fontsmall"><img
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_PerformanceHistoryRepeater_ReturnImage_2"
+                                                            src="../common/images/green_dot.gif"/> +/- 指數 </span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">3.33</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">0.68</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">4.84</span></li>
+                                                    <li class="calendar_returns_col1"><span
+                                                            class="fontsmall">-1.18</span></li>
+                                                </ul>
+
+                                            </div>
+
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div class="ms_table"></div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div class="quicktake_line_gray" style="width:275px"></div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_MorningstarCategoryLabel">基金組別:</span>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_MorningstarCategoryText">美國大型增長型股票</span>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_MorningstarIndexLabel">指數:</span>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_MorningstarIndexText">Russell 1000 Growth TR USD</span>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div class="quicktake_line_gray" style="width:275px"></div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="trailing_returns_col0"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_TrailingReturnsLabel"
+                                                            class="ms_bold">過往收益</span><span>(%)</span></li>
+                                                    <li class="trailing_returns_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbEffectDatem">2016-03-11</span>
+                                                    </li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="trailing_returns_col0">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbReturnYTD">本年迄今</span>
+                                                    </li>
+
+                                                    <li class="trailing_returns_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_ReturnYTD">-4.09</span>
+                                                    </li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="trailing_returns_col0">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbReturn1Year">一年</span>
+                                                    </li>
+
+                                                    <li class="trailing_returns_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Return1Year">1.82</span>
+                                                    </li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="trailing_returns_col0">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbReturn3year">三年收益率(年度化)</span>
+                                                    </li>
+
+                                                    <li class="trailing_returns_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Return3Year">14.65</span>
+                                                    </li>
+
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="trailing_returns_col0">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbReturn5Year">五年收益率(年度化)</span>
+                                                    </li>
+                                                    <li class="trailing_returns_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Return5Year">11.08</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:10px"></div>
+
+                                            <div class="quicktake_bar_half">
+                                                <div class="quicktake_bar_title">
+                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Benchmaks">基準指數</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbBenchmark_fund"
+                                                      class="ms_bold">基金指數</span>
+                                            </div>
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Benchmark_fund">Russell 1000 Growth TR USD</span>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbBendchmark_cate"
+                                                      class="ms_bold">Morningstar 基準指數</span>
+                                            </div>
+                                            <div>
+                                                <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Benchmark_cate">Russell 1000 Growth TR USD</span>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+                                        </div>
+
+                                        <div style="width:275px;float:left">
+
+                                            <div class="quicktake_bar_half">
+                                                <div class="quicktake_bar_title">
+                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_KeyStatsLabel">基本資料快遞</span>
+                                                </div>
+                                            </div>
+
+
+                                            <!--update by Ben 2013-10-10-->
+                                            <div class="ms_space_row" style="height:5px;display:none;"></div>
+
+                                            <div class="ms_table" style="display:none;">
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbMSQRating"
+                                                            class="ms_bold">Morningstar基金研究評級</span></li>
+                                                    <li class="keystats_col2">
+                                                        <div style="float: left;"></div>
+                                                        <div style="float:left;">-</div>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1">
+
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_lbMSCategory"
+                                                              class="ms_bold">基金組別</span></li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbMSRating"
+                                                            class="ms_bold">星號評級</span><br/><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_RatingDateLabel"
+                                                            class="ms_bold">(2016-02-29)</span></li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_MSCategoryText">美國大型增長型股票</span>
+                                                    </li>
+                                                    <li class="keystats_col2"><img
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_RatingImage"
+                                                            src="../Localization/Public/HK/images/stars5.gif"/></li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div id="MainContent_QuickTakeMainContent_QuickTakeForm_panelHK">
+
+                                                <div class="ms_space_row" style="height:5px"></div>
+
+                                                <div class="ms_table" style="">
+                                                    <ul>
+                                                        <li class="keystats_col1"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_lbGIFS"
+                                                                class="ms_bold">GIFS</span></li>
+                                                        <li class="keystats_col2"></li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li style="padding:0px 0px 0px 0px;"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_GIFSText">US Large-Cap Growth Equity                                                                          </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="ms_space_row" style="height:5px"></div>
+
+                                                <div class="ms_table">
+                                                    <ul>
+                                                        <li class="keystats_col1"><span class="ms_bold"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_IFASectorLabel"
+                                                                class="ms_bold">IFA 分類</span></span></li>
+                                                        <li class="keystats_col2"><span class="ms_bold"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_IFARegisteredLabel"
+                                                                class="ms_bold">IFA 註冊</span></span></li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="keystats_col1"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_IFASectorText">Equity North America                                                                                </span>
+                                                        </li>
+                                                        <li class="keystats_col2"><span
+                                                                id="MainContent_QuickTakeMainContent_QuickTakeForm_IFARegisteredText">Yes</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbISIN"
+                                                            class="ms_bold">ISIN</span></li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbInceptionDate"
+                                                            class="ms_bold">基金成立日期</span></li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_ISINText">LU0079475348</span>
+                                                    </li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_InceptionDateText">1997-01-02</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1">
+                                <span class="ms_bold">
+                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_NAVLabel" class="ms_bold">資產淨值</span><span
+                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_LatestPriceDate"
+                                        class="ms_bold">(2016-03-11)</span>
+                                </span>
+                                                    </li>
+                                                    <li class="keystats_col2">
+                                <span class="ms_bold">
+                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_DayChangeLabel"
+                                          class="ms_bold">升跌</span>
+                                </span>
+                                                    </li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_NAVCurrency">美元</span>
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_NAVText">71.04</span>
+                                                    </li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_DayChangeText">1.95%</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_BidLabel"
+                                                              class="ms_bold">買入價</span><br/>
+                                                    </li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_OfferLabel"
+                                                            class="ms_bold">賣出價</span><br/></li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_BidText">71.04</span>
+                                                    </li>
+                                                    <li class="keystats_col2">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_OfferText">73.24</span>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_TotalAssetsLabel"
+                                                              class="ms_bold">總資產值(百萬)</span><br/><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_TotalAssetsDateLabel"
+                                                            class="ms_bold">(2016-02-29)</span>
+                                                    </li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_TotalExpenseRatioLabel"
+                                                            class="ms_bold">總開支比率</span><br/><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_ManagementFeeCurrenty"
+                                                            class="ms_bold">(2015-08-31)</span></li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_TNACurrency">美元</span>
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_TotalAssetsText">962.88</span>
+                                                    </li>
+                                                    <li class="keystats_col2">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_ManagementFeeText">1.12 %</span>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1"><span class="ms_bold"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_MiniInitialPurchaseLabel"
+                                                            class="ms_bold">銷售費(最高)</span></span></li>
+                                                    <li class="keystats_col2"><span class="ms_bold"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_InitSalesFeeLabel"
+                                                            class="ms_bold">贖回費</span></span></li>
+                                                </ul>
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_FrontLoadText">1.50 %
+      </span></li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_DeferredLoadText">-</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                            <div class="ms_table">
+                                                <ul>
+                                                    <li class="keystats_col1"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_ManagerLabel"
+                                                            class="ms_bold">基金經理</span></li>
+                                                    <li class="keystats_col2"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StartDateLabel"
+                                                            class="ms_bold">開始日期</span></li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="ms_table">
+
+                                                <ul>
+                                                    <li class="keystats_col1"><span>Dupont C. Vincent</span></li>
+                                                    <li class="keystats_col2"><span>2012-03-31</span></li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="keystats_col1"><span>Caruso V. Frank</span></li>
+                                                    <li class="keystats_col2"><span>2012-03-31</span></li>
+                                                </ul>
+
+                                                <ul>
+                                                    <li class="keystats_col1"><span>Fogarty H. John</span></li>
+                                                    <li class="keystats_col2"><span>2012-03-31</span></li>
+                                                </ul>
+
+                                            </div>
+
+
+                                            <div class="ms_space_row" style="height:5px"></div>
+                                        </div>
+
+
+                                        <div class="ms_space_row" style="height:10px"></div>
+
+
+                                        <!--²åÈë¹ã¸æ-->
+
+                                        <div id="adDiv" style=" width:565px; text-align:center;">
+                                            <table style="border:1px #ececec solid; width:100%; border-spacing:0px;BORDER-COLLAPSE: collapse;">
+                                                <tr valign="middle">
+                                                    <td class="adTitleBarHeading"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_Label1">廣告</span>
+                                                    </td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td style="margin:0px 0px 0px 0px; padding:0px 0px 0px 0px; height:10; background-color:#ffffff;"></td>
+                                                </tr>
+                                                <tr valign="top">
+                                                    <td style="text-align:center;">
+                                                        <div style="float:left;width:550px; margin:0;text-align:center;">
+                                                            <!--ÖÐ¼ä¹ã¸æÎ»-->
+                                                            <div id="idAdMiddleCenter" style="text-align:center;"
+                                                                 onmouseover="DivOverlay_SetVisibility(true,'idAdMiddleCenter','idAdMiddleCenterMask')"
+                                                                 onmouseout="DivOverlay_SetVisibility(false,'idAdMiddleCenter','idAdMiddleCenterMask')">
+                                                                <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=300x250,300x600/pos=topright/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid1 + "/viewid=" + viewid1;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                                                                </script>
+                                                            </div>
+                                                            <!--¹ã¸æ¸²¸Ç²ã-->
+                                                            <div id="idAdMiddleCenterMask"
+                                                                 onmouseover="DivOverlay_SetVisibility(true,'idAdMiddleCenter','idAdMiddleCenterMask')"
+                                                                 onmouseout="DivOverlay_SetVisibility(false,'idAdMiddleCenter','idAdMiddleCenterMask')"
+                                                                 style="display: none;">
+
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                        <script type="text/javascript">
+            var sMarket ="HKG";
+            var adDiv = document.getElementById("adDiv");
+        /*    if (sMarket=="HKG" || sMarket=="TWN" || sMarket=="SGP")
+            {
+
+            adDiv.style.display="block";
+            }else
+            {
+            adDiv.style.display="none";
+            }*/
+
+                                        </script>
+                                        <div class="ms_space_row" style="height:15px"></div>
+                                        <!--end-->
+
+                                        <div style="width:565px;float:left;">
+                                            <div class="quicktake_bar">
+                                                <div class="quicktake_bar_title">
+                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label5">投資目標: </span>AB
+                                                    FCP I American Growth Portfolio I
+                                                </div>
+                                            </div>
+                                            <div class="ms_space_row" style="height:5px">&nbsp;</div>
+                                            <div style="line-height:17px; text-align:justify;">
+                                                <div class="textAlign">
+                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label4"
+                                                          class="textAlign">本基金的投資目標主要是藉投資於美國發行人發行的股票證券實現長期資本增值。本基金尋求重點投資於美國少數大型精選優質公司的股票證券（普通股、可轉換為普通股的證券及可認購或購買普通股的權利及權證），而投資管理人認為該等公司有可能達致卓越的盈利增長。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="ms_space_row" style="height:10px"></div>
+
+                                        <div id="MainContent_QuickTakeMainContent_QuickTakeForm_panelPortfolio">
+
+
+                                            <div style="width:565px;float:left;">
+                                                <div class="quicktake_bar">
+                                                    <div class="quicktake_bar_title">
+                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label6">基金投资组合</span>&nbsp;<span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_portfoliofundname">AB FCP I American Growth Portfolio I</span>
+
+                                                    </div>
+                                                    <div class="quicktake_bar_date"><span
+                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_lbEffectDatet">2016-01-31</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="ms_space_row" style="height:10px"></div>
+
+                                                <div id="MainContent_QuickTakeMainContent_QuickTakeForm_panelEquity">
+
+
+                                                    <div style="width:565px;float:left;">
+                                                        <div style="width:275px;float:left;margin-right:15px;">
+
+                                                            <div class="ms_table">
+                                                                <ul>
+                                                                    <li>
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_styleboxLabel"
+                                                                              class="ms_bold">Morningstar風格箱</span>
+                                                                    </li>
+                                                                </ul>
+                                                                <ul>
+                                                                    <li>
+                                                                        <img id="MainContent_QuickTakeMainContent_QuickTakeForm_EEtuityImage1"
+                                                                             src="../Localization/Public/HK/images/StyleBox03.gif"/>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div style="width:275px;float:left">
+                                                            <div class="ms_table" style="float:left">
+                                                                <ul>
+                                                                    <li>
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_assetallocationLabel"
+                                                                              class="ms_bold">資產分配%</span>
+                                                                    </li>
+                                                                </ul>
+                                                                <ul>
+                                                                    <li class="asset_allocation_col1">&nbsp;</li>
+                                                                    <li class="asset_allocation_col2">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label38"
+                                                                              class="ms_bold">長倉%</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label39"
+                                                                              class="ms_bold">短倉% </span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col3">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label37"
+                                                                              class="ms_bold">資產%</span>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                                <ul>
+                                                                    <li class="asset_allocation_col1"><span>股票</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2">
+                                                                        <span>100.00</span></li>
+                                                                    <li class="asset_allocation_col2"><span>-</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col3">
+                                                                        <span>100.00</span></li>
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="asset_allocation_col1"><span>債券</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>0.00</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>-</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col3"><span>0.00</span>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="asset_allocation_col1"><span>現金</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>0.00</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>-</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col3"><span>0.00</span>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="asset_allocation_col1"><span>其他</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>0.00</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col2"><span>-</span>
+                                                                    </li>
+                                                                    <li class="asset_allocation_col3"><span>0.00</span>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div style="width:565px;float:left;">
+
+                                                        <div style="width:275px;float:left;margin-right:15px;">
+
+                                                            <div class="ms_space_row" style="height:5px"></div>
+                                                            <div class="quicktake_line_gray" style="width:275px"></div>
+                                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                                            <div class="ms_table" style="float:left">
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_regionnameLabel"
+                                                                              class="ms_bold">五大地區</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_percentLabel"
+                                                                              class="ms_bold">%</span>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><span>美國</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span>98.90</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><span>歐元區</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span>1.10</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><span>加拿大</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span>0.00</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><span>拉丁美洲</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span>0.00</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><span>英國</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span>0.00</span>
+                                                                    </li>
+
+                                                                </ul>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div style="width:275px;float:left;">
+
+                                                            <div class="ms_space_row" style="height:5px"></div>
+                                                            <div class="quicktake_line_gray" style="width:275px"></div>
+                                                            <div class="ms_space_row" style="height:5px"></div>
+
+                                                            <div class="ms_table" style="float:left">
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_sectornameLabel"
+                                                                              class="ms_bold">五大行業</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2">
+                                                                        <span id="MainContent_QuickTakeMainContent_QuickTakeForm_sectorpercentLabel"
+                                                                              class="ms_bold">%</span>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><img
+                                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_0"
+                                                                            src="../common/images/Sector_311.gif"/>
+                                                                        <span style="vertical-align:top;">科技</span></li>
+                                                                    <li class="regionbreakdown_col2"><span
+                                                                            style="vertical-align:top;">33.42</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><img
+                                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_1"
+                                                                            src="../common/images/Sector_206.gif"/>
+                                                                        <span style="vertical-align:top;">健康護理 </span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span
+                                                                            style="vertical-align:top;">26.20</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><img
+                                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_2"
+                                                                            src="../common/images/Sector_102.gif"/>
+                                                                        <span style="vertical-align:top;"> 周期性消費</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span
+                                                                            style="vertical-align:top;">18.39</span>
+                                                                    </li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><img
+                                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_3"
+                                                                            src="../common/images/Sector_205.gif"/>
+                                                                        <span style="vertical-align:top;">防守性消費</span>
+                                                                    </li>
+                                                                    <li class="regionbreakdown_col2"><span
+                                                                            style="vertical-align:top;">7.16</span></li>
+
+                                                                </ul>
+
+                                                                <ul>
+                                                                    <li class="regionbreakdown_col1"><img
+                                                                            id="MainContent_QuickTakeMainContent_QuickTakeForm_StockBreakdownRepeater_SectorImage_4"
+                                                                            src="../common/images/Sector_310.gif"/>
+                                                                        <span style="vertical-align:top;">工業</span></li>
+                                                                    <li class="regionbreakdown_col2"><span
+                                                                            style="vertical-align:top;">6.24</span></li>
+
+                                                                </ul>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="ms_space_row" style="height:5px"></div>
+                                                    <div class="quicktake_line_gray"></div>
+                                                    <div class="ms_space_row" style="height:5px"></div>
+
+                                                    <div style="width:565px; float:left;">
+
+                                                        <div class="ms_table">
+                                                            <ul>
+                                                                <li class="top_holding_col1">
+                                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label36"
+                                                                          class="ms_bold">五大投資項目</span>
+                                                                </li>
+                                                                <li class="top_holding_col2">
+                                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label46"
+                                                                          class="ms_bold">行業</span>
+                                                                </li>
+                                                                <li class="top_holding_col3">
+                                                                    <span id="MainContent_QuickTakeMainContent_QuickTakeForm_Label47"
+                                                                          class="ms_bold">資產%</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="ms_space_row" style="height:5px"></div>
+                                                        <div class="ms_table">
+
+
+                                                            <ul>
+                                                                <li class="top_holding_col1"><span> Facebook, Inc. - Class A</span>
+                                                                </li>
+                                                                <li class="top_holding_col2"><img
+                                                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_Top5HoldingRepeater_HoldingSectorImage_0"
+                                                                        src="../common/images/Sector_311.gif"/> <span
+                                                                        style="vertical-align:top;">科技</span></li>
+                                                                <li class="top_holding_col3"><span>5.73 </span></li>
+                                                            </ul>
+
+                                                            <ul>
+                                                                <li class="top_holding_col1"><span> Alphabet, Inc. - Class C</span>
+                                                                </li>
+                                                                <li class="top_holding_col2"><img
+                                                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_Top5HoldingRepeater_HoldingSectorImage_1"
+                                                                        src="../common/images/Sector_311.gif"/> <span
+                                                                        style="vertical-align:top;">科技</span></li>
+                                                                <li class="top_holding_col3"><span>5.17 </span></li>
+                                                            </ul>
+
+                                                            <ul>
+                                                                <li class="top_holding_col1"><span> Apple, Inc.</span>
+                                                                </li>
+                                                                <li class="top_holding_col2"><img
+                                                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_Top5HoldingRepeater_HoldingSectorImage_2"
+                                                                        src="../common/images/Sector_311.gif"/> <span
+                                                                        style="vertical-align:top;">科技</span></li>
+                                                                <li class="top_holding_col3"><span>5.11 </span></li>
+                                                            </ul>
+
+                                                            <ul>
+                                                                <li class="top_holding_col1"><span> Intuitive Surgical, Inc.</span>
+                                                                </li>
+                                                                <li class="top_holding_col2"><img
+                                                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_Top5HoldingRepeater_HoldingSectorImage_3"
+                                                                        src="../common/images/Sector_206.gif"/> <span
+                                                                        style="vertical-align:top;">健康護理 </span></li>
+                                                                <li class="top_holding_col3"><span>4.74 </span></li>
+                                                            </ul>
+
+                                                            <ul>
+                                                                <li class="top_holding_col1"><span> Biogen, Inc.</span>
+                                                                </li>
+                                                                <li class="top_holding_col2"><img
+                                                                        id="MainContent_QuickTakeMainContent_QuickTakeForm_Top5HoldingRepeater_HoldingSectorImage_4"
+                                                                        src="../common/images/Sector_206.gif"/> <span
+                                                                        style="vertical-align:top;">健康護理 </span></li>
+                                                                <li class="top_holding_col3"><span>4.42 </span></li>
+                                                            </ul>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="ms_space_row" style="height:5px"></div>
+
+                                                    <div class="ms_space_row" style="height:5px"></div>
+                                                    <div class="quicktake_line_gray"></div>
+                                                    <div class="ms_space_row" style="height:5px"></div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="ms_space_row" style="height:10px"></div>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+                </div>
+                <div id="idAdPageRight" class="quicktake_right_ad"
+                     onmouseover="DivOverlay_SetVisibility(true,'idAdPageRight','idAdPageRightMask')"
+                     onmouseout="DivOverlay_SetVisibility(false,'idAdPageRight','idAdPageRightMask')">
+                    <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=160x600,300x600/pos=right/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid1 + "/viewid=" + viewid1;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                    </script>
+                </div>
+                <!--¹ã¸æ¸²¸Ç²ã-->
+                <div id="idAdPageRightMask"
+                     onmouseover="DivOverlay_SetVisibility(true,'idAdPageRight','idAdPageRightMask')"
+                     onmouseout="DivOverlay_SetVisibility(false,'idAdPageRight','idAdPageRightMask')"
+                     style="display: none;">
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="clearfix" id="LayerFooter">
+            <div class="f_Ads">
+                <div id="Adfooter" style=" display:block; padding-top:1px; float: left;">
+                    <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=728x90/pos=bottom/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid1 + "/viewid=" + viewid1;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                    </script>
+                </div>
+                <div id="Adfooterright" style=" display:block; padding-top:1px; float: left;padding-left: 10px">
+                    <script language=javascript>
+<!--
+      adserver = "http://msmedia.morningstar.com/mstar/jserver";
+      target = "/Site=ms.hk/Area=snapshot.funds.report/Size=195x90/pos=bottom/country=hk/language=zh-hk/platform=web/FundCat=EUCA000527/random=" + viewid2 + "/viewid=" + viewid2;
+
+      document.write('<scr');
+      document.write('ipt src="' + adserver +  target + '">');
+      document.write('</scr');
+      document.write('ipt>');
+
+     //-->
+
+                    </script>
+                </div>
+                <div class="ms_space_row" style="height:10px"></div>
+            </div>
+
+            <script type="text/javascript">
+                     //Add By Ben 2012-03-09
+                   var url=window.location.toString();
+url =url.toLowerCase();
+
+if(url.indexOf("/ap/articles/view.aspx")!=-1){
+
+
+
+
+                        var atab = document.getElementById("ctl00_MainContent_ArticleTab");
+                        //var adSky = document.getElementById("DivSky");
+                        var adSkyETF = document.getElementById("DivSkyETFSolutions");
+                       var adBottomBannerETF = document.getElementById("AdBottomBannerSolution");
+                        var sMarket ="HKG";
+                        var adDiv = document.getElementById("adDiv");
+                                 var adBottomBanner = document.getElementById("Adfooter");
+                       var adBottomBannerRight = document.getElementById("Adfooterright");
+
+
+                                                          if ((sMarket=="HKG" || sMarket=="SGP") &&  atab.href.indexOf("etfTips")>=0)
+                            {
+                                adBottomBannerETF.style.display="block";
+                                adSkyETF.style.display="block";
+                                adBottomBanner.style.display="none";
+                                adBottomBannerRight.style.display="none";
+                                //DivOverlay_SetVisibility(false,null,"Adfooter");
+                            }else
+                            {
+                                adBottomBannerETF.style.display="none";
+                                adSkyETF.style.display="none";
+                                 adBottomBanner.style.display="block";
+                                adBottomBannerRight.style.display="block";
+                            }
+
+                         if ((sMarket=="HKG" || sMarket=="SGP") && atab.href.indexOf("etf")>=0)
+                        {
+                             adDiv.style.display="none";
+                            adSkyETF.style.display="block";
+                       }
+                       else
+                       {
+                            adDiv.style.display="block";
+                            adSkyETF.style.display="none";
+                       }
+}
+
+            </script>
+
+            <script type="text/javascript" language="javascript">
+   function GoSite(){
+            var ddl=document.getElementById("PageFooter_drpWebsite");
+            var url=ddl.options[ddl.selectedIndex].value;
+            window.open(url,"_self");
+
+        }
+
+function sitesRedirect(globalSites)
+{
+if (globalSites.value != "")
+{
+window.open(globalSites.value);
+}
+}
+
+
+            </script>
+
+            <div class="F10alt3">
+                <div style="float:left;padding-left:10px;padding-top:0px">
+        <span id="ms_footer_button">
+
+
+
+        </span>
+                </div>
+                <div style="float:right;">
+                    <select name="ctl00$ctl00$PageFooter$drpWebsite" id="PageFooter_drpWebsite"
+                            onchange="sitesRedirect(this.options[this.selectedIndex])">
+                        <option value="">瀏覽Morningstar國際網站</option>
+                        <option value="http://www.morningstar.com.au">澳洲</option>
+                        <option value="http://www.morningstar.com.at">奧地利</option>
+                        <option value="http://www.morningstar.com.be">比利時</option>
+                        <option value="http://www.morningstar.ca">加拿大</option>
+                        <option value="http://cn.morningstar.com">中國</option>
+                        <option value="http://www.morningstar.cz">捷克共和國</option>
+                        <option value="http://www.morningstar.dk">丹麥</option>
+                        <option value="http://www.morningstarestonia.com/ee">愛沙尼亞</option>
+                        <option value="http://www.rahastot.kauppalehti.fi/">芬蘭</option>
+                        <option value="http://www.morningstar.fr/">法國</option>
+                        <option value="http://www.morningstarfonds.de">德國</option>
+                        <option value="http://www.morningstar.hu">匈牙利</option>
+                        <option value="http://www.morningstar.is">冰島</option>
+                        <option value="http://www.morningstar.in">印度</option>
+                        <option value="http://www.morningstarfunds.ie">愛爾蘭</option>
+                        <option value="http://www.morningstar.it">意大利</option>
+                        <option value="http://www.morningstar.co.jp">日本</option>
+                        <option value="http://www.morningstar.co.kr">韓國</option>
+                        <option value="http://www.morningstar.lv">意大利</option>
+                        <option value="http://www.morningstar.lt">立陶宛</option>
+                        <option value="http://www.morningstar.nl">荷蘭</option>
+                        <option value="http://www.morningstar.net.nz">紐西蘭</option>
+                        <option value="http://www.morningstar.no/index_ie.asp">挪威</option>
+                        <option value="http://www.morningstar.pl">波蘭</option>
+                        <option value="http://www.morningstar.pt">葡萄牙</option>
+                        <option value="http://www.morningstarresearch.co.za">南非</option>
+                        <option value="http://www.morningstar.es">西班牙</option>
+                        <option value="http://www.morningstar.se">瑞典</option>
+                        <option value="http://www.morningstar.ch">瑞士</option>
+                        <option value="http://www.morningstarthailand.com">泰國</option>
+                        <option value="http://www.morningstar.co.uk">英國</option>
+                        <option value="http://www.morningstar.com">美國</option>
+                        <option value="http://tw.morningstar.com">台灣</option>
+                        <option value="http://hk.morningstar.com">香港</option>
+                        <option value="http://my.morningstar.com">馬來西亞</option>
+                        <option value="http://sg.morningstar.com">新加坡</option>
+                        <option value="http://oap.morningstar.com">亞洲其他地區</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div style="text-align:center;padding-top:10px;" class="F10 copyrightfooter">
+
+                <a target="_blank" href="../Localization/HKG/HK/other/Disclaimer.htm" style="color:#1f3a87">&copy;2016
+                    Morningstar Asia Ltd.&nbsp;</a>版權所有不得轉載。請查閱 <a target="_blank"
+                                                                   href="../Localization/HKG/HK/other/termsofuse.html"
+                                                                   style="color:#1f3a87">使用守則 </a> 及<a target="_blank"
+                                                                                                       href="../Localization/HKG/HK/other/PrivPolicy.htm"
+                                                                                                       style="color:#1f3a87">私隱條例</a>.
+            </div>
+
+
+            <div style="text-align:center;padding-top:10px">
+                <!--<span id="PageFooter_ServiceQuestionLabel">If you have questions or comments please <a target="_blank" href="/Localization/AboutUs/address.htm" style="color:#1f3a87">contact Morningstar</a>.</span> -->
+            </div>
+
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    if( _errorMessage != null && _errorMessage != "" )
+    {
+        alert(_errorMessage);
+        _errorMessage = "";
+    }
+    document.oncontextmenu=function()
+    {
+        if (_allowcopy)
+            return;
+
+        return false;
+    }
+    document.onselectstart=function()
+    {
+        if (_allowcopy)
+            return;
+
+        return false;
+    }
+    document.oncopy=function()
+    {
+        if (_allowcopy)
+            return;
+
+        return false;
+    }
+    document.oncut=function()
+    {
+        if (_allowcopy)
+            return true;
+
+        return false;
+    }
+
+</script>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+
+<script type="text/javascript">
+_uacct = "UA-184317-16";
+urchinTracker();
+
+</script>
+
 </body>
+
 </html>
