@@ -12,6 +12,7 @@ import time
 import datetime
 import StringIO
 import openpyxl
+import getopt
 import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
@@ -34,11 +35,12 @@ from retrying import retry
 
 from openpyxl import load_workbook
 
-def import_xlsx():
+
+def import_xlsx(filename):
 
     result = []
 
-    wb = load_workbook('./xlsx/20160403.xlsx')
+    wb = load_workbook(filename)
     ws = wb['国内银行总汇']
 
     # for row_index, row in enumerate(ws.rows):
@@ -111,11 +113,13 @@ if __name__ == '__main__':
     DB_NAME = 'zyq'
 
     try:
+        # setup console parameters
+
         cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
         # cnx = mysql.connector.connect(host='localhost', user='zyq', password='zyq', database=DB_NAME)
         logging.info('MYSQL connected.')
 
-        import_xlsx()
+        import_xlsx(sys.argv[1])
 
         cnx.commit()
         cnx.close()
