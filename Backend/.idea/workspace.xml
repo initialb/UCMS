@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../DB/ZYQ.mwb" afterPath="$PROJECT_DIR$/../DB/ZYQ.mwb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../DB/ZYQ.mwb.bak" afterPath="$PROJECT_DIR$/../DB/ZYQ.mwb.bak" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fund_parser.py" afterPath="$PROJECT_DIR$/fund_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/butils/finutils.py" afterPath="$PROJECT_DIR$/lib/butils/finutils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/price_parser.py" afterPath="$PROJECT_DIR$/price_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/temp.html" afterPath="$PROJECT_DIR$/temp.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xlsx_import.py" afterPath="$PROJECT_DIR$/xlsx_import.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ws.py" afterPath="$PROJECT_DIR$/ws.py" />
     </list>
     <ignored path="Backend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,10 +59,10 @@
       <file leaf-file-name="ws.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ws.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6546135">
-              <caret line="191" column="43" selection-start-line="191" selection-start-column="43" selection-end-line="191" selection-end-column="43" />
+            <state vertical-scroll-proportion="-1.244389">
+              <caret line="61" column="29" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
               <folding>
-                <element signature="e#48#87#0" expanded="true" />
+                <element signature="e#24#72#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -928,10 +922,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ws.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6546135">
-          <caret line="191" column="43" selection-start-line="191" selection-start-column="43" selection-end-line="191" selection-end-column="43" />
+        <state vertical-scroll-proportion="-1.244389">
+          <caret line="61" column="29" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
           <folding>
-            <element signature="e#48#87#0" expanded="true" />
+            <element signature="e#24#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
