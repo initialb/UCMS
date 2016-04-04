@@ -223,4 +223,4 @@ if __name__ == '__main__':
     else:
         logger_local.info('MYSQL connected.')
 
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
