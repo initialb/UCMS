@@ -1,0 +1,35 @@
+API Root Endpoint for weixin
+http://139.196.16.157:5000/ucms/api/v1.0/weixin
+
+# 获取最新牌价
+GET /listingrate/{currency}
+Request Example
+$ curl -i http://139.196.16.157:5000/ucms/api/v1.0/weixin/listingrate/USD
+
+Response Example
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 2199
+Server: Werkzeug/0.11.5 Python/2.7.11
+Date: Mon, 04 Apr 2016 08:22:51 GMT
+
+{'currency': u'USD',
+ 'currencyname': u'美元',
+ 'list': [{'ask_cash': u'652.30',
+           'ask_remit': u'652.30',
+           'bid_cash': u'644.49',
+           'bid_remit': u'649.70',
+           'publish_time': u'2016-03-05 21:01:00',
+           'publisher': u'农业银行'},
+          {'ask_cash': u'652.52',
+           'ask_remit': u'652.52',
+           'bid_cash': u'644.71',
+           'bid_remit': u'649.92',
+           'publish_time': u'2016-03-05 10:30:00',
+           'publisher': u'中国银行'}
+],
+ 'timestamp': '2016-04-04 16:24:51',
+ 'total_rec': 13}
+
+# 获取每日精选产品
+http://139.196.16.157:5000/ucms/api/v1.0/weixin/selectedwmp/<currency>?preservable=<Y/N/etc.>

@@ -123,6 +123,8 @@ def get_listing_rate(currency):
     cursor.close()
     logger_local.info('Rates requested for %s \n\n' % currency)
 
+    pprint(rate_list)
+
     # return jsonify(rate_list)
     return json.dumps(rate_list, ensure_ascii=False)
 
@@ -162,6 +164,7 @@ def get_selected_wmp(currency):
         for (expected_highest_yield, tenor_desc) in cursor:
             ty_list.append([tenor_desc, expected_highest_yield])
 
+        # 按期限
         for ty in ty_list:
             prod_list["tenor_group"].append({"tenor": int(ty[0]), "list": []})
             query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
@@ -170,11 +173,20 @@ def get_selected_wmp(currency):
             cursor.execute(query)
             for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
                 prod_list["tenor_group"][-1]["list"].append({"prod_name": prod_name,
-                                                            "issuer_name": issuer_name,
-                                                            "open_start_date": open_start_date,
-                                                            "open_end_date": open_end_date,
-                                                            "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
-                                                            "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+                                                             "issuer_name": issuer_name,
+                                                             "open_start_date": open_start_date,
+                                                             "open_end_date": open_end_date,
+                                                             "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                                                             "starting_amount": '%.2f' % float(starting_amount)})
+            #计算月平均
+            query = u"SELECT avg(bank_avg) as avg FROM\
+                        (SELECT issuer_name,avg(expected_highest_yield) as bank_avg FROM zyq.t_product\
+                        WHERE (date_sub(curdate(), INTERVAL 30 DAY)<=date(open_start_date) or (open_start_date='每天' and status='在售'))\
+                        AND currency='%s' AND round(tenor/30)='%s' AND preservable='非保本'\
+                        GROUP BY issuer_name) t" % (currency, ty[0])
+            cursor.execute(query)
+            for (cursor_avg,) in cursor:
+                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
 
     elif preservable == "Y":
         # 保本
@@ -198,8 +210,18 @@ def get_selected_wmp(currency):
                                                              "issuer_name": issuer_name,
                                                              "open_start_date": open_start_date,
                                                              "open_end_date": open_end_date,
-                                                             "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
-                                                             "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+                                                             "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                                                             "starting_amount": '%.2f' % float(starting_amount)})
+            #计算月平均
+            query = u"SELECT avg(bank_avg) as avg FROM\
+                        (SELECT issuer_name,avg(expected_highest_yield) as bank_avg FROM zyq.t_product\
+                        WHERE (date_sub(curdate(), INTERVAL 30 DAY)<=date(open_start_date) or (open_start_date='每天' and status='在售'))\
+                        AND currency='%s' AND round(tenor/30)='%s' AND preservable='保本'\
+                        GROUP BY issuer_name) t" % (currency, ty[0])
+            cursor.execute(query)
+            for (cursor_avg,) in cursor:
+                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
 
     else:
          # 全部
@@ -222,8 +244,17 @@ def get_selected_wmp(currency):
                                                              "issuer_name": issuer_name,
                                                              "open_start_date": open_start_date,
                                                              "open_end_date": open_end_date,
-                                                             "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
-                                                             "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+                                                             "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                                                             "starting_amount": '%.2f' % float(starting_amount)})
+            #计算月平均
+            query = u"SELECT avg(bank_avg) as avg FROM\
+                        (SELECT issuer_name,avg(expected_highest_yield) as bank_avg FROM zyq.t_product\
+                        WHERE (date_sub(curdate(), INTERVAL 30 DAY)<=date(open_start_date) or (open_start_date='每天' and status='在售'))\
+                        AND currency='%s' AND round(tenor/30)='%s'\
+                        GROUP BY issuer_name) t" % (currency, ty[0])
+            cursor.execute(query)
+            for (cursor_avg,) in cursor:
+                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
 
 
     pprint(prod_list)
