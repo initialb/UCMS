@@ -1,6 +1,5 @@
-#!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, request
 
 import sys
 
@@ -135,9 +134,9 @@ def get_selected_wmp(currency):
     total_rec = None
     prod_list = {"currency": currency,
                  "timestamp": TIMESTAMP,
-                 "category": [{"preservable": "Y", "tenor_group": []},
-                              {"preservable": "N", "tenor_group": []}]
-                 }
+                 "preservable": "ALL",
+                 "tenor_group": []
+                }
 
     query = u"SELECT count(*)\
              FROM t_product\
@@ -150,52 +149,81 @@ def get_selected_wmp(currency):
         logger_local.info('Not found')
         abort(404)
 
-    # 非保本
-    ty_list =[]
-    query = u"SELECT max(expected_highest_yield),round(tenor/30)\
-              FROM t_product\
-              WHERE status='在售' and preservable='非保本' and currency='%s' group by round(tenor/30)" % currency
-    cursor.execute(query)
-    for (expected_highest_yield, tenor_desc) in cursor:
-        ty_list.append([tenor_desc, expected_highest_yield])
+    preservable = request.args.get('preservable', '')
 
-    for ty in ty_list:
-        prod_list["category"][1]["tenor_group"].append({"tenor": int(ty[0]), "list" :[]})
-        query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
+    if preservable == "N":
+        # 非保本
+        ty_list =[]
+        prod_list["preservable"] = "N"
+        query = u"SELECT max(expected_highest_yield),round(tenor/30)\
                   FROM t_product\
-                  WHERE status='在售' and preservable='非保本' and currency='%s' and expected_highest_yield='%s' and round(tenor/30)='%s'" % (currency, ty[1], ty[0])
+                  WHERE status='在售' and preservable='非保本' and currency='%s' group by round(tenor/30)" % currency
         cursor.execute(query)
-        for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
-            prod_list["category"][1]["tenor_group"][-1]["list"].append({"prod_name": prod_name,
-                                                        "issuer_name": issuer_name,
-                                                        "open_start_date": open_start_date,
-                                                        "open_end_date": open_end_date,
-                                                        "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
-                                                        "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+        for (expected_highest_yield, tenor_desc) in cursor:
+            ty_list.append([tenor_desc, expected_highest_yield])
 
+        for ty in ty_list:
+            prod_list["tenor_group"].append({"tenor": int(ty[0]), "list": []})
+            query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
+                      FROM t_product\
+                      WHERE status='在售' and preservable='非保本' and currency='%s' and expected_highest_yield='%s' and round(tenor/30)='%s'" % (currency, ty[1], ty[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({"prod_name": prod_name,
+                                                            "issuer_name": issuer_name,
+                                                            "open_start_date": open_start_date,
+                                                            "open_end_date": open_end_date,
+                                                            "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
+                                                            "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
 
-    # 保本
-    ty_list =[]
-    query = u"SELECT max(expected_highest_yield),round(tenor/30)\
-              FROM t_product\
-              WHERE status='在售' and preservable='保本' and currency='%s' group by round(tenor/30)" % currency
-    cursor.execute(query)
-    for (expected_highest_yield, tenor_desc) in cursor:
-        ty_list.append([tenor_desc, expected_highest_yield])
-
-    for ty in ty_list:
-        prod_list["category"][0]["tenor_group"].append({"tenor": int(ty[0]), "list" :[]})
-        query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
+    elif preservable == "Y":
+        # 保本
+        ty_list =[]
+        prod_list["preservable"] = "Y"
+        query = u"SELECT max(expected_highest_yield),round(tenor/30)\
                   FROM t_product\
-                  WHERE status='在售' and preservable='保本' and currency='%s' and expected_highest_yield='%s' and round(tenor/30)='%s'" % (currency, ty[1], ty[0])
+                  WHERE status='在售' and preservable='保本' and currency='%s' group by round(tenor/30)" % currency
         cursor.execute(query)
-        for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
-            prod_list["category"][0]["tenor_group"][-1]["list"].append({"prod_name": prod_name,
-                                                        "issuer_name": issuer_name,
-                                                        "open_start_date": open_start_date,
-                                                        "open_end_date": open_end_date,
-                                                        "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
-                                                        "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+        for (expected_highest_yield, tenor_desc) in cursor:
+            ty_list.append([tenor_desc, expected_highest_yield])
+
+        for ty in ty_list:
+            prod_list["tenor_group"].append({"tenor": int(ty[0]), "list" :[]})
+            query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
+                      FROM t_product\
+                      WHERE status='在售' and preservable='保本' and currency='%s' and expected_highest_yield='%s' and round(tenor/30)='%s'" % (currency, ty[1], ty[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({"prod_name": prod_name,
+                                                             "issuer_name": issuer_name,
+                                                             "open_start_date": open_start_date,
+                                                             "open_end_date": open_end_date,
+                                                             "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
+                                                             "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
+
+    else:
+         # 全部
+        ty_list =[]
+        query = u"SELECT max(expected_highest_yield),round(tenor/30)\
+                  FROM t_product\
+                  WHERE status='在售' and currency='%s' group by round(tenor/30)" % currency
+        cursor.execute(query)
+        for (expected_highest_yield, tenor_desc) in cursor:
+            ty_list.append([tenor_desc, expected_highest_yield])
+
+        for ty in ty_list:
+            prod_list["tenor_group"].append({"tenor": int(ty[0]), "list" :[]})
+            query = u"SELECT prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount\
+                      FROM t_product\
+                      WHERE status='在售' and currency='%s' and expected_highest_yield='%s' and round(tenor/30)='%s'" % (currency, ty[1], ty[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, open_start_date, open_end_date, expected_highest_yield, preservable, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({"prod_name": prod_name,
+                                                             "issuer_name": issuer_name,
+                                                             "open_start_date": open_start_date,
+                                                             "open_end_date": open_end_date,
+                                                             "expected_highest_yield": unicode((Decimal(expected_highest_yield)*100).quantize(Decimal('.0001'), rounding=ROUND_DOWN))+"%",
+                                                             "starting_amount": unicode(Decimal(starting_amount).quantize(Decimal('.01'), rounding=ROUND_DOWN))})
 
 
     pprint(prod_list)
