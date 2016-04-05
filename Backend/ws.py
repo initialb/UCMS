@@ -69,6 +69,19 @@ app = Flask(__name__)
 
 @app.route('/ucms/api/v1.0/weixin/listingrate/<string:currency>', methods=['GET'])
 def get_listing_rate(currency):
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+
     cursor = cnx.cursor()
 
     rate_list = {"total_rec": "", "list": []}
@@ -121,6 +134,8 @@ def get_listing_rate(currency):
 
     cnx.commit()
     cursor.close()
+    cnx.close()
+
     logger_local.info('Rates requested for %s \n\n' % currency)
 
     pprint(rate_list)
@@ -131,6 +146,18 @@ def get_listing_rate(currency):
 
 @app.route('/ucms/api/v1.0/weixin/selectedwmp/<string:currency>', methods=['GET'])
 def get_selected_wmp(currency):
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
     cursor = cnx.cursor()
 
     total_rec = None
@@ -261,6 +288,7 @@ def get_selected_wmp(currency):
 
     cnx.commit()
     cursor.close()
+    cnx.close()
     logger_local.info('Selected WM Products requested for %s \n\n' % currency)
 
     # return jsonify(rate_list)
@@ -269,17 +297,5 @@ def get_selected_wmp(currency):
 
 
 if __name__ == '__main__':
-    try:
-        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            logger_local.error("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            logger_local.error("Database does not exist")
-        else:
-            logger_local.error(err)
-    else:
-        logger_local.info('MYSQL connected.')
 
     app.run(debug=True, host="0.0.0.0")
