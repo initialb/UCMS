@@ -123,13 +123,13 @@ def get_listing_rate(currency):
     cursor.execute(query)
     for (max_bid_remit, max_bid_cash, min_ask_remit, min_ask_cash) in cursor:
         for r in rate_list["list"]:
-            if r["remitbid"] == max_bid_remit:
+            if r["remitbid"] == '%.2f' % float(max_bid_remit):
                 r["remitbid"] = "*"+r["remitbid"]
-            if r["cashbid"] == max_bid_cash:
+            if r["cashbid"] == '%.2f' % float(max_bid_cash):
                 r["cashbid"] = "*"+r["cashbid"]
-            if r["remitask"] == min_ask_remit:
+            if r["remitask"] == '%.2f' % float(min_ask_remit):
                 r["remitask"] = "*"+r["remitask"]
-            if r["cashask"] == min_ask_cash:
+            if r["cashask"] == '%.2f' % float(min_ask_cash):
                 r["cashask"] = "*"+r["cashask"]
 
     cnx.commit()
