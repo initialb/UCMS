@@ -111,10 +111,10 @@ def get_listing_rate(currency):
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
         rate_list["list"].append({})
         rate_list["list"][-1]["bank"] = cn_short_name
-        rate_list["list"][-1]["remitbid"] = bid_remit
-        rate_list["list"][-1]["cashbid"] = bid_cash
-        rate_list["list"][-1]["remitask"] = ask_remit
-        rate_list["list"][-1]["cashask"] = ask_cash
+        rate_list["list"][-1]["remitbid"] = '%.2f' % float(bid_remit)
+        rate_list["list"][-1]["cashbid"] = '%.2f' % float(bid_cash)
+        rate_list["list"][-1]["remitask"] = '%.2f' % float(ask_remit)
+        rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
         rate_list["list"][-1]["publish_time"] = publish_time
 
     query = "SELECT max(bid_remit), max(bid_cash), min(ask_remit), min(ask_cash)\
