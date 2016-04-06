@@ -110,11 +110,11 @@ def get_listing_rate(currency):
     rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", "")
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
         rate_list["list"].append({})
-        rate_list["list"][-1]["publisher"] = cn_short_name
-        rate_list["list"][-1]["bid_remit"] = bid_remit
-        rate_list["list"][-1]["bid_cash"] = bid_cash
-        rate_list["list"][-1]["ask_remit"] = ask_remit
-        rate_list["list"][-1]["ask_cash"] = ask_cash
+        rate_list["list"][-1]["bank"] = cn_short_name
+        rate_list["list"][-1]["remitbid"] = bid_remit
+        rate_list["list"][-1]["cashbid"] = bid_cash
+        rate_list["list"][-1]["remitask"] = ask_remit
+        rate_list["list"][-1]["cashask"] = ask_cash
         rate_list["list"][-1]["publish_time"] = publish_time
 
     query = "SELECT max(bid_remit), max(bid_cash), min(ask_remit), min(ask_cash)\
@@ -123,14 +123,14 @@ def get_listing_rate(currency):
     cursor.execute(query)
     for (max_bid_remit, max_bid_cash, min_ask_remit, min_ask_cash) in cursor:
         for r in rate_list["list"]:
-            if r["bid_remit"] == max_bid_remit:
-                r["bid_remit"] = "*"+r["bid_remit"]
-            if r["bid_cash"] == max_bid_cash:
-                r["bid_cash"] = "*"+r["bid_cash"]
-            if r["ask_remit"] == min_ask_remit:
-                r["ask_remit"] = "*"+r["ask_remit"]
-            if r["ask_cash"] == min_ask_cash:
-                r["ask_cash"] = "*"+r["ask_cash"]
+            if r["remitbid"] == max_bid_remit:
+                r["remitbid"] = "*"+r["remitbid"]
+            if r["cashbid"] == max_bid_cash:
+                r["cashbid"] = "*"+r["cashbid"]
+            if r["remitask"] == min_ask_remit:
+                r["remitask"] = "*"+r["remitask"]
+            if r["cashask"] == min_ask_cash:
+                r["cashask"] = "*"+r["cashask"]
 
     cnx.commit()
     cursor.close()
