@@ -228,7 +228,7 @@ def get_wmp(currency):
                     "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
                     "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
                     "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '0' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
                     "return_type": pledgeable,
                     "risk_type": risk_desc,
                     "starting_amount": '%.2f' % float(starting_amount)})
