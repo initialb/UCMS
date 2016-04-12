@@ -1374,7 +1374,7 @@ if __name__ == '__main__':
         get_BOBJ_rate()
         get_HXBJ_rate()
 
-        generate_json()
+#        generate_json()
 
 
         cnx.commit()
