@@ -856,7 +856,7 @@ def get_MS_fund_product(total_page):
                                   prod_list_td[3].text,
                                   prod_list_td[4].text])
 
-        add_product = ("""INSERT INTO t_fund_product(remark, prod_code, prod_name, risk_rating, currency,
+        add_product = ("""INSERT INTO t_fund_product(remark, prod_name, GIFS_type_cn, risk_rating, currency,
                           latest_nav_price, data_source, update_time)
                           VALUES (%s, %s, %s, %s, %s, %s, 'MS', now())""")
 
@@ -868,7 +868,7 @@ def get_MS_fund_product_detail():
     index_url = 'http://www.hk.morningstar.com/ap'
     prod_list = []
 
-    query = "select uid, prod_name, remark from t_fund_product where data_source='MS' and date(update_time)='2016-03-19'"
+    query = "select uid, prod_name, remark from t_fund_product where data_source='MS'"
     cursor.execute(query)
     for (uid, prod_name, remark) in cursor:
         prod_list.append([uid, prod_name, index_url+remark])
@@ -886,6 +886,11 @@ def get_MS_fund_product_detail():
 
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+        try:
+            ISIN_code = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_ISINText").text
+        except AttributeError, e:
+            ISIN_code = None
         try:
             GIFS_type = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_GIFSText").text
         except AttributeError, e:
@@ -984,13 +989,13 @@ def get_MS_fund_product_detail():
         update_product = ("""UPDATE t_fund_product SET GIFS_type=%s, IFA_category=%s, industry_1=%s, industry_pct_1=%s,
                              industry_2=%s, industry_pct_2=%s, industry_3=%s, industry_pct_3=%s, industry_4=%s,
                              industry_pct_4=%s, industry_5=%s, industry_pct_5=%s, cp_1m=%s, cp_3m=%s, cp_6m=%s,
-                             cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s
+                             cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s, ISIN_code=%s
                              WHERE uid=%s""")
 
         cursor.execute(update_product, (GIFS_type, IFA_category, industry_1, industry_pct_1, industry_2, industry_pct_2,
                                         industry_3, industry_pct_3, industry_4, industry_pct_4, industry_5,
                                         industry_pct_5, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y, cp_10y,
-                                        prod_code, prod_list[p][0]))
+                                        prod_code, ISIN_code, prod_list[p][0]))
         cnx.commit()
 
 
