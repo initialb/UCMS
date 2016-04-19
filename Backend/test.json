@@ -1,172 +1,128 @@
 {
-  "currency": "USD",
-  "total_rec": "",
   "currencyname": "美元",
+  "currency": "USD",
+  "preservable": "N",
+  "timestamp": "2016-04-19 12:14:32",
+  "total_rec": "",
   "tenor_group": [
     {
       "list": [
         {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
+          "interest_period": "20160420~20160520",
           "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160401~20160413",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0289号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
+          "history_yield": "0.7500%",
           "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160407",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0288号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160330~20160405",
-          "usd_rate": "",
-          "prod_name": "2016年第13期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0144%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "1.9000%",
-          "issuer_name": "工商银行",
-          "deposit_period": 9,
           "return_type": "浮动收益",
           "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "“安享回报”套利273天美元理财产品",
-          "industry_1m_avg_yield": "1.8500%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 6,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160405",
-          "usd_rate": "",
-          "prod_name": "“万汇通－跨境通QDII”开放式非保本浮动收益美元理财产品第1款",
-          "industry_1m_avg_yield": "1.4840%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.6000%",
-          "issuer_name": "工商银行",
-          "deposit_period": 3,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "“安享回报”套利98天美元理财产品",
-          "industry_1m_avg_yield": "0.6000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.7500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 1,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
+          "risk_type": "较低",
           "prod_name": "美元日益月鑫30天",
-          "industry_1m_avg_yield": "0.7000%"
+          "expected_highest_yield": "0.7500%"
         }
       ],
-      "preservable": "N"
+      "industry_1m_avg_yield": "0.7000%",
+      "tenor": 1
     },
     {
       "list": [
         {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
+          "interest_period": "20160420~20160620",
           "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160401~20160413",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0289号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
+          "history_yield": "0.9500%",
           "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160407",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0288号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160330~20160405",
-          "usd_rate": "",
-          "prod_name": "2016年第13期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0144%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "1.9000%",
-          "issuer_name": "工商银行",
-          "deposit_period": 9,
           "return_type": "浮动收益",
           "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "“安享回报”套利273天美元理财产品",
-          "industry_1m_avg_yield": "1.8500%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 6,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160405",
-          "usd_rate": "",
-          "prod_name": "“万汇通－跨境通QDII”开放式非保本浮动收益美元理财产品第1款",
-          "industry_1m_avg_yield": "1.4840%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.6000%",
-          "issuer_name": "工商银行",
-          "deposit_period": 3,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "“安享回报”套利98天美元理财产品",
-          "industry_1m_avg_yield": "0.6000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.7500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 1,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "美元日益月鑫30天",
-          "industry_1m_avg_yield": "0.7000%"
+          "risk_type": "较低",
+          "prod_name": "美元日益月鑫60天",
+          "expected_highest_yield": "0.9500%"
         }
       ],
-      "preservable": "Y"
+      "industry_1m_avg_yield": "1.0750%",
+      "tenor": 2
+    },
+    {
+      "list": [
+        {
+          "interest_period": "20160420~20160719",
+          "issuer_name": "招商银行",
+          "history_yield": "1.0500%",
+          "starting_amount": "8000.00",
+          "return_type": "浮动收益",
+          "sale_period": "每天",
+          "risk_type": "较低",
+          "prod_name": "美元日益月鑫90天",
+          "expected_highest_yield": "1.0500%"
+        }
+      ],
+      "industry_1m_avg_yield": "0.7500%",
+      "tenor": 3
+    },
+    {
+      "list": [
+        {
+          "interest_period": "20160420~20161018",
+          "issuer_name": "兴业银行",
+          "history_yield": "2.0000%",
+          "starting_amount": "200000.00",
+          "return_type": "浮动收益",
+          "sale_period": "20160413~20160419",
+          "risk_type": "较低",
+          "prod_name": "2016年第15期天天万汇通A款（20万美元以上）",
+          "expected_highest_yield": "2.0000%"
+        }
+      ],
+      "industry_1m_avg_yield": "1.3731%",
+      "tenor": 6
+    },
+    {
+      "list": [
+        {
+          "interest_period": "20160420~20170117",
+          "issuer_name": "兴业银行",
+          "history_yield": "2.3000%",
+          "starting_amount": "200000.00",
+          "return_type": "浮动收益",
+          "sale_period": "20160413~20160419",
+          "risk_type": "较低",
+          "prod_name": "2016年第15期天天万汇通B款（20万美元以上）",
+          "expected_highest_yield": "2.3000%"
+        }
+      ],
+      "industry_1m_avg_yield": "1.9667%",
+      "tenor": 9
+    },
+    {
+      "list": [
+        {
+          "interest_period": "20160420~20170420",
+          "issuer_name": "兴业银行",
+          "history_yield": "2.6000%",
+          "starting_amount": "200000.00",
+          "return_type": "浮动收益",
+          "sale_period": "20160413~20160419",
+          "risk_type": "较低",
+          "prod_name": "2016年第15期天天万汇通C款（20万美元以上）",
+          "expected_highest_yield": "2.6000%"
+        }
+      ],
+      "industry_1m_avg_yield": "2.0285%",
+      "tenor": 12
+    },
+    {
+      "list": [
+        {
+          "interest_period": "20160421~20180419",
+          "issuer_name": "招商银行",
+          "history_yield": "2.9000%",
+          "starting_amount": "8000.00",
+          "return_type": "浮动收益",
+          "sale_period": "20160411~20160420",
+          "risk_type": "较低",
+          "prod_name": "美元鼎鼎成金0290号",
+          "expected_highest_yield": "2.9000%"
+        }
+      ],
+      "industry_1m_avg_yield": "2.9000%",
+      "tenor": 24
     }
-  ],
-  "timestamp": "2016-04-17 15:56:44"
+  ]
 }

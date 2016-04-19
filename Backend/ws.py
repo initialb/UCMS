@@ -188,11 +188,12 @@ def get_wmp(currency):
         else:
             preservable_str = u'保本'
 
-        ty_list = []
+        tenor_list = []
         prod_list["preservable"] = preservable
+
         query = u"""
             SELECT
-                MAX(expected_highest_yield), ROUND(tenor / 30)
+                ROUND(tenor / 30) AS tenor
             FROM
                 t_product
             WHERE
@@ -201,41 +202,17 @@ def get_wmp(currency):
                     AND redeemable = '封闭'
                     AND currency = '%s'
             GROUP BY ROUND(tenor / 30)
+            ORDER BY tenor DESC
             """ % (preservable_str, currency)
         cursor.execute(query)
-        for (expected_highest_yield, tenor_desc) in cursor:
-            ty_list.append([tenor_desc, expected_highest_yield])
+        for (tenor_desc) in cursor:
+            tenor_list.append(tenor_desc)
 
         # 按期限
-        for ty in ty_list:
-            prod_list["tenor_group"].append({"tenor": int(ty[0]), "list": []})
-            query = u"""
-                SELECT
-                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
-                FROM
-                    t_product
-                WHERE
-                    status = '在售'
-                        AND preservable = '%s'
-                        AND redeemable = '封闭'
-                        AND currency = '%s'
-                        AND expected_highest_yield = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                """ % (preservable_str, currency, ty[1], ty[0])
-            cursor.execute(query)
-            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
-                prod_list["tenor_group"][-1]["list"].append({
-                    "prod_name": prod_name,
-                    "issuer_name": issuer_name,
-                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
-                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
-                    "return_type": pledgeable,
-                    "risk_type": risk_desc,
-                    "starting_amount": '%.2f' % float(starting_amount)})
+        for tn in tenor_list:
+            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+            industry_1m_avg_yield = None
+
             # 计算月平均
             query = u"""
                 SELECT
@@ -253,17 +230,49 @@ def get_wmp(currency):
                         AND preservable = '%s'
                         AND redeemable = '封闭'
                     GROUP BY issuer_name) t
-                """ % (currency, ty[0], preservable_str)
+                """ % (currency, tn[0], preservable_str)
             cursor.execute(query)
             for (cursor_avg,) in cursor:
-                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+            # 获取明细列表
+            query = u"""
+                SELECT
+                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND preservable = '%s'
+                        AND redeemable = '封闭'
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                """ % (preservable_str, currency, tn[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({
+                    "prod_name": prod_name,
+                    "issuer_name": issuer_name,
+                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                    "return_type": pledgeable,
+                    "risk_type": risk_desc,
+                    "starting_amount": '%.2f' % float(starting_amount)})
 
     else:
-        ty_list =[]
+        tenor_list = []
         prod_list["preservable"] = "ALL"
+
         query = u"""
             SELECT
-                MAX(expected_highest_yield), ROUND(tenor / 30)
+                ROUND(tenor / 30) AS tenor
             FROM
                 t_product
             WHERE
@@ -271,40 +280,17 @@ def get_wmp(currency):
                     AND redeemable = '封闭'
                     AND currency = '%s'
             GROUP BY ROUND(tenor / 30)
+            ORDER BY tenor DESC
             """ % (currency,)
         cursor.execute(query)
-        for (expected_highest_yield, tenor_desc) in cursor:
-            ty_list.append([tenor_desc, expected_highest_yield])
+        for (tenor_desc) in cursor:
+            tenor_list.append(tenor_desc)
 
         # 按期限
-        for ty in ty_list:
-            prod_list["tenor_group"].append({"tenor": int(ty[0]), "list": []})
-            query = u"""
-                SELECT
-                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
-                FROM
-                    t_product
-                WHERE
-                    status = '在售'
-                        AND redeemable = '封闭'
-                        AND currency = '%s'
-                        AND expected_highest_yield = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                """ % (currency, ty[1], ty[0])
-            cursor.execute(query)
-            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
-                prod_list["tenor_group"][-1]["list"].append({
-                    "prod_name": prod_name,
-                    "issuer_name": issuer_name,
-                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
-                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
-                    "return_type": pledgeable,
-                    "risk_type": risk_desc,
-                    "starting_amount": '%.2f' % float(starting_amount)})
+        for tn in tenor_list:
+            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+            industry_1m_avg_yield = None
+
             # 计算月平均
             query = u"""
                 SELECT
@@ -321,10 +307,40 @@ def get_wmp(currency):
                         AND ROUND(tenor / 30) = '%s'
                         AND redeemable = '封闭'
                     GROUP BY issuer_name) t
-                """ % (currency, ty[0])
+                """ % (currency, tn[0])
             cursor.execute(query)
             for (cursor_avg,) in cursor:
-                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+            # 获取明细列表
+            query = u"""
+                SELECT
+                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND redeemable = '封闭'
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                """ % (currency, tn[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({
+                    "prod_name": prod_name,
+                    "issuer_name": issuer_name,
+                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                    "return_type": pledgeable,
+                    "risk_type": risk_desc,
+                    "starting_amount": '%.2f' % float(starting_amount)})
 
     pprint(prod_list)
 
