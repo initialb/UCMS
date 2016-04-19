@@ -1,27 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import math
-import codecs
-import argparse
 import logging
 import re
-import requests
-import bs4
-import json
-import time
 import datetime
-import StringIO
-import openpyxl
-import getopt
 import mysql.connector
 from mysql.connector import errorcode
-from multiprocessing import Pool
-from decimal import Decimal
-from butils import decode
-from butils import fix_json
-from butils import ppprint
-from HTMLParser import HTMLParser
-from butils.pprint import pprint
 
 import sys
 reload(sys)
@@ -47,7 +30,10 @@ def import_xlsx(filename):
     #     for col_index, cell in enumerate(row):
     #         print row_index, col_index, cell.value
 
+    rownum = 1
     for row in ws.rows:
+        print "processing row", rownum
+        rownum+=1
         if isinstance(row[8].value, datetime.datetime):
             open_start_date = row[8].value.strftime("%Y%m%d")
         else:
@@ -102,11 +88,37 @@ def import_xlsx(filename):
                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                               'MN', now())""")
 
+    sqlnum = 1
     for pd in result[1:]:
+        print "insert row", sqlnum
         cursor.execute(add_product, pd)
+        sqlnum+=1
 
     logging.info(unicode(len(result[1:])) + ' products imported')
     cursor.close()
+
+
+def decode(*arguments):
+    """Compares first item to subsequent item one by one.
+
+    If first item is equal to a key, returns the corresponding value (next item).
+    If no match is found, returns None, or, if default is omitted, returns None.
+
+    example usage:
+    return_value = decode('b', 'a', 1, 'b', 2, 3)
+    var = 'list'
+    return_type = decode(var, 'tuple', (), 'dict', {}, 'list', [], 'string', '')
+    """
+    if len(arguments) < 3:
+        raise TypeError, 'decode() takes at least 3 arguments (%d given)' % (len(arguments))
+    de_dict = list(arguments[1:])
+    if arguments[0] in de_dict:
+        index = de_dict.index(arguments[0]);
+        if index % 2 == 0 and len(de_dict) > index+1:
+            return de_dict[index+1]
+        return de_dict[-1]
+    elif len(de_dict) % 2 != 0:
+        return de_dict[-1]
 
 
 if __name__ == '__main__':

@@ -185,7 +185,7 @@ def get_ICBC_rate():
                              r[4].string.strip(),
                              format_datetime(r[1].string.strip() + r[5].string.strip())]
 
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302' AND currency='USD'")
+                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='USD'")
 
                 add_product = ("""INSERT INTO t_listing_rate
                                   (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
@@ -223,7 +223,7 @@ def get_ICBC_rate():
                                   r[4].string.strip(),
                                   format_datetime(r[1].string.strip() + r[5].string.strip())]
 
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302' AND currency='GBP'")
+                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='GBP'")
 
                 add_product = ("""INSERT INTO t_listing_rate
                                   (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
@@ -261,7 +261,7 @@ def get_ICBC_rate():
                                   r[4].string.strip(),
                                   format_datetime(r[1].string.strip() + r[5].string.strip())]
 
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302' AND currency='EUR'")
+                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='EUR'")
 
                 add_product = ("""INSERT INTO t_listing_rate
                                   (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
@@ -299,7 +299,7 @@ def get_ICBC_rate():
                                   r[4].string.strip(),
                                   format_datetime(r[1].string.strip() + r[5].string.strip())]
 
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302' AND currency='AUD'")
+                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='AUD'")
 
                 add_product = ("""INSERT INTO t_listing_rate
                                   (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
