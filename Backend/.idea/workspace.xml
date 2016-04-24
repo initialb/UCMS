@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3fa025e-0c8e-4a61-907e-8f1ce5fd637a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ws.py" afterPath="$PROJECT_DIR$/ws.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/price_parser.py" afterPath="$PROJECT_DIR$/price_parser.py" />
     </list>
     <ignored path="Backend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="price_parser.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="price_parser.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/price_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="369" column="0" selection-start-line="369" selection-start-column="0" selection-end-line="369" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7381546">
+              <caret line="1170" column="0" selection-start-line="1170" selection-start-column="0" selection-end-line="1170" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -66,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ws.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ws.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ws.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6645885">
-              <caret line="582" column="37" selection-start-line="582" selection-start-column="37" selection-end-line="582" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="639" column="43" selection-start-line="639" selection-start-column="43" selection-end-line="639" selection-end-column="43" />
               <folding>
                 <element signature="e#24#72#0" expanded="true" />
               </folding>
@@ -150,9 +150,9 @@
         <option value="$PROJECT_DIR$/fund_parser.py" />
         <option value="$PROJECT_DIR$/temp.html" />
         <option value="$PROJECT_DIR$/lib/butils/finutils.py" />
-        <option value="$PROJECT_DIR$/price_parser.py" />
         <option value="$PROJECT_DIR$/test.json" />
         <option value="$PROJECT_DIR$/ws.py" />
+        <option value="$PROJECT_DIR$/price_parser.py" />
       </list>
     </option>
   </component>
@@ -943,14 +943,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-85.0">
-          <caret line="136" column="39" selection-start-line="136" selection-start-column="39" selection-end-line="136" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fund_parser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -961,21 +953,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/price_parser.py">
+    <entry file="file://$PROJECT_DIR$/test.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="369" column="0" selection-start-line="369" selection-start-column="0" selection-end-line="369" selection-end-column="0" />
+        <state vertical-scroll-proportion="-85.0">
+          <caret line="136" column="39" selection-start-line="136" selection-start-column="39" selection-end-line="136" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ws.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6645885">
-          <caret line="582" column="37" selection-start-line="582" selection-start-column="37" selection-end-line="582" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="639" column="43" selection-start-line="639" selection-start-column="43" selection-end-line="639" selection-end-column="43" />
           <folding>
             <element signature="e#24#72#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/price_parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7381546">
+          <caret line="1170" column="0" selection-start-line="1170" selection-start-column="0" selection-end-line="1170" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
