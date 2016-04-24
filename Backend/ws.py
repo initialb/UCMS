@@ -141,11 +141,11 @@ def get_listing_rate(currency):
     rate_list["currency"] = currency
     rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元', "")
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
-        # logger_local.debug('bm_bid_remit*1.008: %s' % (bm_bid_remit*1.008,))
-        # logger_local.debug('bm_bid_cash*1.008: %s' % (bm_bid_cash*1.008,))
-        # logger_local.debug('bm_ask_remit*0.992: %s' % (bm_ask_remit*0.992,))
-        # logger_local.debug('bm_ask_cash*0.992: %s' % (bm_ask_cash*0.992,))
-        # logger_local.debug('bid_remit, bid_cash, ask_remit, ask_cash: %s, %s, %s, %s' % (bid_remit, bid_cash, ask_remit, ask_cash))
+        logger_local.info('bm_bid_remit*1.0008: %s' % (bm_bid_remit*1.0008,))
+        logger_local.info('bm_bid_cash*1.0008: %s' % (bm_bid_cash*1.0008,))
+        logger_local.info('bm_ask_remit*0.9992: %s' % (bm_ask_remit*0.9992,))
+        logger_local.info('bm_ask_cash*0.9992: %s' % (bm_ask_cash*0.9992,))
+        logger_local.info('bid_remit, bid_cash, ask_remit, ask_cash: %s, %s, %s, %s' % (bid_remit, bid_cash, ask_remit, ask_cash))
         if float(bid_remit) > bm_bid_remit*1.0008 or float(bid_cash) > bm_bid_cash*1.0008 \
                 or float(ask_remit) < bm_ask_remit*0.9992 or float(ask_cash) < bm_ask_cash*0.9992:
             rate_list["list"].append({})
@@ -176,8 +176,6 @@ def get_listing_rate(currency):
                 rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
             rate_list["list"][-1]["publish_time"] = publish_time
 
-    pprint(rate_list)
-
     bid_remit_list = []
     bid_cash_list = []
     ask_remit_list = []
@@ -191,8 +189,8 @@ def get_listing_rate(currency):
 
     max_bid_remit = max(bid_remit_list)
     max_bid_cash = max(bid_cash_list)
-    min_ask_remit = max(ask_remit_list)
-    min_ask_cash = max(ask_cash_list)
+    min_ask_remit = min(ask_remit_list)
+    min_ask_cash = min(ask_cash_list)
 
     for r in rate_list["list"]:
         if currency == 'JPY':
@@ -221,8 +219,6 @@ def get_listing_rate(currency):
     cnx.close()
 
     logger_local.info('Rates requested for %s \n\n' % currency)
-
-    pprint(rate_list)
 
     # return jsonify(rate_list)
     return json.dumps(rate_list, ensure_ascii=False)
