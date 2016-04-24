@@ -148,7 +148,7 @@ def get_listing_rate(currency):
         if float(bid_remit) > bm_bid_remit*1.008 or float(bid_cash) > bm_bid_cash*1.008 \
                 or float(ask_remit) < bm_ask_remit*0.992 or float(ask_cash) < bm_ask_cash*0.992:
             rate_list["list"].append({})
-            rate_list["list"][-1]["bank"] = "**"+cn_short_name
+            rate_list["list"][-1]["bank"] = cn_short_name
             if currency == 'JPY':
                 rate_list["list"][-1]["remitbid"] = '%.4f' % float(bid_remit)
                 rate_list["list"][-1]["cashbid"] = '%.4f' % float(bid_cash)
