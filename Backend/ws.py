@@ -140,14 +140,13 @@ def get_listing_rate(currency):
     rate_list["timestamp"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     rate_list["currency"] = currency
     rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元', "")
+    # logger_local.info('bm_bid_remit*1.0008: %s' % (bm_bid_remit*1.0008,))
+    # logger_local.info('bm_bid_cash*1.0008: %s' % (bm_bid_cash*1.0008,))
+    # logger_local.info('bm_ask_remit*0.9992: %s' % (bm_ask_remit*0.9992,))
+    # logger_local.info('bm_ask_cash*0.9992: %s' % (bm_ask_cash*0.9992,))
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
-        logger_local.info('bm_bid_remit*1.0008: %s' % (bm_bid_remit*1.0008,))
-        logger_local.info('bm_bid_cash*1.0008: %s' % (bm_bid_cash*1.0008,))
-        logger_local.info('bm_ask_remit*0.9992: %s' % (bm_ask_remit*0.9992,))
-        logger_local.info('bm_ask_cash*0.9992: %s' % (bm_ask_cash*0.9992,))
-        logger_local.info('bid_remit, bid_cash, ask_remit, ask_cash: %s, %s, %s, %s' % (bid_remit, bid_cash, ask_remit, ask_cash))
-        if float(bid_remit) > bm_bid_remit*1.0008 or float(bid_cash) > bm_bid_cash*1.0008 \
-                or float(ask_remit) < bm_ask_remit*0.9992 or float(ask_cash) < bm_ask_cash*0.9992:
+        if float(bid_remit) > bm_bid_remit*1.008 or float(bid_cash) > bm_bid_cash*1.008 \
+                or float(ask_remit) < bm_ask_remit*0.992 or float(ask_cash) < bm_ask_cash*0.992:
             rate_list["list"].append({})
             rate_list["list"][-1]["bank"] = "**"+cn_short_name
             if currency == 'JPY':
@@ -355,7 +354,7 @@ def get_wmp(currency):
                     "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                     "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
                     "return_type": pledgeable,
-                    "risk_type": risk_desc,
+                    "risk_type": risk_desc+u"风险",
                     "starting_amount": '%.2f' % float(starting_amount)})
 
     else:
@@ -453,7 +452,7 @@ def get_wmp(currency):
                     "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                     "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
                     "return_type": pledgeable,
-                    "risk_type": risk_desc,
+                    "risk_type": risk_desc+u"风险",
                     "starting_amount": '%.2f' % float(starting_amount)})
 
     pprint(prod_list)
@@ -579,7 +578,7 @@ def get_selectedwmp(currency):
             t_product
         WHERE
             status = '在售'
-                AND preservable = '非保本'
+                AND preservable = '保本'
                 AND redeemable = '封闭'
                 AND currency = '%s'
         GROUP BY ROUND(tenor / 30)
@@ -606,7 +605,7 @@ def get_selectedwmp(currency):
                         OR (open_start_date = '每天' AND status = '在售'))
                     AND currency = '%s'
                     AND ROUND(tenor / 30) = '%s'
-                    AND preservable = '非保本'
+                    AND preservable = '保本'
                     AND redeemable = '封闭'
                 GROUP BY issuer_name) t
             """ % (currency, ty[0])
@@ -624,7 +623,7 @@ def get_selectedwmp(currency):
                 t_product
             WHERE
                 status = '在售'
-                    AND preservable = '非保本'
+                    AND preservable = '保本'
                     AND redeemable = '封闭'
                     AND currency = '%s'
                     AND expected_highest_yield = '%s'
