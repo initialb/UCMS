@@ -375,7 +375,7 @@ def get_ABCI_rate():
         for r in rate_data:
             cursor.execute(add_product, r)
 
-        logger_local.info('ABCI rates imported')
+        logger_local.info('ABCI rate imported')
 
     except:
         logger_local.warning(unicode(sys.exc_info()[0]) + u':' + unicode(sys.exc_info()[1]))

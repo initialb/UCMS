@@ -87,18 +87,18 @@ def get_listing_rate(currency):
     rate_list = {"total_rec": "", "list": []}
     total_rec = ""
 
-    query = u"""
-        SELECT count(*) FROM t_issuer, t_listing_rate
-        WHERE t_issuer.issuer_code=t_listing_rate.publisher_code and t_listing_rate.currency='%s'
-        """ % currency
-
-    cursor.execute(query)
-    for (total_rec,) in cursor:
-        rate_list["total_rec"] = total_rec
-
-    if total_rec == 0:
-        logger_local.info('Not found')
-        abort(404)
+    # query = u"""
+    #     SELECT count(*) FROM t_issuer, t_listing_rate
+    #     WHERE t_issuer.issuer_code=t_listing_rate.publisher_code and t_listing_rate.currency='%s'
+    #     """ % currency
+    #
+    # cursor.execute(query)
+    # for (total_rec,) in cursor:
+    #     rate_list["total_rec"] = total_rec
+    #
+    # if total_rec == 0:
+    #     logger_local.info('Not found')
+    #     abort(404)
 
     # 定义基准价
     query = u"""
@@ -117,6 +117,8 @@ def get_listing_rate(currency):
         bm_bid_cash = bm_bid_cash
         bm_ask_remit = bm_ask_remit
         bm_ask_cash = bm_ask_cash
+
+    logger_local.info('Bench rates: %s, %s, %s, %s' % (bm_bid_remit, bm_bid_cash, bm_ask_remit, bm_ask_cash))
 
     query = u"""
         SELECT
@@ -139,7 +141,27 @@ def get_listing_rate(currency):
     rate_list["currency"] = currency
     rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元', "")
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
-        if bid_remit > bm_bid_remit*1.08 or bid_cash > bm_ask_cash*1.08 or ask_remit < bm_ask_remit*0.92 or ask_cash < bm_ask_cash*0.92:
+        # logger_local.debug('bm_bid_remit*1.008: %s' % (bm_bid_remit*1.008,))
+        # logger_local.debug('bm_bid_cash*1.008: %s' % (bm_bid_cash*1.008,))
+        # logger_local.debug('bm_ask_remit*0.992: %s' % (bm_ask_remit*0.992,))
+        # logger_local.debug('bm_ask_cash*0.992: %s' % (bm_ask_cash*0.992,))
+        # logger_local.debug('bid_remit, bid_cash, ask_remit, ask_cash: %s, %s, %s, %s' % (bid_remit, bid_cash, ask_remit, ask_cash))
+        if float(bid_remit) > bm_bid_remit*1.0008 or float(bid_cash) > bm_ask_cash*1.0008 \
+                or float(ask_remit) < bm_ask_remit*0.9992 or float(ask_cash) < bm_ask_cash*0.9992:
+            rate_list["list"].append({})
+            rate_list["list"][-1]["bank"] = "**"+cn_short_name
+            if currency == 'JPY':
+                rate_list["list"][-1]["remitbid"] = '%.4f' % float(bid_remit)
+                rate_list["list"][-1]["cashbid"] = '%.4f' % float(bid_cash)
+                rate_list["list"][-1]["remitask"] = '%.4f' % float(ask_remit)
+                rate_list["list"][-1]["cashask"] = '%.4f' % float(ask_cash)
+            else:
+                rate_list["list"][-1]["remitbid"] = '%.2f' % float(bid_remit)
+                rate_list["list"][-1]["cashbid"] = '%.2f' % float(bid_cash)
+                rate_list["list"][-1]["remitask"] = '%.2f' % float(ask_remit)
+                rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
+            rate_list["list"][-1]["publish_time"] = publish_time
+        else:
             rate_list["list"].append({})
             rate_list["list"][-1]["bank"] = cn_short_name
             if currency == 'JPY':
@@ -153,6 +175,8 @@ def get_listing_rate(currency):
                 rate_list["list"][-1]["remitask"] = '%.2f' % float(ask_remit)
                 rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
             rate_list["list"][-1]["publish_time"] = publish_time
+
+    pprint(rate_list)
 
     bid_remit_list = []
     bid_cash_list = []

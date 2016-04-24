@@ -1,239 +1,110 @@
 {
-  "max_return": "2.90%",
-  "currencyname": "美元",
   "currency": "USD",
-  "timestamp": "2016-04-24 15:43:11",
-  "total_rec": "",
-  "tenor_group": [
+  "list": [
     {
-      "list": [
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160401~20160413",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0289号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160407",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0288号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160411~20160420",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0290号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160330~20160405",
-          "usd_rate": "",
-          "prod_name": "2016年第13期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0454%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160413~20160419",
-          "usd_rate": "",
-          "prod_name": "2016年第15期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0454%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 9,
-          "return_type": "浮动收益",
-          "sale_period": "20160413~20160419",
-          "usd_rate": "",
-          "prod_name": "2016年第15期天天万汇通B款（20万美元以上）",
-          "industry_1m_avg_yield": "1.9667%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 6,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160405",
-          "usd_rate": "",
-          "prod_name": "“万汇通－跨境通QDII”开放式非保本浮动收益美元理财产品第1款",
-          "industry_1m_avg_yield": "1.3883%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "1.0500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 3,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "美元日益月鑫90天",
-          "industry_1m_avg_yield": "0.7500%"
-        },
-        {
-          "starting_amount": "9000.00",
-          "expected_highest_yield": "1.2000%",
-          "issuer_name": "建设银行",
-          "deposit_period": 2,
-          "return_type": "浮动收益",
-          "sale_period": "20160415~20160418",
-          "usd_rate": "",
-          "prod_name": "汇得盈非保本外币理财产品2016年第9期",
-          "industry_1m_avg_yield": "1.2000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.7500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 1,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "美元日益月鑫30天",
-          "industry_1m_avg_yield": "0.6833%"
-        }
-      ],
-      "preservable": "N"
+      "publish_time": "2016-04-24 10:40:00",
+      "cashbid": "644.15",
+      "remitbid": "648.83",
+      "remitask": "651.30",
+      "cashask": "651.30",
+      "bank": "农业银行"
     },
     {
-      "list": [
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160401~20160413",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0289号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160407",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0288号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "deposit_period": 24,
-          "return_type": "浮动收益",
-          "sale_period": "20160411~20160420",
-          "usd_rate": "",
-          "prod_name": "美元鼎鼎成金0290号",
-          "industry_1m_avg_yield": "2.9000%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160330~20160405",
-          "usd_rate": "",
-          "prod_name": "2016年第13期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0454%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.6000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 12,
-          "return_type": "浮动收益",
-          "sale_period": "20160413~20160419",
-          "usd_rate": "",
-          "prod_name": "2016年第15期天天万汇通C款（20万美元以上）",
-          "industry_1m_avg_yield": "2.0454%"
-        },
-        {
-          "starting_amount": "200000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 9,
-          "return_type": "浮动收益",
-          "sale_period": "20160413~20160419",
-          "usd_rate": "",
-          "prod_name": "2016年第15期天天万汇通B款（20万美元以上）",
-          "industry_1m_avg_yield": "1.9667%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "2.3000%",
-          "issuer_name": "兴业银行",
-          "deposit_period": 6,
-          "return_type": "浮动收益",
-          "sale_period": "20160328~20160405",
-          "usd_rate": "",
-          "prod_name": "“万汇通－跨境通QDII”开放式非保本浮动收益美元理财产品第1款",
-          "industry_1m_avg_yield": "1.3883%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "1.0500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 3,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "美元日益月鑫90天",
-          "industry_1m_avg_yield": "0.7500%"
-        },
-        {
-          "starting_amount": "9000.00",
-          "expected_highest_yield": "1.2000%",
-          "issuer_name": "建设银行",
-          "deposit_period": 2,
-          "return_type": "浮动收益",
-          "sale_period": "20160415~20160418",
-          "usd_rate": "",
-          "prod_name": "汇得盈非保本外币理财产品2016年第9期",
-          "industry_1m_avg_yield": "1.2000%"
-        },
-        {
-          "starting_amount": "8000.00",
-          "expected_highest_yield": "0.7500%",
-          "issuer_name": "招商银行",
-          "deposit_period": 1,
-          "return_type": "浮动收益",
-          "sale_period": "每天",
-          "usd_rate": "",
-          "prod_name": "美元日益月鑫30天",
-          "industry_1m_avg_yield": "0.6833%"
-        }
-      ],
-      "preservable": "Y"
+      "publish_time": "2016-04-24 00:00:05",
+      "cashbid": "643.62",
+      "remitbid": "648.82",
+      "remitask": "651.42",
+      "cashask": "651.42",
+      "bank": "中国银行"
+    },
+    {
+      "publish_time": "2016-04-24 10:42:00",
+      "cashbid": "644.94",
+      "remitbid": "*649.56",
+      "remitask": "652.10",
+      "cashask": "652.10",
+      "bank": [
+        "**",
+        "建设银行"
+      ]
+    },
+    {
+      "publish_time": "2016-04-24 10:41:07",
+      "cashbid": "643.59",
+      "remitbid": "648.79",
+      "remitask": "651.39",
+      "cashask": "651.39",
+      "bank": "交通银行"
+    },
+    {
+      "publish_time": "2016-04-24 10:37:00",
+      "cashbid": "643.94",
+      "remitbid": "648.91",
+      "remitask": "651.38",
+      "cashask": "651.38",
+      "bank": "中信银行"
+    },
+    {
+      "publish_time": "2016-04-24 10:30:02",
+      "cashbid": "643.60",
+      "remitbid": "648.80",
+      "remitask": "651.40",
+      "cashask": "651.40",
+      "bank": "华夏银行"
+    },
+    {
+      "publish_time": "2016-04-24 00:00:00",
+      "cashbid": "643.65",
+      "remitbid": "648.85",
+      "remitask": "651.45",
+      "cashask": "651.45",
+      "bank": "平安银行"
+    },
+    {
+      "publish_time": "2016-04-24 10:45:05",
+      "cashbid": "643.05",
+      "remitbid": "648.25",
+      "remitask": "*652.15",
+      "cashask": "*652.15",
+      "bank": "招商银行"
+    },
+    {
+      "publish_time": "2016-04-24 07:50:21",
+      "cashbid": "643.30",
+      "remitbid": "648.50",
+      "remitask": "651.10",
+      "cashask": "651.10",
+      "bank": [
+        "**",
+        "兴业银行"
+      ]
+    },
+    {
+      "publish_time": "2016-04-24 10:42:18",
+      "cashbid": "643.59",
+      "remitbid": "648.85",
+      "remitask": "651.40",
+      "cashask": "651.40",
+      "bank": "浦发银行"
+    },
+    {
+      "publish_time": "2016-04-24 00:00:00",
+      "cashbid": "*645.87",
+      "remitbid": "648.79",
+      "remitask": "651.40",
+      "cashask": "651.40",
+      "bank": "北京银行"
+    },
+    {
+      "publish_time": "2016-04-24 00:00:00",
+      "cashbid": "643.59",
+      "remitbid": "648.79",
+      "remitask": "651.39",
+      "cashask": "651.39",
+      "bank": "上海银行"
     }
-  ]
+  ],
+  "currencyname": "美元",
+  "total_rec": 12,
+  "timestamp": "2016-04-24 16:42:04"
 }
