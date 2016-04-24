@@ -504,6 +504,7 @@ def get_selectedwmp(currency):
                 AND redeemable = '封闭'
                 AND currency = '%s'
         GROUP BY ROUND(tenor / 30)
+        HAVING TENOR >= 3
         ORDER BY TENOR desc
         """ % (currency,)
     cursor.execute(query)
@@ -582,6 +583,7 @@ def get_selectedwmp(currency):
                 AND redeemable = '封闭'
                 AND currency = '%s'
         GROUP BY ROUND(tenor / 30)
+        HAVING TENOR >= 3
         ORDER BY TENOR desc
         """ % (currency,)
     cursor.execute(query)
