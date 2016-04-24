@@ -87,8 +87,10 @@ def get_listing_rate(currency):
     rate_list = {"total_rec": "", "list": []}
     total_rec = ""
 
-    query = "SELECT count(*) FROM t_issuer, t_listing_rate\
-             WHERE t_issuer.issuer_code=t_listing_rate.publisher_code and t_listing_rate.currency='%s'" % currency
+    query = u"""
+        SELECT count(*) FROM t_issuer, t_listing_rate
+        WHERE t_issuer.issuer_code=t_listing_rate.publisher_code and t_listing_rate.currency='%s'
+        """ % currency
 
     cursor.execute(query)
     for (total_rec,) in cursor:
@@ -98,31 +100,87 @@ def get_listing_rate(currency):
         logger_local.info('Not found')
         abort(404)
 
-    query = "SELECT\
-             t_issuer.cn_short_name,\
-             t_listing_rate.bid_remit, t_listing_rate.bid_cash, t_listing_rate.ask_remit, t_listing_rate.ask_cash,\
-             t_listing_rate.publish_time\
-             FROM t_issuer, t_listing_rate\
-             WHERE t_issuer.issuer_code=t_listing_rate.publisher_code and t_listing_rate.currency='%s'" % currency
+    # 定义基准价
+    query = u"""
+        SELECT
+            AVG(bid_remit), AVG(bid_cash), AVG(ask_remit), AVG(ask_cash)
+        FROM
+            t_listing_rate
+        WHERE
+            currency = '%s'
+                AND DATE(publish_time) = CURDATE()
+                AND publisher_code IN ('C10102' , 'C10103', 'C10104', 'C10105', 'C10301', 'C10308')
+        """ % currency
+    cursor.execute(query)
+    for (bm_bid_remit, bm_bid_cash, bm_ask_remit, bm_ask_cash) in cursor:
+        bm_bid_remit = bm_bid_remit
+        bm_bid_cash = bm_bid_cash
+        bm_ask_remit = bm_ask_remit
+        bm_ask_cash = bm_ask_cash
+
+    query = u"""
+        SELECT
+            t_issuer.cn_short_name,
+            t_listing_rate.bid_remit,
+            t_listing_rate.bid_cash,
+            t_listing_rate.ask_remit,
+            t_listing_rate.ask_cash,
+            t_listing_rate.publish_time
+        FROM
+            t_issuer,
+            t_listing_rate
+        WHERE
+            t_issuer.issuer_code = t_listing_rate.publisher_code
+                AND currency = '%s'
+                AND DATE(publish_time) = CURDATE()
+        """ % currency
     cursor.execute(query)
     rate_list["timestamp"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     rate_list["currency"] = currency
-    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", "")
+    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元', "")
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
-        rate_list["list"].append({})
-        rate_list["list"][-1]["bank"] = cn_short_name
-        rate_list["list"][-1]["remitbid"] = '%.2f' % float(bid_remit)
-        rate_list["list"][-1]["cashbid"] = '%.2f' % float(bid_cash)
-        rate_list["list"][-1]["remitask"] = '%.2f' % float(ask_remit)
-        rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
-        rate_list["list"][-1]["publish_time"] = publish_time
+        if bid_remit > bm_bid_remit*1.08 or bid_cash > bm_ask_cash*1.08 or ask_remit < bm_ask_remit*0.92 or ask_cash < bm_ask_cash*0.92:
+            rate_list["list"].append({})
+            rate_list["list"][-1]["bank"] = cn_short_name
+            if currency == 'JPY':
+                rate_list["list"][-1]["remitbid"] = '%.4f' % float(bid_remit)
+                rate_list["list"][-1]["cashbid"] = '%.4f' % float(bid_cash)
+                rate_list["list"][-1]["remitask"] = '%.4f' % float(ask_remit)
+                rate_list["list"][-1]["cashask"] = '%.4f' % float(ask_cash)
+            else:
+                rate_list["list"][-1]["remitbid"] = '%.2f' % float(bid_remit)
+                rate_list["list"][-1]["cashbid"] = '%.2f' % float(bid_cash)
+                rate_list["list"][-1]["remitask"] = '%.2f' % float(ask_remit)
+                rate_list["list"][-1]["cashask"] = '%.2f' % float(ask_cash)
+            rate_list["list"][-1]["publish_time"] = publish_time
 
-    query = "SELECT max(bid_remit), max(bid_cash), min(ask_remit), min(ask_cash)\
-             FROM t_listing_rate\
-             WHERE currency='%s'" % currency
-    cursor.execute(query)
-    for (max_bid_remit, max_bid_cash, min_ask_remit, min_ask_cash) in cursor:
-        for r in rate_list["list"]:
+    bid_remit_list = []
+    bid_cash_list = []
+    ask_remit_list = []
+    ask_cash_list = []
+
+    for r in rate_list["list"]:
+        bid_remit_list.append(r["remitbid"])
+        bid_cash_list.append(r["cashbid"])
+        ask_remit_list.append(r["remitask"])
+        ask_cash_list.append(r["cashask"])
+
+    max_bid_remit = max(bid_remit_list)
+    max_bid_cash = max(bid_cash_list)
+    min_ask_remit = max(ask_remit_list)
+    min_ask_cash = max(ask_cash_list)
+
+    for r in rate_list["list"]:
+        if currency == 'JPY':
+            if r["remitbid"] == '%.4f' % float(max_bid_remit):
+                r["remitbid"] = "*"+r["remitbid"]
+            if r["cashbid"] == '%.4f' % float(max_bid_cash):
+                r["cashbid"] = "*"+r["cashbid"]
+            if r["remitask"] == '%.4f' % float(min_ask_remit):
+                r["remitask"] = "*"+r["remitask"]
+            if r["cashask"] == '%.4f' % float(min_ask_cash):
+                r["cashask"] = "*"+r["cashask"]
+        else:
             if r["remitbid"] == '%.2f' % float(max_bid_remit):
                 r["remitbid"] = "*"+r["remitbid"]
             if r["cashbid"] == '%.2f' % float(max_bid_cash):
@@ -131,6 +189,8 @@ def get_listing_rate(currency):
                 r["remitask"] = "*"+r["remitask"]
             if r["cashask"] == '%.2f' % float(min_ask_cash):
                 r["cashask"] = "*"+r["cashask"]
+
+    rate_list["total_rec"] = len(rate_list["list"])
 
     cnx.commit()
     cursor.close()
@@ -169,17 +229,6 @@ def get_wmp(currency):
                  "tenor_group": []
                 }
 
-    query = u"SELECT count(*)\
-             FROM t_product\
-             WHERE status='在售' and currency='%s'" % currency
-    cursor.execute(query)
-    for (ttl_rec,) in cursor:
-        total_rec = ttl_rec
-
-    if total_rec == 0:
-        logger_local.info('Not found')
-        abort(404)
-
     preservable = request.args.get('preservable', '')
 
     if preservable == 'N' or preservable == 'Y':
@@ -191,6 +240,29 @@ def get_wmp(currency):
         tenor_list = []
         prod_list["preservable"] = preservable
 
+        # 统计记录数
+        query = u"""
+            SELECT
+                count(*)
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND preservable = '%s'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            """ % (preservable_str, currency)
+        cursor.execute(query)
+        for (csr_total_rec,) in cursor:
+            total_rec = csr_total_rec
+
+        if total_rec == 0:
+            logger_local.info('Not found')
+            abort(404)
+        else:
+            prod_list["total_rec"] = total_rec
+
+        # 获取期限列表
         query = u"""
             SELECT
                 ROUND(tenor / 30) AS tenor
@@ -270,6 +342,28 @@ def get_wmp(currency):
         tenor_list = []
         prod_list["preservable"] = "ALL"
 
+        # 统计记录数
+        query = u"""
+            SELECT
+                count(*)
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            """ % currency
+        cursor.execute(query)
+        for (csr_total_rec,) in cursor:
+            total_rec = csr_total_rec
+
+        if total_rec == 0:
+            logger_local.info('Not found')
+            abort(404)
+        else:
+            prod_list["total_rec"] = total_rec
+
+        # 获取期限列表
         query = u"""
             SELECT
                 ROUND(tenor / 30) AS tenor

@@ -137,11 +137,21 @@ def get_CMHO_rate():
                                   r[5].string.strip(),
                                   r[3].string.strip(),
                                   format_datetime(publish_date + r[8].string.strip())])
+            elif r[0].string.strip() == "日元":
+                rate_data.append(['C10308',
+                                  'CMHO',
+                                  'JPY',
+                                  r[6].string.strip(),
+                                  r[7].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[3].string.strip(),
+                                  format_datetime(publish_date + r[8].string.strip())])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10308'")
-        logger_local.info('CMHO ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10308'")
+        # logger_local.info('CMHO ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                           (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                           publisher_mid_rate, publish_time, update_time)
                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -163,150 +173,37 @@ def get_ICBC_rate():
                     '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
                     + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=USD&ppublishDate='
 
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.get(index_url, timeout=TIMEOUT)
+        for ccy_desc in [u'美元(USD)', u'英镑(GBP)', u'欧元(EUR)', u'澳大利亚元(AUD)', u'日元(JPY)']:
+            @retry(stop_max_attempt_number=10, wait_fixed=2000)
+            def request_content():
+                return requests.get(index_url, timeout=TIMEOUT)
 
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
+            response = request_content()
+            soup = bs4.BeautifulSoup(response.text, "html.parser")
 
-        rate_data = []
-        rate_list_tr = soup.find("table", class_="tableDataTable").find_all("tr")
+            rate_data = []
+            rate_list_tr = soup.find("table", class_="tableDataTable").find_all("tr")
 
-        for rates in rate_list_tr:
-            r = rates.find_all("td")
-            if len(r) == 6 and r[0].string.strip() == "美元(USD)":
-                rate_data = ['C10102',
-                             'ICBC',
-                             'USD',
-                             r[2].string.strip(),
-                             r[3].string.strip(),
-                             r[4].string.strip(),
-                             r[4].string.strip(),
-                             format_datetime(r[1].string.strip() + r[5].string.strip())]
+            for rates in rate_list_tr:
+                r = rates.find_all("td")
+                if len(r) == 6 and r[0].string.strip() == ccy_desc:
+                    rate_data = ['C10102',
+                                 'ICBC',
+                                 ccy_desc[-4:-1],
+                                 r[2].string.strip(),
+                                 r[3].string.strip(),
+                                 r[4].string.strip(),
+                                 r[4].string.strip(),
+                                 format_datetime(r[1].string.strip() + r[5].string.strip())]
 
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='USD'")
+                    # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='USD'")
 
-                add_product = ("""INSERT INTO t_listing_rate
-                                  (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
-                                  publish_time, update_time)
-                                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
-                cursor.execute(add_product, rate_data)
-                break
-
-        """
-        update GBP rate
-        """
-        index_url = 'http://www.icbc.com.cn/ICBCDynamicSite/Optimize/Quotation/QuotationListIframe.aspx?variety=2' \
-                    '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
-                    + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=GBP&ppublishDate='
-
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.get(index_url, timeout=TIMEOUT)
-
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-
-        rate_data = []
-        rate_list_tr = soup.find("table", class_="tableDataTable").find_all("tr")
-
-        for rates in rate_list_tr:
-            r = rates.find_all("td")
-            if len(r) == 6 and r[0].string.strip() == "英镑(GBP)":
-                rate_data = ['C10102',
-                                  'ICBC',
-                                  'GBP',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  format_datetime(r[1].string.strip() + r[5].string.strip())]
-
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='GBP'")
-
-                add_product = ("""INSERT INTO t_listing_rate
-                                  (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
-                                  publish_time, update_time)
-                                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
-                cursor.execute(add_product, rate_data)
-                break
-
-        """
-        update EUR rate
-        """
-        index_url = 'http://www.icbc.com.cn/ICBCDynamicSite/Optimize/Quotation/QuotationListIframe.aspx?variety=2' \
-                    '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
-                    + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=EUR&ppublishDate='
-
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.get(index_url, timeout=TIMEOUT)
-
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-
-        rate_data = []
-        rate_list_tr = soup.find("table", class_="tableDataTable").find_all("tr")
-
-        for rates in rate_list_tr:
-            r = rates.find_all("td")
-            if len(r) == 6 and r[0].string.strip() == "欧元(EUR)":
-                rate_data = ['C10102',
-                                  'ICBC',
-                                  'EUR',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  format_datetime(r[1].string.strip() + r[5].string.strip())]
-
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='EUR'")
-
-                add_product = ("""INSERT INTO t_listing_rate
-                                  (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
-                                  publish_time, update_time)
-                                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
-                cursor.execute(add_product, rate_data)
-                break
-
-        """
-        update AUD rate
-        """
-        index_url = 'http://www.icbc.com.cn/ICBCDynamicSite/Optimize/Quotation/QuotationListIframe.aspx?variety=2' \
-                    '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
-                    + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=AUD&ppublishDate='
-
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.get(index_url, timeout=TIMEOUT)
-
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-
-        rate_data = []
-        rate_list_tr = soup.find("table", class_="tableDataTable").find_all("tr")
-
-        for rates in rate_list_tr:
-            r = rates.find_all("td")
-            if len(r) == 6 and r[0].string.strip() == "澳大利亚元(AUD)":
-                rate_data = ['C10102',
-                                  'ICBC',
-                                  'AUD',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  format_datetime(r[1].string.strip() + r[5].string.strip())]
-
-                cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='AUD'")
-
-                add_product = ("""INSERT INTO t_listing_rate
-                                  (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
-                                  publish_time, update_time)
-                                  VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
-                cursor.execute(add_product, rate_data)
-                break
+                    add_product = ("""REPLACE INTO t_listing_rate
+                                      (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
+                                      publish_time, update_time)
+                                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
+                    cursor.execute(add_product, rate_data)
+                    break
 
         logger_local.info('ICBC rate imported')
 
@@ -321,13 +218,12 @@ def get_BCHO_rate():
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.post(index_url, data={"pjname": "1316,1314,1325,1326"}, timeout=TIMEOUT)
+            return requests.post(index_url, data={"pjname": "1316,1314,1325,1326,1323"}, timeout=TIMEOUT)
 
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
 
         rate_data = []
-
         rate_list_tr = soup.find("div", class_="BOC_main publish").find_all("tr")
 
         for rates in rate_list_tr:
@@ -376,11 +272,22 @@ def get_BCHO_rate():
                                   r[5].string.strip(),
                                   r[6].string.strip(),
                                   format_datetime(r[7].string.strip())])
+            elif len(r) == 8 and r[0].string.strip() == "日元":
+                rate_data.append(['C10104',
+                                  'BCHO',
+                                  'JPY',
+                                  r[1].string.strip(),
+                                  r[2].string.strip(),
+                                  r[3].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[6].string.strip(),
+                                  format_datetime(r[7].string.strip())])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10104'")
-        logger_local.info('BCHO ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10104'")
+        # logger_local.info('BCHO ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                           (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash, mid_rate,
                           publisher_mid_rate, publish_time, update_time)
                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -448,11 +355,20 @@ def get_ABCI_rate():
                                   r[2].string.strip(),
                                   r[2].string.strip(),
                                   format_datetime(publish_datetime)])
+            elif len(r) == 4 and r[0].string.strip() == "日元(JPY)":
+                rate_data.append(['C10103',
+                                  'ABCI',
+                                  'JPY',
+                                  r[1].string.strip(),
+                                  r[3].string.strip(),
+                                  r[2].string.strip(),
+                                  r[2].string.strip(),
+                                  format_datetime(publish_datetime)])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10103'")
-        logger_local.info('ABCI ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10103'")
+        # logger_local.info('ABCI ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                        (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                        publish_time, update_time)
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -487,47 +403,57 @@ def get_CCBH_rate():
                 rate_data.append(['C10105',
                              'CCBH',
                              'USD',
-                             Decimal(Decimal(rt_data.fxr_xch_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_xch_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.mid_rate.string)*100).quantize(Decimal('.00')),
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
                              format_datetime(publish_datetime)])
             elif rt_data.cm_curr_cod.string == '12':
                 rate_data.append(['C10105',
                              'CCBH',
                              'GBP',
-                             Decimal(Decimal(rt_data.fxr_xch_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_xch_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.mid_rate.string)*100).quantize(Decimal('.00')),
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
                              format_datetime(publish_datetime)])
             elif rt_data.cm_curr_cod.string == '33':
                 rate_data.append(['C10105',
                              'CCBH',
                              'EUR',
-                             Decimal(Decimal(rt_data.fxr_xch_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_xch_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.mid_rate.string)*100).quantize(Decimal('.00')),
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
                              format_datetime(publish_datetime)])
             elif rt_data.cm_curr_cod.string == '29':
                 rate_data.append(['C10105',
                              'CCBH',
                              'AUD',
-                             Decimal(Decimal(rt_data.fxr_xch_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_buyin.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_xch_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.fxr_cur_sellout.string)*100).quantize(Decimal('.00')),
-                             Decimal(Decimal(rt_data.mid_rate.string)*100).quantize(Decimal('.00')),
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
+                             format_datetime(publish_datetime)])
+            elif rt_data.cm_curr_cod.string == '27':
+                rate_data.append(['C10105',
+                             'CCBH',
+                             'JPY',
+                             '%.4f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.4f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.4f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.4f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.4f' % (float(rt_data.mid_rate.string)*100),
                              format_datetime(publish_datetime)])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10105'")
-        logger_local.info('CCBH ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10105'")
+        # logger_local.info('CCBH ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                           (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                           publisher_mid_rate, publish_time, update_time)
                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -593,12 +519,22 @@ def get_CTIB_rate():
                                   rt_data[69:72] + '.' + rt_data[72:74],
                                   rt_data[57:60] + '.' + rt_data[60:62],
                                   format_datetime(rt_data[1:9] + rt_data[9:15])])
+            elif rt_data[15:17] == '27':
+                rate_data.append(['C10302',
+                                  'CTIB',
+                                  'JPY',
+                                  rt_data[32:33] + '.' + rt_data[33:37],
+                                  rt_data[20:21] + '.' + rt_data[21:25],
+                                  rt_data[44:45] + '.' + rt_data[45:49],
+                                  rt_data[68:69] + '.' + rt_data[69:73],
+                                  rt_data[56:57] + '.' + rt_data[57:61],
+                                  format_datetime(rt_data[1:9] + rt_data[9:15])])
 
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302'")
-        logger_local.info('CTIB ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10302'")
+        # logger_local.info('CTIB ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                         (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                         publisher_mid_rate, publish_time, update_time)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -666,11 +602,20 @@ def get_BCOH_rate():
                                   r[3].string.strip(),
                                   r[5].string.strip(),
                                   format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "日元(JPY/CNY)":
+                rate_data.append(['C10301',
+                                  'BCOH',
+                                  'JPY',
+                                  round(float(r[2].string.strip())/1000, 4),
+                                  round(float(r[4].string.strip())/1000, 4),
+                                  round(float(r[3].string.strip())/1000, 4),
+                                  round(float(r[5].string.strip())/1000, 4),
+                                  format_datetime(publish_datetime)])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10301'")
-        logger_local.info('BCOH ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10301'")
+        # logger_local.info('BCOH ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                        (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                        publish_time, update_time)
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -742,11 +687,21 @@ def get_EBBC_rate():
                                   r[2].string.strip(),
                                   r[5].string.strip(),
                                   format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "日元(JPY)":
+                rate_data.append(['C10303',
+                                  'EBBC',
+                                  'JPY',
+                                  r[3].string.strip(),
+                                  r[1].string.strip(),
+                                  r[4].string.strip(),
+                                  r[2].string.strip(),
+                                  r[5].string.strip(),
+                                  format_datetime(publish_datetime)])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10303'")
-        logger_local.info('EBBC ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10303'")
+        # logger_local.info('EBBC ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                        (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                        publisher_mid_rate, publish_time, update_time)
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -784,40 +739,10 @@ def get_IBCN_rate():
 
         # 轮询找到美元, 写入product_data后跳出
         for data_row in data_string["rows"]:
-            if data_row["cell"][1] == 'USD':
+            if data_row["cell"][1] in ['USD', 'GBP', 'EUR', 'AUD', 'JPY']:
                 rate_data.append(['C10309',
                              'IBCN',
-                             'USD',
-                             data_row["cell"][4],
-                             data_row["cell"][6],
-                             data_row["cell"][5],
-                             data_row["cell"][7],
-                             data_row["cell"][3],
-                             format_datetime(publish_datetime)])
-            elif data_row["cell"][1] == 'GBP':
-                rate_data.append(['C10309',
-                             'IBCN',
-                             'GBP',
-                             data_row["cell"][4],
-                             data_row["cell"][6],
-                             data_row["cell"][5],
-                             data_row["cell"][7],
-                             data_row["cell"][3],
-                             format_datetime(publish_datetime)])
-            elif data_row["cell"][1] == 'EUR':
-                rate_data.append(['C10309',
-                             'IBCN',
-                             'EUR',
-                             data_row["cell"][4],
-                             data_row["cell"][6],
-                             data_row["cell"][5],
-                             data_row["cell"][7],
-                             data_row["cell"][3],
-                             format_datetime(publish_datetime)])
-            elif data_row["cell"][1] == 'AUD':
-                rate_data.append(['C10309',
-                             'IBCN',
-                             'AUD',
+                             data_row["cell"][1],
                              data_row["cell"][4],
                              data_row["cell"][6],
                              data_row["cell"][5],
@@ -825,11 +750,10 @@ def get_IBCN_rate():
                              data_row["cell"][3],
                              format_datetime(publish_datetime)])
 
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10309'")
+        # logger_local.info('IBCN ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10309'")
-        logger_local.info('IBCN ' + unicode(cursor.rowcount) + ' rows deleted')
-
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                        (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                        publisher_mid_rate, publish_time, update_time)
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -900,11 +824,21 @@ def get_SPDB_rate():
                                   r[4].string.strip(),
                                   r[1].string.strip(),
                                   format_datetime(publish_datetime)])
+            elif len(r) == 5 and r[0].string.strip() == u'日元\xa0JPY':
+                rate_data.append(['C10310',
+                                  'SPDB',
+                                  'JPY',
+                                  round(float(r[2].string.strip().replace(",", ""))/1000, 4),
+                                  round(float(r[3].string.strip().replace(",", ""))/1000, 4),
+                                  round(float(r[4].string.strip().replace(",", ""))/1000, 4),
+                                  round(float(r[4].string.strip().replace(",", ""))/1000, 4),
+                                  round(float(r[1].string.strip().replace(",", ""))/1000, 4),
+                                  format_datetime(publish_datetime)])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10310'")
-        logger_local.info('SPDB ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10310'")
+        # logger_local.info('SPDB ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                         (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                         publisher_mid_rate, publish_time, update_time)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -922,102 +856,34 @@ def get_DESZ_rate():
         index_url = 'https://bank.pingan.com.cn/ibp/portal/exchange/qryExchangeList.do'
         rate_data = []
 
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.post(index_url,
-                                 data={"realFlag": "1", "currencyCode": "USD", "pageIndex": "1"},
-                                 timeout=TIMEOUT)
+        for currency in ['USD', 'GBP', 'EUR', 'AUD', 'JPY']:
+            @retry(stop_max_attempt_number=10, wait_fixed=2000)
+            def request_content():
+                return requests.post(index_url,
+                                     data={"realFlag": "1", "currencyCode": currency, "pageIndex": "1"},
+                                     timeout=TIMEOUT)
 
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-        publish_datetime = filter(unicode.isdigit, soup.find(text=re.compile(u"时间：")))
+            response = request_content()
+            soup = bs4.BeautifulSoup(response.text, "html.parser")
+            publish_datetime = filter(unicode.isdigit, soup.find(text=re.compile(u"时间：")))
 
-        rates = soup.find_all("td", class_="tac")
+            rates = soup.find_all("td", class_="tac")
 
-        rate_data.append(['C10307',
-                          'DESZ',
-                          'USD',
-                          rates[2].string.strip(),
-                          rates[3].string.strip(),
-                          rates[4].string.strip(),
-                          rates[4].string.strip(),
-                          rates[5].string.strip(),
-                          rates[1].string.strip(),
-                          format_datetime(publish_datetime)])
+            rate_data.append(['C10307',
+                              'DESZ',
+                              currency,
+                              rates[2].string.strip(),
+                              rates[3].string.strip(),
+                              rates[4].string.strip(),
+                              rates[4].string.strip(),
+                              rates[5].string.strip(),
+                              rates[1].string.strip(),
+                              format_datetime(publish_datetime)])
 
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.post(index_url,
-                                 data={"realFlag": "1", "currencyCode": "GBP", "pageIndex": "1"},
-                                 timeout=TIMEOUT)
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10307'")
+        # logger_local.info('DESZ ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-        publish_datetime = filter(unicode.isdigit, soup.find(text=re.compile(u"时间：")))
-
-        rates = soup.find_all("td", class_="tac")
-
-        rate_data.append(['C10307',
-                          'DESZ',
-                          'GBP',
-                          rates[2].string.strip(),
-                          rates[3].string.strip(),
-                          rates[4].string.strip(),
-                          rates[4].string.strip(),
-                          rates[5].string.strip(),
-                          rates[1].string.strip(),
-                          format_datetime(publish_datetime)])
-
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.post(index_url,
-                                 data={"realFlag": "1", "currencyCode": "EUR", "pageIndex": "1"},
-                                 timeout=TIMEOUT)
-
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-        publish_datetime = filter(unicode.isdigit, soup.find(text=re.compile(u"时间：")))
-
-        rates = soup.find_all("td", class_="tac")
-
-        rate_data.append(['C10307',
-                          'DESZ',
-                          'EUR',
-                          rates[2].string.strip(),
-                          rates[3].string.strip(),
-                          rates[4].string.strip(),
-                          rates[4].string.strip(),
-                          rates[5].string.strip(),
-                          rates[1].string.strip(),
-                          format_datetime(publish_datetime)])
-
-        @retry(stop_max_attempt_number=10, wait_fixed=2000)
-        def request_content():
-            return requests.post(index_url,
-                                 data={"realFlag": "1", "currencyCode": "AUD", "pageIndex": "1"},
-                                 timeout=TIMEOUT)
-
-        response = request_content()
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
-        publish_datetime = filter(unicode.isdigit, soup.find(text=re.compile(u"时间：")))
-
-        rates = soup.find_all("td", class_="tac")
-
-        rate_data.append(['C10307',
-                          'DESZ',
-                          'AUD',
-                          rates[2].string.strip(),
-                          rates[3].string.strip(),
-                          rates[4].string.strip(),
-                          rates[4].string.strip(),
-                          rates[5].string.strip(),
-                          rates[1].string.strip(),
-                          format_datetime(publish_datetime)])
-
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10307'")
-        logger_local.info('DESZ ' + unicode(cursor.rowcount) + ' rows deleted')
-
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                         (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash, mid_rate,
                         publisher_mid_rate, publish_time, update_time)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -1047,51 +913,31 @@ def get_BKSH_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[1].string.strip() == u'USD':
+            if r[1].string.strip() in ['USD', 'GBP', 'EUR', 'AUD']:
                 rate_data.append(['C10912',
                                   'BKSH',
-                                  'USD',
+                                  r[1].string.strip(),
                                   r[4].string.strip(),
                                   r[6].string.strip(),
                                   r[5].string.strip(),
                                   r[5].string.strip(),
                                   r[3].string.strip(),
                                   format_datetime(r[7].string.strip())])
-            elif r[1].string.strip() == u'GBP':
+            elif r[1].string.strip() == 'JPY':
                 rate_data.append(['C10912',
                                   'BKSH',
-                                  'GBP',
-                                  r[4].string.strip(),
-                                  r[6].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[3].string.strip(),
-                                  format_datetime(r[7].string.strip())])
-            elif r[1].string.strip() == u'EUR':
-                rate_data.append(['C10912',
-                                  'BKSH',
-                                  'EUR',
-                                  r[4].string.strip(),
-                                  r[6].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[3].string.strip(),
-                                  format_datetime(r[7].string.strip())])
-            elif r[1].string.strip() == u'AUD':
-                rate_data.append(['C10912',
-                                  'BKSH',
-                                  'AUD',
-                                  r[4].string.strip(),
-                                  r[6].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[3].string.strip(),
+                                  r[1].string.strip(),
+                                  round(float(r[4].string.strip())/1000, 4),
+                                  round(float(r[6].string.strip())/1000, 4),
+                                  round(float(r[5].string.strip())/1000, 4),
+                                  round(float(r[5].string.strip())/1000, 4),
+                                  round(float(r[3].string.strip())/1000, 4),
                                   format_datetime(r[7].string.strip())])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10912'")
-        logger_local.info('BKSH ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10912'")
+        # logger_local.info('BKSH ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                         (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                         publisher_mid_rate, publish_time, update_time)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -1126,43 +972,10 @@ def get_BOBJ_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[0].string.strip() == u'USD/CNY':
+            if r[0].string.strip() in ['USD/CNY', 'GBP/CNY', 'EUR/CNY', 'AUD/CNY', 'JPY/CNY']:
                 rate_data.append(['C10802',
                                   'BOBJ',
-                                  'USD',
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[7].string.strip(),
-                                  r[6].string.strip(),
-                                  format_datetime(publish_datetime)])
-            elif r[0].string.strip() == u'GBP/CNY':
-                rate_data.append(['C10802',
-                                  'BOBJ',
-                                  'GBP',
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[7].string.strip(),
-                                  r[6].string.strip(),
-                                  format_datetime(publish_datetime)])
-            elif r[0].string.strip() == u'EUR/CNY':
-                rate_data.append(['C10802',
-                                  'BOBJ',
-                                  'EUR',
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  r[5].string.strip(),
-                                  r[7].string.strip(),
-                                  r[6].string.strip(),
-                                  format_datetime(publish_datetime)])
-            elif r[0].string.strip() == u'AUD/CNY':
-                rate_data.append(['C10802',
-                                  'BOBJ',
-                                  'AUD',
+                                  r[0].string.strip()[:3],
                                   r[3].string.strip(),
                                   r[4].string.strip(),
                                   r[5].string.strip(),
@@ -1172,10 +985,10 @@ def get_BOBJ_rate():
                                   format_datetime(publish_datetime)])
 
         if publish_datetime == LOCALDATE:
-            cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10802'")
-            logger_local.info('BOBJ ' + unicode(cursor.rowcount) + ' rows deleted')
+            # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10802'")
+            # logger_local.info('BOBJ ' + unicode(cursor.rowcount) + ' rows deleted')
 
-            add_product = ("""INSERT INTO t_listing_rate
+            add_product = ("""REPLACE INTO t_listing_rate
                             (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                             mid_rate, publisher_mid_rate, publish_time, update_time)
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -1205,40 +1018,10 @@ def get_HXBJ_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[0].string.strip() == u'USDCNY':
+            if r[0].string.strip() in ['USDCNY', 'GBPCNY', 'EURCNY', 'AUDCNY', 'JPYCNY']:
                 rate_data.append(['C10304',
                                   'HXBJ',
-                                  'USD',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  format_datetime(r[6].string.strip())])
-            elif r[0].string.strip() == u'GBPCNY':
-                rate_data.append(['C10304',
-                                  'HXBJ',
-                                  'GBP',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  format_datetime(r[6].string.strip())])
-            elif r[0].string.strip() == u'EURCNY':
-                rate_data.append(['C10304',
-                                  'HXBJ',
-                                  'EUR',
-                                  r[2].string.strip(),
-                                  r[3].string.strip(),
-                                  r[4].string.strip(),
-                                  r[4].string.strip(),
-                                  r[5].string.strip(),
-                                  format_datetime(r[6].string.strip())])
-            elif r[0].string.strip() == u'AUDCNY':
-                rate_data.append(['C10304',
-                                  'HXBJ',
-                                  'AUD',
+                                  r[0].string.strip()[:3],
                                   r[2].string.strip(),
                                   r[3].string.strip(),
                                   r[4].string.strip(),
@@ -1246,10 +1029,10 @@ def get_HXBJ_rate():
                                   r[5].string.strip(),
                                   format_datetime(r[6].string.strip())])
 
-        cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10304'")
-        logger_local.info('HXBJ ' + unicode(cursor.rowcount) + ' rows deleted')
+        # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10304'")
+        # logger_local.info('HXBJ ' + unicode(cursor.rowcount) + ' rows deleted')
 
-        add_product = ("""INSERT INTO t_listing_rate
+        add_product = ("""REPLACE INTO t_listing_rate
                         (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
                         publisher_mid_rate, publish_time, update_time)
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, now())""")
@@ -1307,6 +1090,18 @@ def format_datetime(raw_datetime):
            pure_datetime[8:10] + ':' + pure_datetime[10:12] + ':' + pure_datetime[12:]
     else:
         return '0000-00-00 00:00:00'
+
+
+def currency_decoder(tenor_desc):
+    result = decode(tenor_desc,
+                           u'美元', 'USD',
+                           u'澳元', 'AUD',
+                           u'澳大利亚元', 'AUD',
+                           u'欧元', 'EUR',
+                           u'英镑', 'GBP',
+                           u'日元', 'JPY',
+                           '')
+    return result
 
 
 # def main():

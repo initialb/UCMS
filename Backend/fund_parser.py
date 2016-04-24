@@ -825,7 +825,7 @@ def get_MS_fund_product(total_page):
     index_url = 'http://www.hk.morningstar.com/ap/fundselect/results.aspx'
 
     cursor.execute("""
-                   DELETE FROM t_fund_product WHERE date(update_time)=curdate() and data_source='MS'
+                   DELETE FROM t_fund_product WHERE data_source='MS'
                    """)
     logger_local.info('MS - ' + unicode(cursor.rowcount) + ' rows deleted')
 
@@ -1180,9 +1180,9 @@ if __name__ == '__main__':
 
         # get_FSM_fund_classified_product()
         # get_jpm_fund_product()
-        # ms_page = get_MS_fund_page_num()
-        # get_MS_fund_product(ms_page)
-        # get_MS_fund_product_detail()
+        ms_page = get_MS_fund_page_num()
+        get_MS_fund_product(ms_page)
+        get_MS_fund_product_detail()
         set_MS_region()
 
 

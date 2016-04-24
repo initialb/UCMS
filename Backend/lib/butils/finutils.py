@@ -2,7 +2,6 @@
 
 import butils
 
-
 def tenor_decoder(tenor_desc):
     result = butils.decode(tenor_desc,
                            u'1个月', '30',
@@ -28,8 +27,10 @@ def currency_decoder(tenor_desc):
     result = butils.decode(tenor_desc,
                            u'美元', 'USD',
                            u'澳元', 'AUD',
+                           u'澳大利亚元', 'AUD',
                            u'欧元', 'EUR',
                            u'英镑', 'GBP',
+                           u'日元', 'JPY',
                            '')
     return result
 
