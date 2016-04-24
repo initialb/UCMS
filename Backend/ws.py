@@ -146,7 +146,7 @@ def get_listing_rate(currency):
         # logger_local.debug('bm_ask_remit*0.992: %s' % (bm_ask_remit*0.992,))
         # logger_local.debug('bm_ask_cash*0.992: %s' % (bm_ask_cash*0.992,))
         # logger_local.debug('bid_remit, bid_cash, ask_remit, ask_cash: %s, %s, %s, %s' % (bid_remit, bid_cash, ask_remit, ask_cash))
-        if float(bid_remit) > bm_bid_remit*1.0008 or float(bid_cash) > bm_ask_cash*1.0008 \
+        if float(bid_remit) > bm_bid_remit*1.0008 or float(bid_cash) > bm_bid_cash*1.0008 \
                 or float(ask_remit) < bm_ask_remit*0.9992 or float(ask_cash) < bm_ask_cash*0.9992:
             rate_list["list"].append({})
             rate_list["list"][-1]["bank"] = "**"+cn_short_name
