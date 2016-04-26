@@ -564,7 +564,7 @@ def get_selectedwmp(currency):
                 "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                 "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
                 "return_type": pledgeable,
-                "usd_rate": "",
+                "usd_rate": get_USD_depo(np[0]),
                 "starting_amount": '%.2f' % float(starting_amount)})
 
             if expected_highest_yield > max_yield:
@@ -643,7 +643,7 @@ def get_selectedwmp(currency):
                 "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                 "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
                 "return_type": pledgeable,
-                "usd_rate": "",
+                "usd_rate": get_USD_depo(np[0]),
                 "starting_amount": '%.2f' % float(starting_amount)})
 
             if expected_highest_yield > max_yield:
@@ -658,6 +658,17 @@ def get_selectedwmp(currency):
 
     # return jsonify(rate_list)
     return json.dumps(prod_list, ensure_ascii=False)
+
+
+def get_USD_depo(tenor):
+    return decode(tenor,
+                  1, u"0.2000%",
+                  3, u"0.3000%",
+                  6, u"0.5000%",
+                  9, u"0.5000%",
+                  12, u"0.7500%",
+                  24, u"0.7500%",
+                  "--")
 
 
 if __name__ == '__main__':
