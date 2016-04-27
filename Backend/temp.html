@@ -1,514 +1,242 @@
-	<html>
-	<head>
-	<META content="IE=7.0000" http-equiv="X-UA-Compatible">
-	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
-	<title>中国银行外汇牌价</title>
-	<SCRIPT LANGUAGE="JavaScript" src="../js/wcm_page_2013.js"></SCRIPT>
-	<script type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
-	</head>
 
-
-<body onload="init_list();" style='width:980px;margin:0 auto;'>
-<!-- 头部嵌套 -->
-<link href="http://www.bankofchina.com/images/boc2013_reset.css" rel="stylesheet" type="text/css" ignoreapd="1">
-<link href="http://www.bankofchina.com/images/boc2013_common.css" rel="stylesheet" type="text/css" ignoreapd="1">
-<link href="http://www.bankofchina.com/images/boc2013_pages.css" rel="stylesheet" type="text/css" ignoreapd="1">
-<!--[if lte IE 8]>
-<link type="text/css" rel="stylesheet" href="http://www.bankofchina.com/images/boc2013_iestyle.css">
-<![endif]-->
-<script language="JavaScript" src="http://www.bankofchina.com/head.js" ignoreapd="1"></script>
-<script type="text/javascript" src="http://www.bankofchina.com/images/boc2013_jquery-min.js" ignoreapd="1"></script>
-<script type="text/javascript" src="http://www.bankofchina.com/images/boc2013_boc.js" ignoreapd="1"></script>
-<style type="text/css">
-body{
-	background:#FFF;
-	font: 12px/26px Verdana,Geneva,sans-serif,"宋体";
-	color: rgb(83, 83, 83);
-	margin:0 auto;
-	text-align:center;
-}
-.wrapper{text-align:left;}
-.invest_t table td,.publish table th ,.publish table tr{
-	font-size:12px;
-}
-.invest_t table tr td select{
-	height:30px;
-}
-.invest_t table tr th select{
-	height:auto;
-}
-.invest_t select{
-	width:auto;
-	height:auto;
-}
-#calendarTable tr td{
-	height:20px;
-}
-</style>
-<div class="wrapper">
-<script language="JavaScript">
-	<!--
-	createTop();
-	//-->
-</script>
-<!-- 页面导航 -->
-<div class='cramb' id='PL_NAVIGATOR'><span>当前位置：</span><a href="http://www.bankofchina.com">首页</a>>外汇牌价</div>
-<h2 class="title">&nbsp;<br><br></h2>
-<form method="post" name="historysearchform" id="historysearchform" action="search.jsp">
-<div class="invest_t" style="float:left;width:980px;">
-<SCRIPT language=javascript src="../js/WebCalendar.js"></SCRIPT>
-	<table cellpadding="0" cellspacing="0" width="100%">
-		<tr>
-			<td align="right" width="8%">起始时间：</td>
-			<td align="left" width="110px;">
-				<div class="search_bar" style="float:left;width:100px;margin-left:10px;">
-					<input class="search_ipt" style="width:100px;" type="text" name="erectDate" value=""  onclick="new Calendar(null, null,0).show(this);" readonly>
-				</div>
-			</td>
-			<td align="right" width="8%">结束时间：</td>
-			<td align="left" width="110px;">
-				<div class="search_bar" style="float:left;width:100px;margin-left:10px;">
-					<input class="search_ipt" style="width:100px;" type="text" name="nothing" value=""  onclick="new Calendar(null, null,0).show(this);" readonly>
-				</div>
-			</td>
-			<td align="right" width="10%">牌价选择：</td>
-			<td align="left" width="110px;">
-
-				<select name="pjname" id="pjname">
-					<option value="0" >选择货币</option>
-					<option value="1314" >英镑</option>
-					<option value="1315" >港币</option>
-					<option value="1316" >美元</option>
-					<option value="1317" >瑞士法郎</option>
-					<option value="1318" >德国马克</option>
-					<option value="1319" >法国法郎</option>
-					<option value="1375" >新加坡元</option>
-					<option value="1320" >瑞典克朗</option>
-					<option value="1321" >丹麦克朗</option>
-					<option value="1322" >挪威克朗</option>
-					<option value="1323" >日元</option>
-					<option value="1324" >加拿大元</option>
-					<option value="1325" >澳大利亚元</option>
-					<option value="1326" >欧元</option>
-					<option value="1327" >澳门元</option>
-					<option value="1328" >菲律宾比索</option>
-					<option value="1329" >泰国铢</option>
-					<option value="1330" >新西兰元</option>
-					<option value="1331" >韩元</option>
-					<option value="1843" >卢布</option>
-					<option value="2890" >林吉特</option>
-					<option value="2895" >新台币</option>
-					<option value="1370" >西班牙比塞塔</option>
-					<option value="1371" >意大利里拉</option>
-					<option value="1372" >荷兰盾</option>
-					<option value="1373" >比利时法郎</option>
-					<option value="1374" >芬兰马克</option>
-					<option value="3030" >印尼卢比</option>
-					<option value="3253" >巴西里亚尔</option>
-					<option value="3899" >阿联酋迪拉姆</option>
-					<option value="3900" >印度卢比</option>
-					<option value="3901" >南非兰特</option>
-				</select>
-			</td>
-			<td width="30px;" align="left">
-				<input class="search_btn" style="float:right;margin-righth:26px;" type="button" onclick="executeSearch()">
-			</td>
-			<td>&nbsp;</td>
-		</tr>
-	</table>
-</div>
-</form>
-
-<div class="BOC_main publish">
-	<table cellpadding="0" cellspacing="0" width="100%" align="left">
-	<tr>
-		<th>货币名称</th>
-		<th>现汇买入价</th>
-		<th>现钞买入价</th>
-		<th>现汇卖出价</th>
-		<th>现钞卖出价</th>
-		<th>外管局中间价</th>
-		<th>中行折算价</th>
-		<th>发布时间</th>
-	</tr>
-
-		<tr>
-			<td>澳大利亚元</td>
-			<td>498.98</td>
-
-				<td>483.56</td>
-
-				<td>504</td>
-
-				<td>504</td>
-
-				<td>503.17</td>
-				<td>503.17</td>
-				<td>2016.04.23 10:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>欧元</td>
-			<td>728.28</td>
-
-				<td>705.81</td>
-
-				<td>733.4</td>
-
-				<td>733.4</td>
-
-				<td>732.59</td>
-				<td>732.59</td>
-				<td>2016.04.23 10:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>英镑</td>
-			<td>931.7</td>
-
-				<td>902.95</td>
-
-				<td>938.24</td>
-
-				<td>938.24</td>
-
-				<td>929.78</td>
-				<td>929.78</td>
-				<td>2016.04.23 10:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>日元</td>
-			<td>5.8013</td>
-
-				<td>5.6221</td>
-
-				<td>5.8597</td>
-
-				<td>5.8597</td>
-
-				<td>5.9322</td>
-				<td>5.9322</td>
-				<td>2016.04.23 10:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>美元</td>
-			<td>648.82</td>
-
-				<td>643.62</td>
-
-				<td>651.42</td>
-
-				<td>651.42</td>
-
-				<td>648.98</td>
-				<td>648.98</td>
-				<td>2016.04.23 10:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>澳大利亚元</td>
-			<td>498.98</td>
-
-				<td>483.56</td>
-
-				<td>504</td>
-
-				<td>504</td>
-
-				<td>503.17</td>
-				<td>503.17</td>
-				<td>2016.04.23 05:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>欧元</td>
-			<td>728.28</td>
-
-				<td>705.81</td>
-
-				<td>733.4</td>
-
-				<td>733.4</td>
-
-				<td>732.59</td>
-				<td>732.59</td>
-				<td>2016.04.23 05:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>英镑</td>
-			<td>931.7</td>
-
-				<td>902.95</td>
-
-				<td>938.24</td>
-
-				<td>938.24</td>
-
-				<td>929.78</td>
-				<td>929.78</td>
-				<td>2016.04.23 05:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>日元</td>
-			<td>5.8013</td>
-
-				<td>5.6221</td>
-
-				<td>5.8597</td>
-
-				<td>5.8597</td>
-
-				<td>5.9322</td>
-				<td>5.9322</td>
-				<td>2016.04.23 05:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>美元</td>
-			<td>648.82</td>
-
-				<td>643.62</td>
-
-				<td>651.42</td>
-
-				<td>651.42</td>
-
-				<td>648.98</td>
-				<td>648.98</td>
-				<td>2016.04.23 05:30:00</td>
-		</tr>
-
-
-		<tr>
-			<td>澳大利亚元</td>
-			<td>498.98</td>
-
-				<td>483.56</td>
-
-				<td>504</td>
-
-				<td>504</td>
-
-				<td>503.17</td>
-				<td>503.17</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>欧元</td>
-			<td>728.28</td>
-
-				<td>705.81</td>
-
-				<td>733.4</td>
-
-				<td>733.4</td>
-
-				<td>732.59</td>
-				<td>732.59</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>英镑</td>
-			<td>931.7</td>
-
-				<td>902.95</td>
-
-				<td>938.24</td>
-
-				<td>938.24</td>
-
-				<td>929.78</td>
-				<td>929.78</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>日元</td>
-			<td>5.8013</td>
-
-				<td>5.6221</td>
-
-				<td>5.8597</td>
-
-				<td>5.8597</td>
-
-				<td>5.9322</td>
-				<td>5.9322</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>美元</td>
-			<td>648.82</td>
-
-				<td>643.62</td>
-
-				<td>651.42</td>
-
-				<td>651.42</td>
-
-				<td>648.98</td>
-				<td>648.98</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>澳大利亚元</td>
-			<td>498.98</td>
-
-				<td>483.56</td>
-
-				<td>504</td>
-
-				<td>504</td>
-
-				<td>503.17</td>
-				<td>503.17</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>欧元</td>
-			<td>728.28</td>
-
-				<td>705.81</td>
-
-				<td>733.4</td>
-
-				<td>733.4</td>
-
-				<td>732.59</td>
-				<td>732.59</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>英镑</td>
-			<td>931.7</td>
-
-				<td>902.95</td>
-
-				<td>938.24</td>
-
-				<td>938.24</td>
-
-				<td>929.78</td>
-				<td>929.78</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>日元</td>
-			<td>5.8013</td>
-
-				<td>5.6221</td>
-
-				<td>5.8597</td>
-
-				<td>5.8597</td>
-
-				<td>5.9322</td>
-				<td>5.9322</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-		<tr>
-			<td>美元</td>
-			<td>648.82</td>
-
-				<td>643.62</td>
-
-				<td>651.42</td>
-
-				<td>651.42</td>
-
-				<td>648.98</td>
-				<td>648.98</td>
-				<td>2016.04.23 00:00:05</td>
-		</tr>
-
-
-
-<tr>
-	<td colspan="11" style="height:30px;">&nbsp;</td>
-</tr>
-</table>
-<div class="pb_ft clearfix" style="width:500px;clear:both;">
-	<div class="turn_page" id="list_navigator" style="margin-left:300px;">
-
-	</div><!--翻页-->
-</div><!--content--end-->
-</div><!--发布-end-->
-<script language="JavaScript">
-	function executeSearch()
-	{
-		document.historysearchform.method = 'post';
-		document.historysearchform.submit();
-	}
-	PageContext.PageNav.go =  function(_iPage,_maxPage)
-	{
-		document.pageform.page.value = _iPage;
-		document.pageform.submit();
-	};
-	//画分页代码以及自动调整窗口大小
-	var m_nRecordCount = 2030;
-	if(m_nRecordCount.length == 0){
-		m_nRecordCount = 0;
-	}
-	var m_nCurrPage = 1;
-	var m_nPageSize = 20;
-	function init_list(){
-		PageContext.params["RecordNum"] = m_nRecordCount;
-		PageContext.params["CurrPage"] = m_nCurrPage;
-		PageContext.params["PageSize"] = m_nPageSize;
-		PageContext.drawNavigator();
-	}
-	function gotoPage(npage)
-	{
-		document.pageform.page.value = npage;
-		document.pageform.submit();
-	}
-	function getPage()
-	{
-	 	var val = document.getElementById("currentPage").value;
-	 	return val ;
-	}
-</script>
-﻿
-<script language="JavaScript" src="http://www.bankofchina.com/bottom.js"></script>
-<script>
-	createBottom();
-</script>
-<form name="pageform" action="search.jsp" method=post >
-	<input type="hidden" name="erectDate" value="">
-	<input type="hidden" name="nothing" value="">
-	<INPUT type="hidden" name="pjname" value="1316,1314,1325,1326,1323">
-	<input type="hidden" name="page" value="1">
-</form>
-</div>
-</body>
-</html>
+@app.route('/ucms/api/v1.0/weixin/wmp/<string:currency>', methods=['GET'])
+def get_wmp(currency):
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    total_rec = None
+    prod_list = {"currency": currency,
+                 "currencyname": decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", ""),
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "preservable": "ALL",
+                 "total_rec": "",
+                 "tenor_group": []
+                }
+
+    preservable = request.args.get('preservable', '')
+
+    if preservable == 'N' or preservable == 'Y':
+        if preservable == 'N':
+            preservable_str = u'非保本'
+        else:
+            preservable_str = u'保本'
+
+        tenor_list = []
+        prod_list["preservable"] = preservable
+
+        # 统计记录数
+        query = u"""
+            SELECT
+                count(*)
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND preservable = '%s'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            """ % (preservable_str, currency)
+        cursor.execute(query)
+        for (csr_total_rec,) in cursor:
+            total_rec = csr_total_rec
+
+        if total_rec == 0:
+            logger_local.info('Not found')
+            abort(404)
+        else:
+            prod_list["total_rec"] = total_rec
+
+        # 获取期限列表
+        query = u"""
+            SELECT
+                ROUND(tenor / 30) AS tenor
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND preservable = '%s'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            GROUP BY ROUND(tenor / 30)
+            ORDER BY tenor DESC
+            """ % (preservable_str, currency)
+        cursor.execute(query)
+        for (tenor_desc) in cursor:
+            tenor_list.append(tenor_desc)
+
+        # 按期限
+        for tn in tenor_list:
+            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+            industry_1m_avg_yield = None
+
+            # 计算月平均
+            query = u"""
+                SELECT
+                    AVG(bank_avg) AS avg
+                FROM
+                    (SELECT
+                        issuer_name, AVG(expected_highest_yield) AS bank_avg
+                    FROM
+                        zyq.t_product
+                    WHERE
+                        (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                            OR (open_start_date = '每天' AND status = '在售'))
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                        AND preservable = '%s'
+                        AND redeemable = '封闭'
+                    GROUP BY issuer_name) t
+                """ % (currency, tn[0], preservable_str)
+            cursor.execute(query)
+            for (cursor_avg,) in cursor:
+                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+            # 获取明细列表
+            query = u"""
+                SELECT
+                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND preservable = '%s'
+                        AND redeemable = '封闭'
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                """ % (preservable_str, currency, tn[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({
+                    "prod_name": prod_name,
+                    "issuer_name": issuer_name,
+                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                    "return_type": pledgeable,
+                    "risk_type": risk_desc+u"风险",
+                    "starting_amount": '%.2f' % float(starting_amount)})
+
+    else:
+        tenor_list = []
+        prod_list["preservable"] = "ALL"
+
+        # 统计记录数
+        query = u"""
+            SELECT
+                count(*)
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            """ % currency
+        cursor.execute(query)
+        for (csr_total_rec,) in cursor:
+            total_rec = csr_total_rec
+
+        if total_rec == 0:
+            logger_local.info('Not found')
+            abort(404)
+        else:
+            prod_list["total_rec"] = total_rec
+
+        # 获取期限列表
+        query = u"""
+            SELECT
+                ROUND(tenor / 30) AS tenor
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND redeemable = '封闭'
+                    AND currency = '%s'
+            GROUP BY ROUND(tenor / 30)
+            ORDER BY tenor DESC
+            """ % (currency,)
+        cursor.execute(query)
+        for (tenor_desc) in cursor:
+            tenor_list.append(tenor_desc)
+
+        # 按期限
+        for tn in tenor_list:
+            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+            industry_1m_avg_yield = None
+
+            # 计算月平均
+            query = u"""
+                SELECT
+                    AVG(bank_avg) AS avg
+                FROM
+                    (SELECT
+                        issuer_name, AVG(expected_highest_yield) AS bank_avg
+                    FROM
+                        zyq.t_product
+                    WHERE
+                        (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                            OR (open_start_date = '每天' AND status = '在售'))
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                        AND redeemable = '封闭'
+                    GROUP BY issuer_name) t
+                """ % (currency, tn[0])
+            cursor.execute(query)
+            for (cursor_avg,) in cursor:
+                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+            # 获取明细列表
+            query = u"""
+                SELECT
+                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND redeemable = '封闭'
+                        AND currency = '%s'
+                        AND ROUND(tenor / 30) = '%s'
+                """ % (currency, tn[0])
+            cursor.execute(query)
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({
+                    "prod_name": prod_name,
+                    "issuer_name": issuer_name,
+                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                    "return_type": pledgeable,
+                    "risk_type": risk_desc+u"风险",
+                    "starting_amount": '%.2f' % float(starting_amount)})
+
+    pprint(prod_list)
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Selected WM Products requested for %s \n\n' % currency)
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)

@@ -223,249 +223,6 @@ def get_listing_rate(currency):
     return json.dumps(rate_list, ensure_ascii=False)
 
 
-@app.route('/ucms/api/v1.0/weixin/wmp/<string:currency>', methods=['GET'])
-def get_wmp(currency):
-    try:
-        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
-        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            logger_local.error("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            logger_local.error("Database does not exist")
-        else:
-            logger_local.error(err)
-    else:
-        logger_local.info('MYSQL connected.')
-    cursor = cnx.cursor()
-
-    total_rec = None
-    prod_list = {"currency": currency,
-                 "currencyname": decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", ""),
-                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "preservable": "ALL",
-                 "total_rec": "",
-                 "tenor_group": []
-                }
-
-    preservable = request.args.get('preservable', '')
-
-    if preservable == 'N' or preservable == 'Y':
-        if preservable == 'N':
-            preservable_str = u'非保本'
-        else:
-            preservable_str = u'保本'
-
-        tenor_list = []
-        prod_list["preservable"] = preservable
-
-        # 统计记录数
-        query = u"""
-            SELECT
-                count(*)
-            FROM
-                t_product
-            WHERE
-                status = '在售'
-                    AND preservable = '%s'
-                    AND redeemable = '封闭'
-                    AND currency = '%s'
-            """ % (preservable_str, currency)
-        cursor.execute(query)
-        for (csr_total_rec,) in cursor:
-            total_rec = csr_total_rec
-
-        if total_rec == 0:
-            logger_local.info('Not found')
-            abort(404)
-        else:
-            prod_list["total_rec"] = total_rec
-
-        # 获取期限列表
-        query = u"""
-            SELECT
-                ROUND(tenor / 30) AS tenor
-            FROM
-                t_product
-            WHERE
-                status = '在售'
-                    AND preservable = '%s'
-                    AND redeemable = '封闭'
-                    AND currency = '%s'
-            GROUP BY ROUND(tenor / 30)
-            ORDER BY tenor DESC
-            """ % (preservable_str, currency)
-        cursor.execute(query)
-        for (tenor_desc) in cursor:
-            tenor_list.append(tenor_desc)
-
-        # 按期限
-        for tn in tenor_list:
-            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
-            industry_1m_avg_yield = None
-
-            # 计算月平均
-            query = u"""
-                SELECT
-                    AVG(bank_avg) AS avg
-                FROM
-                    (SELECT
-                        issuer_name, AVG(expected_highest_yield) AS bank_avg
-                    FROM
-                        zyq.t_product
-                    WHERE
-                        (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
-                            OR (open_start_date = '每天' AND status = '在售'))
-                        AND currency = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                        AND preservable = '%s'
-                        AND redeemable = '封闭'
-                    GROUP BY issuer_name) t
-                """ % (currency, tn[0], preservable_str)
-            cursor.execute(query)
-            for (cursor_avg,) in cursor:
-                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
-                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
-
-            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
-
-            # 获取明细列表
-            query = u"""
-                SELECT
-                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
-                FROM
-                    t_product
-                WHERE
-                    status = '在售'
-                        AND preservable = '%s'
-                        AND redeemable = '封闭'
-                        AND currency = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                """ % (preservable_str, currency, tn[0])
-            cursor.execute(query)
-            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
-                prod_list["tenor_group"][-1]["list"].append({
-                    "prod_name": prod_name,
-                    "issuer_name": issuer_name,
-                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
-                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
-                    "return_type": pledgeable,
-                    "risk_type": risk_desc+u"风险",
-                    "starting_amount": '%.2f' % float(starting_amount)})
-
-    else:
-        tenor_list = []
-        prod_list["preservable"] = "ALL"
-
-        # 统计记录数
-        query = u"""
-            SELECT
-                count(*)
-            FROM
-                t_product
-            WHERE
-                status = '在售'
-                    AND redeemable = '封闭'
-                    AND currency = '%s'
-            """ % currency
-        cursor.execute(query)
-        for (csr_total_rec,) in cursor:
-            total_rec = csr_total_rec
-
-        if total_rec == 0:
-            logger_local.info('Not found')
-            abort(404)
-        else:
-            prod_list["total_rec"] = total_rec
-
-        # 获取期限列表
-        query = u"""
-            SELECT
-                ROUND(tenor / 30) AS tenor
-            FROM
-                t_product
-            WHERE
-                status = '在售'
-                    AND redeemable = '封闭'
-                    AND currency = '%s'
-            GROUP BY ROUND(tenor / 30)
-            ORDER BY tenor DESC
-            """ % (currency,)
-        cursor.execute(query)
-        for (tenor_desc) in cursor:
-            tenor_list.append(tenor_desc)
-
-        # 按期限
-        for tn in tenor_list:
-            prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
-            industry_1m_avg_yield = None
-
-            # 计算月平均
-            query = u"""
-                SELECT
-                    AVG(bank_avg) AS avg
-                FROM
-                    (SELECT
-                        issuer_name, AVG(expected_highest_yield) AS bank_avg
-                    FROM
-                        zyq.t_product
-                    WHERE
-                        (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
-                            OR (open_start_date = '每天' AND status = '在售'))
-                        AND currency = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                        AND redeemable = '封闭'
-                    GROUP BY issuer_name) t
-                """ % (currency, tn[0])
-            cursor.execute(query)
-            for (cursor_avg,) in cursor:
-                industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
-                # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
-
-            prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
-
-            # 获取明细列表
-            query = u"""
-                SELECT
-                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
-                FROM
-                    t_product
-                WHERE
-                    status = '在售'
-                        AND redeemable = '封闭'
-                        AND currency = '%s'
-                        AND ROUND(tenor / 30) = '%s'
-                """ % (currency, tn[0])
-            cursor.execute(query)
-            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                 last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
-                prod_list["tenor_group"][-1]["list"].append({
-                    "prod_name": prod_name,
-                    "issuer_name": issuer_name,
-                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
-                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
-                    "return_type": pledgeable,
-                    "risk_type": risk_desc+u"风险",
-                    "starting_amount": '%.2f' % float(starting_amount)})
-
-    pprint(prod_list)
-
-    cnx.commit()
-    cursor.close()
-    cnx.close()
-    logger_local.info('Selected WM Products requested for %s \n\n' % currency)
-
-    # return jsonify(rate_list)
-    return json.dumps(prod_list, ensure_ascii=False)
-
-
 @app.route('/ucms/api/v1.0/weixin/selectedwmp/<string:currency>', methods=['GET'])
 def get_selectedwmp(currency):
     try:
@@ -502,6 +259,7 @@ def get_selectedwmp(currency):
             status = '在售'
                 AND preservable = '非保本'
                 AND redeemable = '封闭'
+                AND remark = '普通'
                 AND currency = '%s'
         GROUP BY ROUND(tenor / 30)
         HAVING TENOR >= 3
@@ -530,6 +288,7 @@ def get_selectedwmp(currency):
                     AND ROUND(tenor / 30) = '%s'
                     AND preservable = '非保本'
                     AND redeemable = '封闭'
+                    AND remark = '普通'
                 GROUP BY issuer_name) t
             """ % (currency, np[0])
         cursor.execute(query0)
@@ -548,6 +307,7 @@ def get_selectedwmp(currency):
                 status = '在售'
                     AND preservable = '非保本'
                     AND redeemable = '封闭'
+                    AND remark = '普通'
                     AND currency = '%s'
                     AND expected_highest_yield = '%s'
                     AND ROUND(tenor / 30) = '%s'
@@ -581,6 +341,7 @@ def get_selectedwmp(currency):
             status = '在售'
                 AND preservable = '保本'
                 AND redeemable = '封闭'
+                AND remark = '普通'
                 AND currency = '%s'
         GROUP BY ROUND(tenor / 30)
         HAVING TENOR >= 3
@@ -609,6 +370,7 @@ def get_selectedwmp(currency):
                     AND ROUND(tenor / 30) = '%s'
                     AND preservable = '保本'
                     AND redeemable = '封闭'
+                    AND remark = '普通'
                 GROUP BY issuer_name) t
             """ % (currency, ty[0])
         cursor.execute(query0)
@@ -627,6 +389,7 @@ def get_selectedwmp(currency):
                 status = '在售'
                     AND preservable = '保本'
                     AND redeemable = '封闭'
+                    AND remark = '普通'
                     AND currency = '%s'
                     AND expected_highest_yield = '%s'
                     AND ROUND(tenor / 30) = '%s'
@@ -660,6 +423,321 @@ def get_selectedwmp(currency):
     return json.dumps(prod_list, ensure_ascii=False)
 
 
+@app.route('/ucms/api/v1.0/weixin/wmp/<string:currency>', methods=['GET'])
+def get_wmp(currency):
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    if currency == 'NONUSD':
+        ccy_list = []
+        total_rec = 0
+        prod_list = {"timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                     "total_rec": "",
+                     "tenor_group": []
+                    }
+
+        # 获取货币对
+        query = u"""
+            SELECT
+                distinct currency
+            FROM
+                t_product
+            WHERE
+                status = '在售'
+                    AND redeemable = '封闭'
+                    AND remark = '普通'
+                    AND currency <> 'USD'
+            """
+        cursor.execute(query)
+        for (currency,) in cursor:
+            ccy_list.append(currency)
+
+        for ccy in ccy_list:
+            prod_list["tenor_group"].append({
+                "currency": ccy,
+                "currencyname": decode(currency, "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", "HKD", u"港币", currency),
+                "list": []})
+
+            # 获取明细列表
+            query = u"""
+                SELECT
+                    prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                    ROUND(tenor / 30) as tenor, expected_highest_yield, last_yield, preservable, pledgeable,
+                    risk_desc, starting_amount
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND redeemable = '封闭'
+                        AND remark = '普通'
+                        AND currency = '%s'
+                ORDER BY tenor DESC
+                """ % ccy
+            cursor.execute(query)
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                 tenor, last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                prod_list["tenor_group"][-1]["list"].append({
+                    "prod_name": prod_name,
+                    "issuer_name": issuer_name,
+                    "tenor": tenor,
+                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                    "history_yield": '-' if not last_yield.isdigit() else '%.4f%%' % (float(last_yield)*100,),
+                    "preservable": 'Y' if preservable == u"保本" else 'N',
+                    "return_type": pledgeable,
+                    "risk_type": risk_desc+u"风险",
+                    "starting_amount": '%.2f' % float(starting_amount)})
+
+            total_rec = total_rec + len(prod_list["tenor_group"][-1]["list"])
+
+        prod_list["total_rec"] = total_rec
+
+    else:
+        total_rec = None
+        prod_list = {"currency": currency,
+                     "currencyname": decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", ""),
+                     "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                     "preservable": "ALL",
+                     "total_rec": "",
+                     "tenor_group": []
+                    }
+
+        preservable = request.args.get('preservable', '')
+
+        if preservable == 'N' or preservable == 'Y':
+            if preservable == 'N':
+                preservable_str = u'非保本'
+            else:
+                preservable_str = u'保本'
+
+            tenor_list = []
+            prod_list["preservable"] = preservable
+
+            # 统计记录数
+            query = u"""
+                SELECT
+                    count(*)
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND preservable = '%s'
+                        AND redeemable = '封闭'
+                        AND remark = '普通'
+                        AND currency = '%s'
+                """ % (preservable_str, currency)
+            cursor.execute(query)
+            for (csr_total_rec,) in cursor:
+                total_rec = csr_total_rec
+
+            if total_rec == 0:
+                logger_local.info('Not found')
+                abort(404)
+            else:
+                prod_list["total_rec"] = total_rec
+
+            # 获取期限列表
+            query = u"""
+                SELECT
+                    ROUND(tenor / 30) AS tenor
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND preservable = '%s'
+                        AND redeemable = '封闭'
+                        AND remark = '普通'
+                        AND currency = '%s'
+                GROUP BY ROUND(tenor / 30)
+                ORDER BY tenor DESC
+                """ % (preservable_str, currency)
+            cursor.execute(query)
+            for (tenor_desc) in cursor:
+                tenor_list.append(tenor_desc)
+
+            # 按期限
+            for tn in tenor_list:
+                prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+                industry_1m_avg_yield = None
+
+                # 计算月平均
+                query = u"""
+                    SELECT
+                        AVG(bank_avg) AS avg
+                    FROM
+                        (SELECT
+                            issuer_name, AVG(expected_highest_yield) AS bank_avg
+                        FROM
+                            zyq.t_product
+                        WHERE
+                            (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                                OR (open_start_date = '每天' AND status = '在售'))
+                            AND currency = '%s'
+                            AND ROUND(tenor / 30) = '%s'
+                            AND preservable = '%s'
+                            AND redeemable = '封闭'
+                            AND remark = '普通'
+                        GROUP BY issuer_name) t
+                    """ % (currency, tn[0], preservable_str)
+                cursor.execute(query)
+                for (cursor_avg,) in cursor:
+                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                    # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+                # 获取明细列表
+                query = u"""
+                    SELECT
+                        prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                        expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                    FROM
+                        t_product
+                    WHERE
+                        status = '在售'
+                            AND preservable = '%s'
+                            AND redeemable = '封闭'
+                            AND remark = '普通'
+                            AND currency = '%s'
+                            AND ROUND(tenor / 30) = '%s'
+                    """ % (preservable_str, currency, tn[0])
+                cursor.execute(query)
+                for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                     last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                    prod_list["tenor_group"][-1]["list"].append({
+                        "prod_name": prod_name,
+                        "issuer_name": issuer_name,
+                        "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                        "history_yield": '-' if not last_yield.isdigit() else '%.4f%%' % (float(last_yield)*100,),
+                        "return_type": pledgeable,
+                        "risk_type": risk_desc+u"风险",
+                        "starting_amount": '%.2f' % float(starting_amount)})
+
+        else:
+            tenor_list = []
+            prod_list["preservable"] = "ALL"
+
+            # 统计记录数
+            query = u"""
+                SELECT
+                    count(*)
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND redeemable = '封闭'
+                        AND remark = '普通'
+                        AND currency = '%s'
+                """ % currency
+            cursor.execute(query)
+            for (csr_total_rec,) in cursor:
+                total_rec = csr_total_rec
+
+            if total_rec == 0:
+                logger_local.info('Not found')
+                abort(404)
+            else:
+                prod_list["total_rec"] = total_rec
+
+            # 获取期限列表
+            query = u"""
+                SELECT
+                    ROUND(tenor / 30) AS tenor
+                FROM
+                    t_product
+                WHERE
+                    status = '在售'
+                        AND redeemable = '封闭'
+                        AND remark = '普通'
+                        AND currency = '%s'
+                GROUP BY ROUND(tenor / 30)
+                ORDER BY tenor DESC
+                """ % (currency,)
+            cursor.execute(query)
+            for (tenor_desc) in cursor:
+                tenor_list.append(tenor_desc)
+
+            # 按期限
+            for tn in tenor_list:
+                prod_list["tenor_group"].append({"tenor": int(tn[0]), "list": []})
+                industry_1m_avg_yield = None
+
+                # 计算月平均
+                query = u"""
+                    SELECT
+                        AVG(bank_avg) AS avg
+                    FROM
+                        (SELECT
+                            issuer_name, AVG(expected_highest_yield) AS bank_avg
+                        FROM
+                            zyq.t_product
+                        WHERE
+                            (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                                OR (open_start_date = '每天' AND status = '在售'))
+                            AND currency = '%s'
+                            AND ROUND(tenor / 30) = '%s'
+                            AND redeemable = '封闭'
+                            AND remark = '普通'
+                        GROUP BY issuer_name) t
+                    """ % (currency, tn[0])
+                cursor.execute(query)
+                for (cursor_avg,) in cursor:
+                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                    # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
+
+                prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
+
+                # 获取明细列表
+                query = u"""
+                    SELECT
+                        prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                        expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount
+                    FROM
+                        t_product
+                    WHERE
+                        status = '在售'
+                            AND redeemable = '封闭'
+                            AND remark = '普通'
+                            AND currency = '%s'
+                            AND ROUND(tenor / 30) = '%s'
+                    """ % (currency, tn[0])
+                cursor.execute(query)
+                for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
+                     last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                    prod_list["tenor_group"][-1]["list"].append({
+                        "prod_name": prod_name,
+                        "issuer_name": issuer_name,
+                        "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
+                        "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                        "return_type": pledgeable,
+                        "risk_type": risk_desc+u"风险",
+                        "starting_amount": '%.2f' % float(starting_amount)})
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Selected WM Products requested for %s \n\n' % currency)
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
 def get_USD_depo(tenor):
     return decode(tenor,
                   1, u"0.2000%",
@@ -669,6 +747,11 @@ def get_USD_depo(tenor):
                   12, u"0.7500%",
                   24, u"0.7500%",
                   "--")
+
+
+def date_add_slash(date):
+    if len(date) == 8:
+        return date[:4]+"/"+date[4:6]
 
 
 if __name__ == '__main__':

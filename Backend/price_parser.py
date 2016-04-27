@@ -1166,8 +1166,8 @@ if __name__ == '__main__':
         get_SPDB_rate()
         get_DESZ_rate()
         get_BKSH_rate()
-        get_BOBJ_rate()
-        # get_HXBJ_rate()
+        # get_BOBJ_rate()
+        get_HXBJ_rate()
 
 #        generate_json()
 
