@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>感 谢 关 注</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="blog-header" style="background: url(../img/head.jpg) center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>内容正在建设中...</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">赚洋钱</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p style="color:#FF0000;">
+		<strong>内容正在建设中...</strong>
+		</p>		
+		<p>“赚洋钱”所提供的外汇、理财、债券以及基金等金融产品数据均通过公开渠道获得，不涉及任何隐私，并不能保证信息的准确与完整。投资者仅可用以参考，“赚洋钱”并不承担投资者依此做出投资决策的任何后果！
+		</p>
+		<br>
+		<p>		“赚洋钱”所提供的外汇、理财、债券以及基金等金融产品信息、策略、推荐等内容是根据“赚洋钱”团队的专业分析得出，并不构成投资者投资决策的组成部分，“赚洋钱”并不承担投资者依此做出投资决策的任何后果！
+		</p>
+
+	</article>
+		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

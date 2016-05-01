@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>理财课堂</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="blog-header" style="background: url(../img/C30.jpg) center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>理财课堂</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">赚洋钱</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p>“理财课堂”是“赚洋钱”为投资者推出的金融常识普及栏目，包括：理财小常识、金融工具知识普及、金融机构服务内容解析等内容。目的在于帮助投资者了解金融投资活动中需要知道的基本常识，并解答投资者的疑问。
+		</p>			
+
+	</article>
+		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

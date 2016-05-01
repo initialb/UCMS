@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>在售美元保本理财产品</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css">
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+		<div class="media">
+			<div class="media-left">
+				<a href="#">
+					<img class="media-object" src="../img/A13.jpg" alt="..." height="64" width="64">
+				</a>
+			</div>
+			<div class="media-body" style="vertical-align:middle;">
+
+				<h4 class="media-heading"><strong>在售美元保本理财产品</strong></h4>
+			</div>
+		</div>
+		
+	<div style="text-align:left;">
+			<p class="blog-post-meta"><font size="3" color="red"><b>---**- 内测数据 暂勿采信 -**---</b></font>  </p>
+			<!-- a href="weixin://profile/gh_5a211fd0cbf2">赚洋钱</a></p -->
+	</div>
+	<hr>
+	
+	<div class="row" style="margin-top:-25px">	
+	<div class="col-xs-12" >
+	
+	<table class="table" >
+		<caption style="text-align:left">
+		<h4><b>美元保本在售1个月</b><br><small>(近1个月行业平均预期收益<sup>1</sup>: 0.2500%)</small></h4>
+		</caption>
+				<thead>
+					<tr class="info">
+						<th width="100px">产品</th>
+						<th colspan="2"> 描  述 </th>		
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>交通银行</b><br>汇添利美元1月</td>
+						
+							<tr class="active" >
+								<td width="110px">预期收益:<br><small><small><em>(上期收益<sup>2</sup>)</em></small></small></td> 
+								<td>0.2500%<br><small><small><em>(0.35000%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>浮动收益</b></td>
+								<td><b>低风险<sup>4</sup></b></td>
+							</tr> 
+							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间<sup>3</sup>:</td>
+								<td>2016/1/14~2016/2/16</td>
+							</tr>							
+ 				</tbody>
+			</table>
+			
+	<table class="table" >
+		<caption style="text-align:left">
+		<h4><b>美元保本在售3个月</b><br><small>(近1个月行业平均预期收益: ~ )</small></h4>
+		</caption>
+				<thead>
+					<tr class="info">
+						<th width="100px">产品</th>
+						<th colspan="2"> 描  述 </th>		
+					</tr>
+				</thead>
+				<tbody>						
+					</tr>
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>平安银行</b><br>平安财富-(保本滚动)现金管理类2013年13期美元理财产品</td>
+						
+							<tr class="active" >
+								<td width="110px">预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>0.7500%<br><small><small><em>(0.6500%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>浮动收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+ 							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/8~2016/4/8</td>
+							</tr>						
+					</tr>
+				
+				</tbody>
+			</table>
+
+	<table class="table" >
+		<caption style="text-align:left">
+		<h4><b>美元保本在售6个月</b><br><small>(近1个月行业平均预期收益: 1.0713%)</small></h4>
+		</caption>
+				<thead>
+					<tr class="info">
+						<th width="100px">产品</th>
+						<th colspan="2"> 描  述 </th>		
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>农业银行</b><br>金钥匙本利丰2015年第1210期美元理财产品</td>
+						
+							<tr class="active" >
+								<td  width="110px">预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.2000%<br><small><small><em>(1.0000%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>保收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+  							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/7~2016/7/6</td>
+							</tr>						
+					</tr>
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>交通银行</b><br>汇添利美元6月</td>
+						
+							<tr class="active" >
+								<td >预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>0.5500%<br><small><small><em>(0.6500%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>浮动收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+   							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/14~2016/7/16</td>
+							</tr>						
+					</tr>
+
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>光大银行</b><br>阳光理财A计划2015年第三十三期产品1</td>
+						
+							<tr class="active" >
+								<td>预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.2000%<br><small><small><em>(1.2000%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>保收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/6~2016/7/6</td>
+							</tr>						
+					</tr>	
+					
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>上海银行</b><br>慧财货币及债券系列(金鑫)理财产品(150M 652期)</td>
+							<tr class="active" >
+								<td>预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.3350%<br><small><small><em>(1.3050%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>保收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/4~2016/7/11</td>
+							</tr>						
+					</tr>	
+			
+				</tbody>
+			</table>
+
+	<table class="table" >
+		<caption style="text-align:left">
+		<h4><b>美元保本在售12个月</b><br><small>(近1个月行业平均预期收益: 1.4167%)</small></h4>
+		</caption>
+				<thead>
+					<tr class="info">
+						<th width="100px">产品</th>
+						<th colspan="2"> 描  述 </th>		
+					</tr>
+				</thead>
+				<tbody>
+			
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>农业银行</b><br>金钥匙本利丰2015年第1211期美元理财产品</td>
+						
+							<tr class="active" >
+								<td width="110px">预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.4000%<br><small><small><em>(1.5000%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>保收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/7~2017/1/4</td>
+							</tr>							
+					</tr>
+					
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>交通银行</b><br>汇添利美元1年</td>
+						
+							<tr class="active" >
+								<td width="110px">预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.0500%<br><small><small><em>(1.1500%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>浮动收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+ 							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/14~2017/2/16</td>
+							</tr>						
+					</tr>
+					
+					<tr>
+						<td rowspan="5" style="text-align:center"><b>北京银行</b><br>美元12个月</td>
+						
+							<tr class="active" >
+								<td width="110px">预期收益:<br><small><small><em>(上期收益)</em></small></small></td> 
+								<td>1.8000%<br><small><small><em>(1.8000%)</em></small></small></td>
+							</tr>
+
+							<tr>
+								<td><b>保收益</b></td>
+								<td><b>低风险</b></td>
+							</tr> 
+  							<tr>
+								<td>销售期间:</td>
+								<td>2016/1/1~2016/2/1</td>
+							</tr>
+							<tr>
+								<td>计息期间:</td>
+								<td>2016/1/5~2017/1/4</td>
+							</tr>						
+					</tr>					
+				</tbody>
+			</table>
+			
+		
+			 <font size="1" color="red"><sup>1</sup>&nbsp;近1个月行业平均预期收益是指在近1个月各家银行发售的同期限、同币种以及同风险等级的产品的平均预期收益。<br> </font>
+			 <font size="1" color="red"><sup>2</sup>&nbsp;上期收益是指同一银行发售的同类产品上一期发售预期收益。<br> </font>
+			 <font size="1" color="red"><sup>3</sup>&nbsp;计息期间是指本理财产品计息起始/截至日期，截至日期并不一定等于付息清算日期。<br></font>	
+			 <font size="1" color="red"><sup>4</sup>&nbsp;风险等级是根据投资标的的品种及评级以及流动性等风险因素评定而得，具体参加“风险等级说明”。本风险等级仅供参考！具体请以银行给出得风险等级说明为准！。</font>	
+</div>	
+</div>
+
+			
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

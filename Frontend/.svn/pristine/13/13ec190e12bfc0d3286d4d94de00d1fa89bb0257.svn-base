@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>关 于 我 们</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="blog-header" style="background: url(../img/C10.jpg) center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>公司与团队</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">您身边最专业的外汇投资专家</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p>当今正处于互联网发展的鼎盛时代，互联网金融也随之蓬勃而生。互联网金融万象丛生，但也存在良莠不齐、鱼目混珠的状态，尤其是P to P风险的爆发令投资者倍感焦虑！
+		</p>
+		<p>我们始终相信，互联网金融的本质不是颠覆金融、颠覆金融监管，互联网金融的本质是为投资者提供最为优质的金融信息 － 通过专业的分析使信息变得更为透明公正，为投资者与专业金融机构之间架起桥梁！
+		</p>
+		<p>						抱着这样的信念，我们一群从事金融行业多年的人聚集在一起，怀揣着为投资人寻找全球最佳金融资产的梦想成立了上海嘉廛金融信息服务有限公司。“廛”出自于《孟子》 － “市，廛而不征……廛，无夫里之布……”，蕴含着两层意思：其一为市场，即交易场所；其二为民居，引申为邻里。这恰是我们金融服务理念的最好诠释：为邻里、为投资人提供最好的金融市场服务。
+		</p>
+		<p>					当今，金融服务已经成为众多中国人生活中不可或缺的一部分。随着中国走向世界，金融投资的范围也越来越广泛，全球化的资产配置变得更为重要，尤其是全球经济与金融一体化时代的到来，寻求回报与避险的需求变得更为突出。但是面对如此之多的海外金融产品，我们相信，投资人的困惑也与日俱增。我们正是看到了这一点才走入了这一领域，来到你们的身边，为你们提供我们优秀团队的专业金融服务。
+		</p>
+		<p>			我们团队中有多年从事外汇、固定收益、商品与贵金属、基金以及衍生产品交易的专家，他们曾供职于国内外知名的银行、基金管理公司与国际知名的金融信息服务公司。也有多年从事金融信息与交易技术并参与国内著名的外汇交易平台以及量化交易平台开发实施的技术专家。
+		</p>
+		<p>
+		我们始终坚信，专业知识加以人为本的金融服务理念能帮助投资者走得更长更远，也能真正为中国互联网金融共同创造美好的明天。
+		</p>
+
+	</article>
+		
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

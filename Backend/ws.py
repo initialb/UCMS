@@ -738,6 +738,164 @@ def get_wmp(currency):
     return json.dumps(prod_list, ensure_ascii=False)
 
 
+@app.route('/ucms/api/v1.0/weixin/wmpcomp', methods=['GET'])
+def wmp_comp():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    ccy_list = []
+    total_rec = 0
+    prod_list = {"timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "total_rec": "",
+                 "tenor_group": [{"currency": "USD",
+                                  "currencyname": u"美元",
+                                  "preservable": "N",
+                                  "list": []},
+                                 {"currency": "USD",
+                                  "currencyname": u"美元",
+                                  "preservable": "Y",
+                                  "list": []}]
+                }
+
+    tenor_list = ["1", "2", "3", "6", "9", "12", "24"]
+
+    # 非保本
+    for tn in tenor_list:
+        query = u"""
+            SELECT
+                issuer_name, ROUND(tenor / 30) as tenor_desc, expected_highest_yield
+            FROM
+                t_product
+            WHERE
+                DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    AND redeemable = '封闭'
+                    AND preservable = '非保本'
+                    AND remark = '普通'
+                    AND currency = 'USD'
+                    AND tenor_desc = %s
+            ORDER BY expected_highest_yield desc
+            LIMIT 1
+        """ % tn
+        cursor.execute(query)
+        for (issuer_name, tenor_desc, expected_highest_yield) in cursor:
+            prod_list["tenor_group"][0]["list"].append({
+                "tenor": tn,
+                "issuer_name": issuer_name,
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,)
+            })
+
+        if cursor.rowcount == -1:
+            prod_list["tenor_group"][0]["list"].append({
+                "tenor": tn,
+                "issuer_name": "-",
+                "expected_highest_yield": "-"
+            })
+
+        # 计算月平均
+        query = u"""
+            SELECT
+                AVG(bank_avg) AS avg
+            FROM
+                (SELECT
+                    issuer_name, AVG(expected_highest_yield) AS bank_avg
+                FROM
+                    zyq.t_product
+                WHERE
+                    DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    AND currency = 'USD'
+                    AND ROUND(tenor / 30) = %s
+                    AND redeemable = '封闭'
+                    AND preservable = '非保本'
+                    AND remark = '普通'
+                GROUP BY issuer_name) t
+            """ % tn
+        cursor.execute(query)
+        for (avg,) in cursor:
+            if avg is None:
+                prod_list["tenor_group"][0]["list"][-1]["average_yield"] = "-"
+            else:
+                prod_list["tenor_group"][0]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg)*100,)
+
+    # 保本
+    for tn in tenor_list:
+        query = u"""
+            SELECT
+                issuer_name, ROUND(tenor / 30) as tenor_desc, expected_highest_yield
+            FROM
+                t_product
+            WHERE
+                DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    AND redeemable = '封闭'
+                    AND preservable = '保本'
+                    AND remark = '普通'
+                    AND currency = 'USD'
+                    AND tenor_desc = %s
+            ORDER BY expected_highest_yield desc
+            LIMIT 1
+        """ % tn
+        cursor.execute(query)
+        for (issuer_name, tenor_desc, expected_highest_yield) in cursor:
+            prod_list["tenor_group"][1]["list"].append({
+                "tenor": tn,
+                "issuer_name": issuer_name,
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,)
+            })
+
+        if cursor.rowcount == -1:
+            prod_list["tenor_group"][1]["list"].append({
+                "tenor": tn,
+                "issuer_name": "-",
+                "expected_highest_yield": "-"
+            })
+
+        # 计算月平均
+        query = u"""
+            SELECT
+                AVG(bank_avg) AS avg
+            FROM
+                (SELECT
+                    issuer_name, AVG(expected_highest_yield) AS bank_avg
+                FROM
+                    zyq.t_product
+                WHERE
+                    DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    AND currency = 'USD'
+                    AND ROUND(tenor / 30) = %s
+                    AND redeemable = '封闭'
+                    AND preservable = '保本'
+                    AND remark = '普通'
+                GROUP BY issuer_name) t
+            """ % tn
+        cursor.execute(query)
+        for (avg,) in cursor:
+            if avg is None:
+                prod_list["tenor_group"][1]["list"][-1]["average_yield"] = "-"
+            else:
+                prod_list["tenor_group"][1]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg)*100,)
+
+    total_rec += (len(prod_list["tenor_group"][0]["list"]) + len(prod_list["tenor_group"][1]["list"]))
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('wmp comp tenor %s \n\n' % tn)
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
 def get_USD_depo(tenor):
     return decode(tenor,
                   1, u"0.2000%",

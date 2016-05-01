@@ -1,0 +1,62 @@
+/*!
+ * Author: BCH - 20160315
+ * Copyright 2015-2016 Worldmoney, Inc.
+ */
+
+.wrap  {
+    background: #FFFFFF;
+    background: -moz-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);
+    background: -ms-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);
+    background: -webkit-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);
+    background: linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);
+    border: 1px solid #777777;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    border-radius: 6px 6px 6px 6px;
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    margin: 20px auto;
+    padding: 12px;
+    position: relative;
+    width: 300px;
+    height:500px;
+}
+
+.wrap :before, .wrap :after {
+    background: none;
+    bottom: 12px;
+    -moz-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);
+    content: "";
+    height: 10px;
+    left: 12px;
+    position: absolute;
+    width: 40%;
+    z-index: -1;
+    -moz-transform: skew(-4deg) rotate(-4deg);
+    -webkit-transform: skew(-4deg) rotate(-4deg);
+    transform: skew(-4deg) rotate(-4deg);
+}
+
+.wrap :after {
+    -moz-transform: skew(4deg) rotate(4deg);
+    -webkit-transform: skew(4deg) rotate(4deg);
+    transform: skew(4deg) rotate(4deg);
+    left: auto;
+    right: 12px;
+}
+
+.shadow-bottom:before, .shadow-bottom:after {
+    top: auto;
+    bottom: 12px;
+    -moz-box-shadow: 0 10px 14px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 14px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 14px 12px rgba(0, 0, 0, 0.5);
+}
+
+.wrap img {
+    width: 100%;
+    margin-top: 15px;
+}

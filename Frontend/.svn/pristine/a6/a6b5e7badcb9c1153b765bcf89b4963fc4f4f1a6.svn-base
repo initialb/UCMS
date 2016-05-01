@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            content="兴业银行,直销银行,兴业宝,理财产品,理财,黄金,年报，重要公告，精彩e生活，兴业动态，兴业e卡，网上个人银行，网上企业银行，信用卡，手机银行，房产评估，零售业务，自助银行，个人金融信息，自然人生家庭理财卡，银银平台，财智星，单证通，国际结算，国际贸易融资，票据业务，第三方存管，电子银行，集团结算中心，手机钱包，证书使用指南，网盾，精灵卫士，财经资讯，股票，外汇，债券，保险，贵金属投资，股指期货，网上商城，机票，酒店，保险，充值"
+            name="keywords"/>
+    <meta
+            content="兴业银行成立于1988年8月，是经国务院、中国人民银行批准成立的首批股份制商业银行之一，总行设在福建省福州市，2007年2月5日正式在上海证券交易所挂牌上市（股票代码：601166），注册资本50亿元"
+            name="description"/>
+    <link href="/resources/css/2015/licaipage.css" type="text/css" rel="stylesheet">
+    <!--[if IE 6.0]>
+    <link href="/resources/css/2015/ie.css" type="text/css" rel="stylesheet">
+    <style>
+        a {
+        blr: expression(this.onFocus=this.blur());
+        }
+    </style>
+    <![endif]-->
+    <script src="/resources/js/2015/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="/resources/js/2015/util.js" type="text/javascript"></script>
+    <title>兴业银行欢迎您</title>
+    <script src="/resources/js/2015/CibWealthBaidu.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+    <!-- 顶部导航菜单由js脚本填入 -->
+</div>
+<script src="/WealthHeader.js" type="text/javascript" deffer=true></script>
+<div id="wrapper">
+    <div id="content">
+        <div class="left-menu" id="leftmenu">
+        </div>
+        <script src="/retail/leftmenu.js" type="text/javascript" deffer=true></script>
+        <div class="detail-box">
+            <div class="top">
+                <p>当前位置：<a href="/">理财产品信息</a>&nbsp;&gt;&gt;<a href="/retail/">零售理财</a>&nbsp;&gt;&gt;<a
+                        href="/retail/onsale/">发售产品信息</a>&nbsp;&gt;&gt;产品介绍&nbsp;&gt;&gt;兴业银行发售理财产品信息公告
+                </p>
+            </div>
+            <div class="middle">
+                <h1>兴业银行“天天万汇通”外币理财产品要素表</h1>
+                <table border="0" cellspacing="0" cellpadding="0" align="center" width="100%">
+                    <tbody>
+                    <tr bgcolor="#d0e0ff">
+                        <td width="60" align="center">期次款数</td>
+                        <td width="65" align="center">销售编号</td>
+                        <td width="115" align="center">产品登记编码</td>
+                        <td width="58" align="center">认购起始日</td>
+                        <td width="56" align="center">认购结束日</td>
+                        <td width="26" align="center">销售地区</td>
+                        <td width="58" align="center">起息日</td>
+                        <td width="56" align="center">到期日</td>
+                        <td width="55" align="center">兑付日</td>
+                        <td width="24" align="center">期限（天）</td>
+                        <td width="43" align="center">产品类型</td>
+                        <td width="27" align="center">币种</td>
+                        <td width="96" align="center">起购金额及递增金额</td>
+                        <td width="102" align="center">客户年化参考净收益率</td>
+                        <td width="100" align="center">年化销售管理费率</td>
+                        <td width="109" align="center">购买渠道</td>
+                        <td width="48" align="center">募集规模</td>
+                    </tr>
+                    <tr>
+                        <td align="center">2016年第6期B款</td>
+                        <td align="center">92136061</td>
+                        <td align="center">C103091600102</td>
+                        <td align="center">2016/<br/>
+                            2/3
+                        </td>
+                        <td align="center">2016/<br/>
+                            2/16
+                        </td>
+                        <td align="center">全国</td>
+                        <td align="center">2016/<br/>
+                            2/17
+                        </td>
+                        <td align="center">2016/<br/>
+                            8/16
+                        </td>
+                        <td align="center">2016/<br/>
+                            8/16
+                        </td>
+                        <td align="center">181</td>
+                        <td align="center">非保本浮动收益</td>
+                        <td align="center">美元</td>
+                        <td align="center">8,000美元，以100美元递增</td>
+                        <td align="center">1.70%，20万美元（含）以上，1.90%</td>
+                        <td align="center">0.50% ,20万美元以上（含）,0.30%</td>
+                        <td align="center">柜面、网银、电话银行、手机银行、金融自助通</td>
+                        <td align="center">1500万美元</td>
+                    </tr>
+                    <tr>
+                        <td align="center">2016年第6期C款</td>
+                        <td align="center">92136062</td>
+                        <td align="center">C1030916000103</td>
+                        <td align="center">2016/<br/>
+                            2/3
+                        </td>
+                        <td align="center">2016/<br/>
+                            2/16
+                        </td>
+                        <td align="center">全国</td>
+                        <td align="center">2016/<br/>
+                            2/17
+                        </td>
+                        <td align="center">2016/<br/>
+                            11/15
+                        </td>
+                        <td align="center">2016/<br/>
+                            11/15
+                        </td>
+                        <td align="center">272</td>
+                        <td align="center">非保本浮动收益</td>
+                        <td align="center">美元</td>
+                        <td align="center">8,000美元，以100美元递增</td>
+                        <td align="center">1.95%，20万美元（含）以上，2.15%</td>
+                        <td align="center">0.60% ,20万美元以上（含）,0.40%</td>
+                        <td align="center">柜面、网银、电话银行、手机银行、金融自助通</td>
+                        <td align="center">500万美元</td>
+                    </tr>
+                    <tr>
+                        <td align="center">2016年第6期D款</td>
+                        <td align="center">92136063</td>
+                        <td align="center">C1030916000104</td>
+                        <td align="center">2016/<br/>
+                            2/3
+                        </td>
+                        <td align="center">2016/<br/>
+                            2/16
+                        </td>
+                        <td align="center">全国</td>
+                        <td align="center">2016/<br/>
+                            2/17
+                        </td>
+                        <td align="center">2017/<br/>
+                            2/16
+                        </td>
+                        <td align="center">2017/<br/>
+                            2/16
+                        </td>
+                        <td align="center">365</td>
+                        <td align="center">非保本浮动收益</td>
+                        <td align="center">美元</td>
+                        <td align="center">8,000美元，以100美元递增</td>
+                        <td align="center">2.20%，20万美元（含）以上，2.40%</td>
+                        <td align="center">0.60% ,20万美元 以上（含）,0.40%</td>
+                        <td align="center">柜面、网银、电话银行、手机银行、金融自助通</td>
+                        <td align="center">4000万美元</td>
+                    </tr>
+                    <tr>
+                        <td align="center">收益率测算依据</td>
+                        <td colspan="16" align="center">
+                            客户参考收益率根据银行间市场投资运作收益率水平测算得出，6-12M资产组合收益率约为2.20%-2.80%，测算收益不等于实际收益，投资须谨慎。
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a id="to-top" class="to-top" href="#header">回到顶部</a>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <!-- 页脚由js脚本填入 -->
+    </div>
+    <script src="/WealthFooter.js" type="text/javascript" deffer=true></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>投资策略</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="blog-header" style="background: url(../img/A50.jpg) center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>投资策略</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">赚洋钱</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p>“投资策略”栏目是“赚洋钱”方便于投资者了解市场、明察市场动态所提供的市场观点或“赚洋钱”专业团队的观点，并不构成对投资者的建议与投资者投资决策的部分。投资者依此做出投资决策，我们不承担由此产生的任何后果。
+		</p>
+
+	</article>
+		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

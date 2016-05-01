@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>美元理财产品收益比较</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>	
+
+  </head>
+  <body>
+      <div class="container-fluid">
+	  	<br>
+			<div class="media">
+				<div class="media-left">
+					<a href="#">
+						<img class="media-object" src="../img/{ titleimg }" alt="..." height="64" width="64">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading"><strong><br>美元理财产品收益比较</strong></h4>
+				</div>
+			</div>
+			
+		<div style="text-align:left;">
+				<p class="blog-post-meta">{ date }  <a href="#">A.T.</a></p>
+		</div>
+		<hr>
+        { tcontent }
+			
+
+	 <font size="1" color="red"><sup>1</sup>&nbsp;最近1个月美元相同期限产品的最高的预期收益</font><br>
+	 <font size="1" color="red"><sup>2</sup>&nbsp;最近1个月行业平均预期收益值</font>	<br>	
+	 
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+
+
+    <script src="../bootstrap/js/jquery.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/scripts.js"></script>
+  </body>
+</html>

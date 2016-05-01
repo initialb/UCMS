@@ -1,0 +1,5 @@
+name: zhuanyangqian
+version: 1
+handle:
+- expire:  if( path ~ "html" ) time 5
+- expire:  if( path ~ "php" ) time 5

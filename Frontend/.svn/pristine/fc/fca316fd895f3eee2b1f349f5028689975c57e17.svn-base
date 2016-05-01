@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>在售非美元理财产品</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="World Money">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css">
+	
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+		<div class="media">
+			<div class="media-left">
+				<a href="#">
+					<img class="media-object" src="../img/{ titleimg }" alt="..." height="64" width="64">
+				</a>
+			</div>
+			<div class="media-body" style="vertical-align:middle;">
+
+				<h4 class="media-heading" ><strong>在售非美元理财产品</strong></h4>
+			</div>
+		</div>
+		
+	<div style="text-align:left;">
+		<p class="blog-post-meta">{ date }  <a href="#">A.T.</a></p>
+	</div>
+	<hr>
+	
+	<div class="row" style="margin-top:-25px">	
+		<div class="col-xs-12" >
+				{ tcontent } 		
+		</div>	
+	</div>	
+	
+			
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

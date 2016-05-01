@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>股票基金精选</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="blog-header" style="background: url(../img/B10.jpg)center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>股票基金精选</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">赚洋钱</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p>
+		<strong>回复编码列表</strong>
+		</p>	
+		<table class="table table-condensed">
+			<tbody>
+				<tr class="success">
+					<th style="width:60px;">
+						编码  
+					</th>
+					<th>
+						功能
+					</th>								
+				</tr>
+				<tr class="active">
+					<td>
+						411  
+					</td>
+					<td>
+						海外股票基金分类综合评价
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						412
+					</td>
+					<td>
+						海外股票基金最佳表现优选
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						413
+					</td>
+					<td>
+						"赚洋钱"推荐股票基金
+					</td>							
+				</tr>
+			</tbody>
+		</table>			
+		<p>股票基金是指追求较高收益与资产增长的主动管理基金品种，一般在基金契约中都会约定基金投资的企业类型、地域分布与资产配置比例。股票基金是一种高风险的投资品种，适合于积极寻找投资回报的高风险偏好的投资者。
+		</p>
+		<p>“股票基金精选”栏目是“赚洋钱”团队针对海外市场基金产品根据专业的经济基本面以及数量化分析为投资者遴选而出的表现优秀的股票基金，并根据市场状况做出判断并推荐给投资者相应的产品。
+		</p>
+		<p>鉴于海外市场基金数量庞大，相应信息复杂多变，尽管“赚洋钱”团队力求更为广泛的获取相应信息，但鉴于获取全部信息并确保信息准确性的难度，我们并不保证信息的完整与准确，投资者需在做出投资决策前仔细参考相关基金的资料并与相关基金公司或销售渠道核查。“赚洋钱”为投资者推荐的基金是根据我们专业团队的分析得出，仅供投资者参考，并不构成投资者投资决策的组成部分。投资者依此做出的投资决策的后果由投资者自己承担，“赚洋钱”不会承担相应的责任。
+		</p>		
+
+	</article>
+		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

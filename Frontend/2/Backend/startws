@@ -1,0 +1,1 @@
+nohup python ./ws.py > log/ws_`date +%Y%m%d`.log 2>&1 &

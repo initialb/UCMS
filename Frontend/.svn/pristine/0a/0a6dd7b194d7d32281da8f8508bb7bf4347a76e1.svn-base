@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>在售外汇理财</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+
+	<div style="background: url(../img/A10.jpg) center;background-size: contain;text-align:center;border-style: solid;border-color: #ffffff;">
+        <h3 style="font-size:24px;font-family:'Microsoft YaHei';color:#00FF00;"><strong>在售外汇理财</strong></h3>
+        <p class="lead blog-description" style="font-size:18px;font-family:'Microsoft YaHei';color:#000000;">赚洋钱</p>
+     </div>
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<p>
+		<strong>回复编码列表</strong>
+		</p>	
+		<table class="table table-condensed">
+			<tbody>
+				<tr class="success">
+					<th style="width:60px;">
+						编码  
+					</th>
+					<th>
+						功能
+					</th>								
+				</tr>
+				<tr class="active">
+					<td>
+						101  
+					</td>
+					<td>
+						精选在售外汇理财产品
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						102
+					</td>
+					<td>
+						在售美元非保本理财产品信息
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						103
+					</td>
+					<td>
+						在售美元保本理财产品信息
+					</td>							
+				</tr>
+				<tr class="active">
+					<td>
+						104
+					</td>
+					<td>
+						在售非美元理财产品信息
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						105
+					</td>
+					<td>
+						美元理财产品收益比较
+					</td>								
+				</tr>				
+			</tbody>
+		</table>	
+		<p>“在售外汇理财”栏目，我们为投资者整理了主要金融机构的所有在售外汇理财产品，包括预期收益率、期限、发售时间以及上一期的收益率等主要信息，以便投资者发现与识别投资者所需要的投资产品。
+		</p>
+		<p>		从在售的外汇理财产品看，各金融机构给出的收益预期相差巨大，对于投资者而言，应该从期限出发选择更为合适与高收益的产品。目前金融机构提供的产品来说，主要包括“保本”与“非保本”两大类产品，从我们的数据统计看，即使“非保本”类产品，其风险纬度也是非常之低，但预期收益却与“保本”类产品相差巨大。
+		</p>
+		<p>		尽管“赚洋钱”的专业团队力求在更广泛的范围获取更准确的数据，但鉴于数据均从公开渠道获取、各金融机构对数据披露的及时完整性以及我们获取的技术手段等原因，我们并不保证数据的准确性与完整性，投资者还需与具体产品提供的金融机构进行查询核实。“赚洋钱”给出的信息并不构成投资者投资决策的一部分，也并不承担因投资者参考我们的信息而做出投资决策所引起的任何后果。
+		</p>
+
+	</article>
+		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

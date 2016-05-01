@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>精选在售外汇理财产品</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="World Money">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css">
+
+  </head>
+  <body>
+
+    <div class="container-fluid"> 
+		<br>
+		<div class="media">
+			<div class="media-left">
+				<a href="#">
+					<img class="media-object" src="../img/{ titleimg }" alt="..." height="64" width="64">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading"><strong><br>精选在售外汇理财产品</strong></h4>
+				<p class="lead blog-description" style="font-size:14px;font-family:'Microsoft YaHei';color:#339900;">{ currencyname }最高预期年化收益率 <font color="#FF6600"><strong>{ maxreturn }</strong></font></p>
+			</div>
+		</div>
+	
+
+	
+		<div style="text-align:left;line-height:0.5;">
+			<p class="blog-post-meta">{ date }  <a href="weixin://profile/gh_5a211fd0cbf2">赚洋钱</a></p>
+		</div>
+	<hr>
+	{ tcontent }
+
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 	 
+</div>
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

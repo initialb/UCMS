@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>美元兑人民币牌价</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>	
+
+  </head>
+  <body>
+      <div class="container-fluid">
+	  	<br>
+			<div class="media">
+				<div class="media-left">
+					<a href="#">
+						<img class="media-object" src="../img/A21.jpg" alt="..." height="64" width="64">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading"><strong><br>美元兑人民币牌价<sup>*</sup><br>（2016.01.01）</strong></h4>
+				</div>
+			</div>
+			
+		<div style="text-align:left;">
+			<p class="blog-post-meta">2016-01-01 <a href="#">赚洋钱</a></p>
+		</div>
+		<hr>
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th rowspan="2" valign="middle" align="center" style="width:80px;" >
+							银行名称
+						</th>
+						<th colspan ="2" style="text-align:center;">
+							现 汇
+						</th>
+						<th colspan ="2" style="text-align:center;">
+							现 钞
+						</th>
+					</tr>
+					<tr>
+						<th style="text-align:center;">
+							买入价
+						</th>
+						<th style="text-align:center;">
+							卖出价
+						</th>
+						<th style="text-align:center;">
+							买入价
+						</th>
+						<th style="text-align:center;">
+							卖出价
+						</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>					
+						<td style="text-align:left;width:80px;">招商银行</td>
+						<td style="text-align:center;"><font color="red"><b>656.98</b></font></td>
+						<td style="text-align:center;">659.62</td>
+						<td style="text-align:center;">651.72</td>
+						<td style="text-align:center;">659.62</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">工商银行</td>
+						<td style="text-align:center;">656.04</td>
+						<td style="text-align:center;">658.66</td>
+						<td style="text-align:center;">650.78</td>
+						<td style="text-align:center;">658.66</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">中国银行</td>
+						<td style="text-align:center;">656.09</td>
+						<td style="text-align:center;">658.71</td>
+						<td style="text-align:center;">650.83</td>
+						<td style="text-align:center;">658.71</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">农业银行</td>
+						<td style="text-align:center;">656.09</td>
+						<td style="text-align:center;">658.72</td>
+						<td style="text-align:center;">650.83</td>
+						<td style="text-align:center;">658.72</td>
+					</tr>	
+					<tr>
+						<td style="text-align:left;">建设银行</td>
+						<td style="text-align:center;">656.04</td>
+						<td style="text-align:center;">658.66</td>
+						<td style="text-align:center;">650.78</td>
+						<td style="text-align:center;">658.66</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">中信银行</td>
+						<td style="text-align:center;">655.97</td>
+						<td style="text-align:center;">658.72</td>
+						<td style="text-align:center;">650.00</td>
+						<td style="text-align:center;">658.73</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">交通银行</td>
+						<td style="text-align:center;">656.06</td>
+						<td style="text-align:center;">658.68</td>
+						<td style="text-align:center;">650.80</td>
+						<td style="text-align:center;">658.68</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">光大银行</td>
+						<td style="text-align:center;">656.06</td>
+						<td style="text-align:center;">658.66</td>
+						<td style="text-align:center;">650.78</td>
+						<td style="text-align:center;">658.66</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">兴业银行</td>
+						<td style="text-align:center;">656.09</td>
+						<td style="text-align:center;">661.35</td>
+						<td style="text-align:center;">635.66</td>
+						<td style="text-align:center;">661.35</td>
+					</tr>
+					<tr class="active">					
+						<td style="text-align:left;">浦发银行</td>
+						<td style="text-align:center;">655.94</td>
+						<td style="text-align:center;">658.58</td>
+						<td style="text-align:center;">650.68</td>
+						<td style="text-align:center;">658.58</td>
+					</tr>	
+					<tr>					
+						<td style="text-align:left;">平安银行</td>
+						<td style="text-align:center;">655.92</td>
+						<td style="text-align:center;">658.54</td>
+						<td style="text-align:center;">650.66</td>
+						<td style="text-align:center;">658.54</td>
+					</tr>	
+					<tr class="active">					
+						<td style="text-align:left;">上海银行</td>
+						<td style="text-align:center;">655.87</td>
+						<td style="text-align:center;"><font color="red"><b>658.49</b></font></td>
+						<td style="text-align:center;">650.61</td>
+						<td style="text-align:center;"><font color="red"><b>658.49</b></font></td>
+					</tr>	
+					<tr>					
+						<td style="text-align:left;">北京银行</td>
+						<td style="text-align:center;">655.52</td>
+						<td style="text-align:center;">659.15</td>
+						<td style="text-align:center;"><font color="red"><b>653.56</b></font></td>
+						<td style="text-align:center;">659.15</td>
+					</tr>						
+				</tbody>
+			</table>
+
+			 <font size="1" color="red"><sup>*</sup>&nbsp;牌价是指获取时刻的报价，并不代表银行可以交易的价格。仅供参考！</font>
+	
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

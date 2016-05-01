@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>2016年1季度全球基金投资季刊</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object" src="../img/A42.jpg" alt="..." height="64" width="64">
+				</a>
+		</div>
+		<div class="media-body" style="vertical-align:middle;">
+			<h4 class="media-heading"><strong>2016年1季度全球基金投资季刊
+			</strong></h4>
+		</div>
+	</div>
+	
+	<div style="text-align:left;">
+		<p class="blog-post-meta">2016-04-01 <a href="#">赚洋钱</a></p>
+	</div>
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px">
+		<h4 style="color:#FF6600;">对于投资来说，过往的10年不堪回首！
+		</h4>	
+
+		<p>全球各资产类别基金年化收益表(美元)：
+		</p>
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th  valign="middle" align="center" style="width:80px;" >
+							资产类别
+						</th>
+						<th style="text-align:center;">
+							3年
+						</th>
+						<th style="text-align:center;">
+							5年
+						</th>
+						<th style="text-align:center;">
+							10年
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>					
+						<td style="text-align:left;width:80px;">股票基金（不包含商品能源与贵金属）</td>
+						<td style="text-align:center;">0.13%</td>
+						<td style="text-align:center;">0.35%</td>
+						<td style="text-align:center;">2.89%</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">商品能源与贵金属基金</td>
+						<td style="text-align:center;">-16.75%</td>
+						<td style="text-align:center;">-13.49%</td>
+						<td style="text-align:center;">-2.41%</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">高收益债券及新兴市场债券基金</td>
+						<td style="text-align:center;">-2.31%</td>
+						<td style="text-align:center;">0.78%</td>
+						<td style="text-align:center;">4.08%</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">房地产基金</td>
+						<td style="text-align:center;">2.67%</td>
+						<td style="text-align:center;">4.32%</td>
+						<td style="text-align:center;">2.30%</td>
+					</tr>	
+					<tr>
+						<td style="text-align:left;">投资级别债券基金</td>
+						<td style="text-align:center;">1.33%</td>
+						<td style="text-align:center;">1.18%</td>
+						<td style="text-align:center;">2.95%</td>
+					</tr>
+				</tbody>
+			</table>	
+			 <font size="1" color="#000000" style="margin-top:-25px">数据来源：MorningStar截止于2016/3/22</font>		
+
+		<h4 style="color:#FF6600;">如果让我们假设一个标准框架下的风险纬度资产配置并按照各资产类别的平均收益来计算，我们会得到一个怎样的投资结果呢？
+		</h4>
+		<div  style="border:1px solid #E6E6E6;background-color:#E6E6E6">
+				<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;<strong>激进型资产配置：</strong><br>80%高风险资产、15%中等风险资产、5%低风险资产</p>
+				<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;<strong>均衡型资产配置：</strong><br> 50%高风险资产、25%中等风险资产、25%低风险资产</p>
+				<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;<strong>保守型资产配置</strong><br>20%高风险资产、10%中等风险资产、70%低风险资产</p>
+		</div>	
+		<br>
+		<p>	在不同期限以及风险纬度下投资回报比较（折算成美元年化收益）：
+		</p>
+		<img alt="Image Preview" src="2016S010-1.png" width="90%" height="90%" class="img-responsive">
+		<br><br>
+		<p>如果持有无风险收益的美国10期国债，结果又会如何呢？
+		</p>
+		<img alt="Image Preview" src="2016S010-2.png" width="90%" height="90%" class="img-responsive">
+		<br><br>
+		<div  style="border:1px solid #E6E6E6;background-color:#E6E6E6">
+			<h4>结论：</h4>
+			<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;全球各类资产（除房地产基金）的平均回报全面跑输无风险10期国债回报</p>
+			<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;收益与风险纬度成反比，即：市场给予风险的溢价为负值</p>
+			<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;收益与持有期限成正比</p>
+			<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;贵金属、商品以及能源的表现拖累了整个投资回报</p>
+			<p><span class="glyphicon glyphicon-hand-right"></span>&nbsp;	在配置灵活性最高的股票基金类别中，仍有25%的基金类别10年期投资超过同期10美国国债（平均年化回报6.32%）、28%的基金类别5年期投资超过同期10美国国债（平均年化回报5.99%）、46%的基金类别3年期投资超过同期10美国国债（平均年化回报5.24%）。资产发掘在投资的任何一个周期都成为主要因素。</p>
+		</div>
+		
+		<br><br>
+		<p>那么，过往这10年全球金融市场究竟发生了什么？未来的一个季度我们应该关注什么？
+		</p>
+		<p>请继续阅读<a href="2016S011.html">全球基金投资回顾</a></p>
+
+	</article>
+		
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

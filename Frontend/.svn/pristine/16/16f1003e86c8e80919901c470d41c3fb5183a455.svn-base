@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>当月海外最佳表现股票基金(实际收益)</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="World Money">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css">
+
+  </head>
+  <body>
+
+    <div class="container-fluid"> 
+	<br>
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object" src="../img/B12.jpg" alt="..." height="64" width="64">
+			</a>
+		</div>
+		<div class="media-body">
+			<h4 class="media-heading"><strong><br>当月海外最佳表现股票基金(实际收益)</strong></h4>
+			<h4 class="media-heading"><small>综合历史与现阶段表现评选而出</small>
+			</h4>			
+		</div>
+	</div>
+	
+	<div style="text-align:left;">
+		<p class="blog-post-meta">2016-01-01 <a href="#">赚洋钱</a></p>
+	</div>
+	<hr>
+
+	<!-- block01-->
+
+		<!-- div class="col-xs-12 blog-post" -->
+			<h4 class="blog-post-title">
+				<strong>最佳表现基金(1个月)</strong>
+			</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr class="success">
+						<td style="width=70%">
+							基金名称
+						</td>
+						<td style="text-align:center;">
+							%<br>(基金货币)
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							贝莱德全球基金 - 世界黄金基金(美元) A2
+						</td>
+						<td style="text-align:right;">
+							&nbsp;&nbsp;&nbsp;31.24
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							东方汇理系列基金 - 金矿基金(美元)A2U 累计
+						</td>
+						<td style="text-align:right;">
+							30.49
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							景顺金矿基金(美元)A股 累计股份
+						</td>
+						<td style="text-align:right;">
+							29.23
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							东方汇理系列基金 - 环球资源基金(美元)A2U 累计
+						</td>
+						<td style="text-align:right;">
+							16.68
+						</td>
+					</tr>							
+				</tbody>
+			</table>			
+		<!-- /div -->
+
+	<!-- block02 -->
+			<h4 class="blog-post-title">
+				<strong>最佳表现基金(3个月)</strong>
+			</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr class="success">
+						<td style="width=70%">
+							基金名称
+						</td>
+						<td style="text-align:center;">
+							%<br>(基金货币)
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							贝莱德全球基金 - 世界黄金基金(美元) A2
+						</td>
+						<td style="text-align:right;">
+							&nbsp;&nbsp;&nbsp;30.28
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							东方汇理系列基金 - 金矿基金(美元)A2U 累计
+						</td>
+						<td style="text-align:right;">
+							30.15
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							景顺金矿基金(美元)A股 累计股份
+						</td>
+						<td style="text-align:right;">
+							20.69
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							富达基金 - 印尼 A股 - 美元
+						</td>
+						<td style="text-align:right;">
+							11.85
+						</td>
+					</tr>							
+				</tbody>
+			</table>	
+
+	<!-- block03 -->
+			<h4 class="blog-post-title">
+				<strong>最佳表现基金(年初至今)</strong>
+			</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr class="success">
+						<td style="width=70%">
+							基金名称
+						</td>
+						<td style="text-align:center;">
+							%<br>(基金货币)
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							东方汇理系列基金 － 金矿基金（美元）A2U 累计
+						</td>
+						<td style="text-align:right;">
+							&nbsp;&nbsp;&nbsp;27.94
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							贝莱德全球基金 － 世界黄金基金（美元） A2
+						</td>
+						<td style="text-align:right;">
+							27.15
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							景顺金矿基金（美元）A股 累计股份
+						</td>
+						<td style="text-align:right;">
+							21.39
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+			
+	<!-- block04 -->
+			<h4 class="blog-post-title">
+				<strong>最佳表现基金(1年)</strong>
+			</h4>
+			<table class="table table-condensed">
+				<tbody>
+					<tr class="success">
+						<td style="width=70%">
+							基金名称
+						</td>
+						<td style="text-align:center;">
+							%<br>(基金货币)
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							景顺韩国基金（美元） A
+						</td>
+						<td style="text-align:right;">
+							7.01
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							摩根日本(日圆)基金	
+						</td>
+						<td style="text-align:right;">
+							0.82
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							亨德森远见基金 - 日本小型公司基金（美元） A2
+						</td>
+						<td style="text-align:right;">
+							4.12
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							东亚联丰亚洲债券及货币基金（美元） A 累计
+						</td>
+						<td style="text-align:right;">
+							3.93
+						</td>
+					</tr>					
+				</tbody>
+			</table>	
+
+
+	<font size="1" color="red"><sup>1</sup>&nbsp; 所有回报为累计回报，基金派息用于再投资。</font><br>
+	<font size="1" color="red"><sup>2</sup>&nbsp; 所有回报数据是基金净值公布当日的数据，“赚洋钱”不保证数据的完整与准确，投资者需在投资前查询相应基金公司的基金回报资料。</font><br>
+	<font size="1" color="red"><sup>3</sup>&nbsp; “赚洋钱”从2000多只基金中，根据基金不同时期的表现、基金投资范围、风险水平、宏观经济状况(利率状况、估值水平以及企业盈利增长)等因素综合评价，并不构成你的投资决策。投资者应当对自己的投资决策负责，并在投资前认真阅读相关基金的所有资料。</font><br>	
+
+	 <hr>
+	<p>
+        <a href="#">返回标题</a>
+	</p>
+</div>
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

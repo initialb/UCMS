@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>欧元兑人民币牌价</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>	
+
+  </head>
+  <body>
+      <div class="container-fluid">
+	  	<br>
+			<div class="media">
+				<div class="media-left">
+					<a href="#">
+						<img class="media-object" src="../img/A23.jpg" alt="..." height="64" width="64">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading"><strong><br>欧元兑人民币牌价<sup>*</sup><br>（2016.03.01）</strong></h4>
+				</div>
+			</div>
+			
+		<div style="text-align:left;">
+			<p class="blog-post-meta">2016-03-01 <a href="#">赚洋钱</a></p>
+		</div>
+		<hr>
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th rowspan="2" valign="middle" align="center" style="width:80px;" >
+							银行名称
+						</th>
+						<th colspan ="2" style="text-align:center;">
+							现 汇
+						</th>
+						<th colspan ="2" style="text-align:center;">
+							现 钞
+						</th>
+					</tr>
+					<tr>
+						<th style="text-align:center;">
+							买入价
+						</th>
+						<th style="text-align:center;">
+							卖出价
+						</th>
+						<th style="text-align:center;">
+							买入价
+						</th>
+						<th style="text-align:center;">
+							卖出价
+						</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>					
+						<td style="text-align:left;width:80px;">招商银行</td>
+						<td style="text-align:center;">709.13</td>
+						<td style="text-align:center;">714.83</td>
+						<td style="text-align:center;">686.70</td>
+						<td style="text-align:center;">714.83</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">工商银行</td>
+						<td style="text-align:center;">709.45</td>
+						<td style="text-align:center;">714.22</td>
+						<td style="text-align:center;">691.23</td>
+						<td style="text-align:center;">714.22</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">中国银行</td>
+						<td style="text-align:center;"><font color="red"><b>709.82</b></font></td>
+						<td style="text-align:center;">714.80</td>
+						<td style="text-align:center;">687.91</td>
+						<td style="text-align:center;">714.80</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">农业银行</td>
+						<td style="text-align:center;">709.09</td>
+						<td style="text-align:center;">714.08</td>
+						<td style="text-align:center;">687.75</td>
+						<td style="text-align:center;">714.08</td>
+					</tr>	
+					<tr>
+						<td style="text-align:left;">建设银行</td>
+						<td style="text-align:center;">709.29</td>
+						<td style="text-align:center;">714.27</td>
+						<td style="text-align:center;">686.16</td>
+						<td style="text-align:center;">714.27</td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">中信银行</td>
+						<td style="text-align:center;">709.33</td>
+						<td style="text-align:center;">714.21</td>
+						<td style="text-align:center;">687.75</td>
+						<td style="text-align:center;">714.21</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">交通银行</td>
+						<td style="text-align:center;">708.99</td>
+						<td style="text-align:center;"><font color="red"><b>713.97</b></font></td>
+						<td style="text-align:center;">685.87</td>
+						<td style="text-align:center;"><font color="red"><b>713.97</b></font></td>
+					</tr>
+					<tr class="active">
+						<td style="text-align:left;">光大银行</td>
+						<td style="text-align:center;">708.92</td>
+						<td style="text-align:center;">714.61</td>
+						<td style="text-align:center;">686.14</td>
+						<td style="text-align:center;">714.61</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;">兴业银行</td>	
+						<td style="text-align:center;">709.05</td>
+						<td style="text-align:center;">714.75</td>
+						<td style="text-align:center;">686.98</td>
+						<td style="text-align:center;">714.75</td>
+					</tr>
+					<tr class="active">					
+						<td style="text-align:left;">浦发银行</td>
+						<td style="text-align:center;">709.07</td>
+						<td style="text-align:center;">714.06</td>
+						<td style="text-align:center;">688.79</td>
+						<td style="text-align:center;">714.06</td>
+					</tr>	
+					<tr>					
+						<td style="text-align:left;">平安银行</td>
+						<td style="text-align:center;">709.15</td>
+						<td style="text-align:center;">714.85</td>
+						<td style="text-align:center;">686.37</td>
+						<td style="text-align:center;">714.85</td>
+					</tr>	
+					<tr class="active">					
+						<td style="text-align:left;">上海银行</td>
+						<td style="text-align:center;">708.85</td>
+						<td style="text-align:center;">714.55</td>
+						<td style="text-align:center;">686.98</td>
+						<td style="text-align:center;">714.55</td>
+					</tr>	
+					<tr>					
+						<td style="text-align:left;">民生银行</td>
+						<td style="text-align:center;">708.26</td>
+						<td style="text-align:center;">715.31</td>
+						<td style="text-align:center;">686.21</td>
+						<td style="text-align:center;">715.31</td>
+					</tr>		
+					<tr>					
+						<td style="text-align:left;">广发银行</td>
+						<td style="text-align:center;">709.22</td>
+						<td style="text-align:center;">714.20</td>
+						<td style="text-align:center;">687.75</td>
+						<td style="text-align:center;">714.20</td>
+					</tr>	
+					<tr>					
+						<td style="text-align:left;">华夏银行</td>
+						<td style="text-align:center;">709.23</td>
+						<td style="text-align:center;">714.93</td>
+						<td style="text-align:center;"><font color="red"><b>694.28</b></font></td>
+						<td style="text-align:center;">714.93</td>
+					</tr>					
+				</tbody>
+			</table>
+
+			 <font size="1" color="red"><sup>*</sup>&nbsp;牌价是指获取时刻的报价，并不代表银行可以交易的价格。仅供参考！</font>
+	
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>

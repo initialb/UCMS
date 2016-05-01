@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>“赚洋钱”最高预期收益外债精选</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="World Money">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css">
+
+  </head>
+  <body>
+
+    <div class="container-fluid"> 
+	<br>
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object" src="../img/{ titleimg }" alt="..." height="64" width="64">
+			</a>
+		</div>
+		<div class="media-body">
+			<h4 class="media-heading"><strong><br>“赚洋钱”最高预期收益外债精选</strong></h4>
+		</div>
+	</div>
+	
+		<div style="text-align:left;">
+			<p class="blog-post-meta">{ date } <a href="#">赚洋钱</a></p>
+		</div>
+	<hr>
+
+	{ tcontent }
+
+	
+	<p>*注释</p>
+
+	
+	<font size="1" color="red"><sup>1</sup>&nbsp; 持有一年(两年、三年)最高预期收益是指：投资者若根据参考买入价格买入并持有相应的时间期限(并非持有到期)可能获得的最高投资收益(包含债券派息)。因为实际收益受到投资者卖出时的债券价格的影响，“赚洋钱”计算的持有最高预期收益是根据当前的收益率曲线的变化得出，仅作为参考！收益率曲线也会受市场的影响不断变化</font><br>
+	<font size="1" color="red"><sup>2</sup>&nbsp; 债券安全等级标准
+	<table class="table table-condensed" style="margin-bottom:10px;">
+		<tbody>
+			<tr class="active">
+				<td>
+					1&nbsp;  
+				</td>
+				<td>
+					AAA级债券:信用极好，本金利息兑付几乎无风险
+				</td>								
+			</tr>
+			<tr class="active">
+				<td>
+					2
+				</td>
+				<td>
+					AA级债券:信用优良，本金利息兑付基本无风险
+				</td>								
+			</tr>
+			<tr class="active">
+				<td>
+					3
+				</td>
+				<td>
+					A级债券:信用较好，具备本金利息兑付能力，风险较小
+				</td>							
+			</tr>
+			<tr class="active">
+				<td>
+					4
+				</td>
+				<td>
+					BBB级债券:信用一般，基本具备本金利息兑付能力，稍具风险
+				</td>								
+			</tr>
+		</tbody>
+	</table></font>	
+
+	<font size="1" color="red"><sup>3</sup>&nbsp; 投资者可凭每支债券的债券代码向相关机构查询所对应的债券,此代码具有唯一性</font><br>
+	<font size="1" color="red"><sup>4</sup>&nbsp; 所有预期持有年化收益率是根据当时参考买入价计算</font><br>
+	 <hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 
+</div>
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+  </body>
+</html>
