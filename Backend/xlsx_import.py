@@ -78,7 +78,7 @@ def import_xlsx(filename):
 
     # delete all duplicated records:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM t_product WHERE data_source='MN' and date(update_time)=curdate()""")
+    cursor.execute("""DELETE FROM t_product""")
     logging.info(unicode(cursor.rowcount) + ' manually collected products deleted')
 
     add_product = ("""INSERT INTO t_product(issuer_name, prod_name, prod_code, currency, tenor, tenor_desc,

@@ -1,35 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, abort, request
 
-import sys
-
-import math
-import codecs
-import argparse
 import logging
-import re
-import requests
-import bs4
 import json
-import urllib
-import threading, thread
 import time
-import xml.dom.minidom
 import mysql.connector
 from mysql.connector import errorcode
-from multiprocessing import Pool
-from decimal import *
-
-import random
-from retrying import retry
-
-from datetime import datetime
-from xml.dom.minidom import parse
-from multiprocessing import Pool
-from multiprocessing.dummy import Pool as ThreadPool
-
-# import from BUtils
-# import lib.butils.finutils
 from lib.butils import decode
 from lib.butils import fix_json
 from lib.butils import ppprint
@@ -38,15 +14,15 @@ from lib.butils.pprint import pprint
 TIMEOUT = 10
 LOCALDATE = time.strftime('%Y%m%d', time.localtime(time.time()))
 TIMESTAMP = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-LOGNAME = 'log/rates_ws_' + LOCALDATE + '.log'
+LOGNAME = 'log/ws_' + LOCALDATE + '.log'
 
 # # initialize root logger to write verbose log file
 # logging.basicConfig(level=logging.DEBUG,
-#                     filename="log/price_parser_" + LOCALDATE + ".verbose.log",
+#                     filename="log/ws_" + LOCALDATE + ".verbose.log",
 #                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # initialize a local logger
-logger_local = logging.getLogger("ucms.birdie.ws.rates")
+logger_local = logging.getLogger("ucms.birdie.ws")
 logger_local.setLevel(logging.DEBUG)
 
 # initialize a local logger file handler
@@ -256,7 +232,8 @@ def get_selectedwmp(currency):
         FROM
             t_product
         WHERE
-            status = '在售'
+            (open_end_date >= CURDATE()
+                OR (open_end_date = '每天' AND status = '在售'))
                 AND preservable = '非保本'
                 AND redeemable = '封闭'
                 AND remark = '普通'
@@ -304,7 +281,8 @@ def get_selectedwmp(currency):
             FROM
                 t_product
             WHERE
-                status = '在售'
+                (open_end_date >= CURDATE()
+                    OR (open_end_date = '每天' AND status = '在售'))
                     AND preservable = '非保本'
                     AND redeemable = '封闭'
                     AND remark = '普通'
@@ -319,7 +297,7 @@ def get_selectedwmp(currency):
             prod_list["tenor_group"][0]["list"].append({
                 "prod_name": prod_name,
                 "issuer_name": issuer_name,
-                "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
                 "deposit_period": int(np[0]),
                 "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                 "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
@@ -338,7 +316,8 @@ def get_selectedwmp(currency):
         FROM
             t_product
         WHERE
-            status = '在售'
+            (open_end_date >= CURDATE()
+                OR (open_end_date = '每天' AND status = '在售'))
                 AND preservable = '保本'
                 AND redeemable = '封闭'
                 AND remark = '普通'
@@ -386,7 +365,8 @@ def get_selectedwmp(currency):
             FROM
                 t_product
             WHERE
-                status = '在售'
+                (open_end_date >= CURDATE()
+                    OR (open_end_date = '每天' AND status = '在售'))
                     AND preservable = '保本'
                     AND redeemable = '封闭'
                     AND remark = '普通'
@@ -401,7 +381,7 @@ def get_selectedwmp(currency):
             prod_list["tenor_group"][1]["list"].append({
                 "prod_name": prod_name,
                 "issuer_name": issuer_name,
-                "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
+                "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
                 "deposit_period": int(ty[0]),
                 "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
                 "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
@@ -454,7 +434,8 @@ def get_wmp(currency):
             FROM
                 t_product
             WHERE
-                status = '在售'
+                (open_end_date >= CURDATE()
+                    OR (open_end_date = '每天' AND status = '在售'))
                     AND redeemable = '封闭'
                     AND remark = '普通'
                     AND currency <> 'USD'
@@ -466,41 +447,42 @@ def get_wmp(currency):
         for ccy in ccy_list:
             prod_list["tenor_group"].append({
                 "currency": ccy,
-                "currencyname": decode(currency, "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", "HKD", u"港币", currency),
+                "currencyname": decode(ccy, "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", "HKD", u"港币", ccy),
                 "list": []})
 
             # 获取明细列表
             query = u"""
                 SELECT
                     prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    ROUND(tenor / 30) as tenor, expected_highest_yield, last_yield, preservable, pledgeable,
+                    ROUND(tenor / 30) as tenor_desc, expected_highest_yield, last_yield, preservable, pledgeable,
                     risk_desc, starting_amount
                 FROM
                     t_product
                 WHERE
-                    status = '在售'
+                    (open_end_date >= CURDATE()
+                        OR (open_end_date = '每天' AND status = '在售'))
                         AND redeemable = '封闭'
                         AND remark = '普通'
                         AND currency = '%s'
-                ORDER BY tenor DESC
+                ORDER BY tenor_desc DESC
                 """ % ccy
             cursor.execute(query)
-            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                 tenor, last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+            for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, tenor_desc,
+                 expected_highest_yield, last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
                 prod_list["tenor_group"][-1]["list"].append({
                     "prod_name": prod_name,
                     "issuer_name": issuer_name,
-                    "tenor": tenor,
-                    "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                    "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                    "tenor": int(tenor_desc),
+                    "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                    "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
                     "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '-' if not last_yield.isdigit() else '%.4f%%' % (float(last_yield)*100,),
+                    "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
                     "preservable": 'Y' if preservable == u"保本" else 'N',
                     "return_type": pledgeable,
                     "risk_type": risk_desc+u"风险",
                     "starting_amount": '%.2f' % float(starting_amount)})
 
-            total_rec = total_rec + len(prod_list["tenor_group"][-1]["list"])
+            total_rec += len(prod_list["tenor_group"][-1]["list"])
 
         prod_list["total_rec"] = total_rec
 
@@ -532,7 +514,8 @@ def get_wmp(currency):
                 FROM
                     t_product
                 WHERE
-                    status = '在售'
+                    (open_end_date >= CURDATE()
+                        OR (open_end_date = '每天' AND status = '在售'))
                         AND preservable = '%s'
                         AND redeemable = '封闭'
                         AND remark = '普通'
@@ -555,7 +538,8 @@ def get_wmp(currency):
                 FROM
                     t_product
                 WHERE
-                    status = '在售'
+                    (open_end_date >= CURDATE()
+                        OR (open_end_date = '每天' AND status = '在售'))
                         AND preservable = '%s'
                         AND redeemable = '封闭'
                         AND remark = '普通'
@@ -606,7 +590,8 @@ def get_wmp(currency):
                     FROM
                         t_product
                     WHERE
-                        status = '在售'
+                        (open_end_date >= CURDATE()
+                            OR (open_end_date = '每天' AND status = '在售'))
                             AND preservable = '%s'
                             AND redeemable = '封闭'
                             AND remark = '普通'
@@ -619,10 +604,10 @@ def get_wmp(currency):
                     prod_list["tenor_group"][-1]["list"].append({
                         "prod_name": prod_name,
                         "issuer_name": issuer_name,
-                        "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                        "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                        "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
                         "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                        "history_yield": '-' if not last_yield.isdigit() else '%.4f%%' % (float(last_yield)*100,),
+                        "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
                         "return_type": pledgeable,
                         "risk_type": risk_desc+u"风险",
                         "starting_amount": '%.2f' % float(starting_amount)})
@@ -638,7 +623,8 @@ def get_wmp(currency):
                 FROM
                     t_product
                 WHERE
-                    status = '在售'
+                    (open_end_date >= CURDATE()
+                        OR (open_end_date = '每天' AND status = '在售'))
                         AND redeemable = '封闭'
                         AND remark = '普通'
                         AND currency = '%s'
@@ -660,7 +646,8 @@ def get_wmp(currency):
                 FROM
                     t_product
                 WHERE
-                    status = '在售'
+                    (open_end_date >= CURDATE()
+                        OR (open_end_date = '每天' AND status = '在售'))
                         AND redeemable = '封闭'
                         AND remark = '普通'
                         AND currency = '%s'
@@ -709,7 +696,8 @@ def get_wmp(currency):
                     FROM
                         t_product
                     WHERE
-                        status = '在售'
+                        (open_end_date >= CURDATE()
+                            OR (open_end_date = '每天' AND status = '在售'))
                             AND redeemable = '封闭'
                             AND remark = '普通'
                             AND currency = '%s'
@@ -721,10 +709,10 @@ def get_wmp(currency):
                     prod_list["tenor_group"][-1]["list"].append({
                         "prod_name": prod_name,
                         "issuer_name": issuer_name,
-                        "sale_period": '%s~%s' % (open_start_date, open_end_date) if open_start_date.isdigit() else u"每天",
-                        "interest_period": '%s~%s' % (start_date, end_date) if start_date.isdigit() else u"无固定期限",
+                        "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
                         "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                        "history_yield": '-' if not last_yield else '%.4f%%' % (float(last_yield)*100,),
+                        "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
                         "return_type": pledgeable,
                         "risk_type": risk_desc+u"风险",
                         "starting_amount": '%.2f' % float(starting_amount)})
@@ -778,7 +766,8 @@ def wmp_comp():
             FROM
                 t_product
             WHERE
-                DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    OR (open_start_date = '每天' AND status = '在售'))
                     AND redeemable = '封闭'
                     AND preservable = '非保本'
                     AND remark = '普通'
@@ -812,7 +801,8 @@ def wmp_comp():
                 FROM
                     zyq.t_product
                 WHERE
-                    DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                        OR (open_start_date = '每天' AND status = '在售'))
                     AND currency = 'USD'
                     AND ROUND(tenor / 30) = %s
                     AND redeemable = '封闭'
@@ -835,7 +825,8 @@ def wmp_comp():
             FROM
                 t_product
             WHERE
-                DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                    OR (open_start_date = '每天' AND status = '在售'))
                     AND redeemable = '封闭'
                     AND preservable = '保本'
                     AND remark = '普通'
@@ -869,12 +860,13 @@ def wmp_comp():
                 FROM
                     zyq.t_product
                 WHERE
-                    DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
-                    AND currency = 'USD'
-                    AND ROUND(tenor / 30) = %s
-                    AND redeemable = '封闭'
-                    AND preservable = '保本'
-                    AND remark = '普通'
+                    (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
+                        OR (open_start_date = '每天' AND status = '在售'))
+                        AND currency = 'USD'
+                        AND ROUND(tenor / 30) = %s
+                        AND redeemable = '封闭'
+                        AND preservable = '保本'
+                        AND remark = '普通'
                 GROUP BY issuer_name) t
             """ % tn
         cursor.execute(query)
@@ -896,6 +888,351 @@ def wmp_comp():
     return json.dumps(prod_list, ensure_ascii=False)
 
 
+@app.route('/ucms/api/v1.0/weixin/selectedfund', methods=['GET'])
+def get_fund_composite():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    total_rec = None
+    prod_list = {"fundtype": 1,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "total_rec": "",
+                 "sec_group": []
+                }
+
+    query = u"""
+            SELECT
+                ranking,
+                prod_name,
+                annual_dividend,
+                cp_3m,
+                cp_1y,
+                cp_3y,
+                cp_5y
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'Composite';
+        """
+    cursor.execute(query)
+    for (ranking, prod_name, annual_dividend, cp_3m, cp_1y, cp_3y, cp_5y) in cursor:
+        prod_list["sec_group"].append({"rank": ranking,
+                                       "fund_name": prod_name,
+                                       "yield": annual_dividend + "%" if annual_dividend != '0' else '-',
+                                       "return3m": cp_3m + "%",
+                                       "return1y": cp_1y + "%",
+                                       "return3y": cp_3y + "%",
+                                       "return5y":cp_5y + "%"})
+    prod_list["total_rec"] = cursor.rowcount
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Selected Fund requested\n\n')
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/selectedbond', methods=['GET'])
+def get_selected_bond():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    prod_list = {"currency": "USD",
+                 "currencyname": u"美元",
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "total_rec": 9,
+                 "tenor_group": []
+                }
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                expected_yield,
+                bond_type,
+                coupon,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_selected_bond
+            WHERE
+                title = '持有半年预期收益最高海外债券';
+        """
+    cursor.execute(query)
+    prod_list["tenor_group"].append({"tenor": 0.5, "list": []})
+    for (ranking, issuer_name, expected_yield, bond_type, coupon, credit_rating, rating_firm, risk_rating,
+         maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["tenor_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": u"半年",
+                                                     "rate": coupon + "%",
+                                                     "expected_highest_yield": expected_yield + "%",
+                                                     "creadit_rank": risk_rating,
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "bond_code": coupon_code})
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                expected_yield,
+                bond_type,
+                coupon,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_selected_bond
+            WHERE
+                title = '持有一年预期收益最高海外债券';
+        """
+    cursor.execute(query)
+    prod_list["tenor_group"].append({"tenor": 1, "list": []})
+    for (ranking, issuer_name, expected_yield, bond_type, coupon, credit_rating, rating_firm, risk_rating,
+         maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["tenor_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": u"一年",
+                                                     "rate": coupon + "%",
+                                                     "expected_highest_yield": expected_yield + "%",
+                                                     "creadit_rank": risk_rating,
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "bond_code": coupon_code})
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                expected_yield,
+                bond_type,
+                coupon,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_selected_bond
+            WHERE
+                title = '持有两年预期收益最高海外债券';
+        """
+    cursor.execute(query)
+    prod_list["tenor_group"].append({"tenor": 2, "list": []})
+    for (ranking, issuer_name, expected_yield, bond_type, coupon, credit_rating, rating_firm, risk_rating,
+         maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["tenor_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": u"两年",
+                                                     "rate": coupon + "%",
+                                                     "expected_highest_yield": expected_yield + "%",
+                                                     "creadit_rank": risk_rating,
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "bond_code": coupon_code})
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Selected Bond requested\n\n')
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/bond', methods=['GET'])
+def get_bond():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='zyq', password='zyq', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    prod_list = {"timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "total_rec": 9,
+                 "sec_group": []
+                }
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                tenor,
+                coupon,
+                expected_6m_yield,
+                expected_1y_yield,
+                expected_2y_yield,
+                currency,
+                bond_type,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_rating_bond
+            WHERE
+                risk_rating = 2;
+        """
+    cursor.execute(query)
+    prod_list["sec_group"].append({"level": 2, "list": []})
+    for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
+         bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["sec_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": tenor,
+                                                     "rate": coupon + "%",
+                                                     "yield12": expected_6m_yield + "%",
+                                                     "yield24": expected_1y_yield + "%",
+                                                     "yield36": expected_2y_yield + "%",
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "bond_code": coupon_code})
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                tenor,
+                coupon,
+                expected_6m_yield,
+                expected_1y_yield,
+                expected_2y_yield,
+                currency,
+                bond_type,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_rating_bond
+            WHERE
+                risk_rating = 3;
+        """
+    cursor.execute(query)
+    prod_list["sec_group"].append({"level": 3, "list": []})
+    for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
+         bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["sec_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": tenor,
+                                                     "rate": coupon + "%",
+                                                     "yield12": expected_6m_yield + "%",
+                                                     "yield24": expected_1y_yield + "%",
+                                                     "yield36": expected_2y_yield + "%",
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "bond_code": coupon_code})
+
+    query = u"""
+            SELECT
+                ranking,
+                issuer_name,
+                tenor,
+                coupon,
+                expected_6m_yield,
+                expected_1y_yield,
+                expected_2y_yield,
+                currency,
+                bond_type,
+                credit_rating,
+                rating_firm,
+                risk_rating,
+                maturity_date,
+                bid_price,
+                coupon_code
+            FROM
+                zyq.t_rating_bond
+            WHERE
+                risk_rating = 4;
+        """
+    cursor.execute(query)
+    prod_list["sec_group"].append({"level": 4, "list": []})
+    for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
+         bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
+        prod_list["sec_group"][-1]["list"].append({"rank": ranking,
+                                                     "issuer_name": issuer_name,
+                                                     "period": tenor,
+                                                     "rate": coupon + "%",
+                                                     "yield12": expected_6m_yield + "%",
+                                                     "yield24": expected_1y_yield + "%",
+                                                     "yield36": expected_2y_yield + "%",
+                                                     "deadline": maturity_date,
+                                                     "buy_price": bid_price,
+                                                     "sale_price": "",
+                                                     "grading": credit_rating,
+                                                     "grading_owner": rating_firm,
+                                                     "bond_code": coupon_code})
+
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Selected Bond requested\n\n')
+
+    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
 def get_USD_depo(tenor):
     return decode(tenor,
                   1, u"0.2000%",
@@ -903,13 +1240,28 @@ def get_USD_depo(tenor):
                   6, u"0.5000%",
                   9, u"0.5000%",
                   12, u"0.7500%",
+                  18, u"0.7500%",
                   24, u"0.7500%",
                   "--")
 
 
-def date_add_slash(date):
-    if len(date) == 8:
-        return date[:4]+"/"+date[4:6]
+def dsf(date):
+    try:
+        if len(date) == 8:
+            return date[:4]+"."+date[4:6]+"."+date[6:8]
+        else:
+            return date
+    except:
+        return date
+
+
+def isnum(value):
+    try:
+        float(value)
+    except ValueError:
+        return False
+    else:
+        return True
 
 
 if __name__ == '__main__':

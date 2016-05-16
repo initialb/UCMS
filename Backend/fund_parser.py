@@ -954,6 +954,14 @@ def get_MS_fund_product_detail():
         soup = bs4.BeautifulSoup(response.text, "html.parser")
 
         try:
+            cp_1d = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label1").text
+        except AttributeError, e:
+            cp_1d = None
+        try:
+            cp_1w = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label6").text
+        except AttributeError, e:
+            cp_1w = None
+        try:
             cp_1m = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label11").text
         except AttributeError, e:
             cp_1m = None
@@ -988,14 +996,15 @@ def get_MS_fund_product_detail():
 
         update_product = ("""UPDATE t_fund_product SET GIFS_type=%s, IFA_category=%s, industry_1=%s, industry_pct_1=%s,
                              industry_2=%s, industry_pct_2=%s, industry_3=%s, industry_pct_3=%s, industry_4=%s,
-                             industry_pct_4=%s, industry_5=%s, industry_pct_5=%s, cp_1m=%s, cp_3m=%s, cp_6m=%s,
-                             cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s, ISIN_code=%s
+                             industry_pct_4=%s, industry_5=%s, industry_pct_5=%s, cp_1d=%s, cp_1w=%s, cp_1m=%s,
+                             cp_3m=%s, cp_6m=%s, cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s,
+                             ISIN_code=%s
                              WHERE uid=%s""")
 
         cursor.execute(update_product, (GIFS_type, IFA_category, industry_1, industry_pct_1, industry_2, industry_pct_2,
                                         industry_3, industry_pct_3, industry_4, industry_pct_4, industry_5,
-                                        industry_pct_5, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y, cp_10y,
-                                        prod_code, ISIN_code, prod_list[p][0]))
+                                        industry_pct_5, cp_1d, cp_1w, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y,
+                                        cp_10y, prod_code, ISIN_code, prod_list[p][0]))
         cnx.commit()
 
 
@@ -1028,6 +1037,125 @@ def set_MS_region():
     update_product = """update t_fund_product set category=%s, region=%s where uid=%s"""
     for p in prod_list:
         cursor.execute(update_product, (p[1], p[2], p[0]))
+
+
+def MS_export():
+
+    fund_list = []
+    query = u"""
+        SELECT
+            prod_code,
+            prod_name,
+            region,
+            category,
+            ISIN_code,
+            GIFS_type,
+            GIFS_type_cn,
+            IFA_category,
+            risk_rating,
+            currency,
+            latest_nav_price,
+            3year_risk_return_ratio,
+            sharpe_ratio,
+            valuation_date,
+            cp_1d,
+            cp_1w,
+            cp_1m,
+            cp_3m,
+            cp_6m,
+            cp_ytd,
+            cp_1y,
+            cp_3y,
+            cp_5y,
+            cp_10y,
+            cp_since_launch,
+            launch_date,
+            cyp_1,
+            cyp_2,
+            cyp_3,
+            cyp_4,
+            cyp_5,
+            industry_1,
+            industry_pct_1,
+            industry_2,
+            industry_pct_2,
+            industry_3,
+            industry_pct_3,
+            industry_4,
+            industry_pct_4,
+            industry_5,
+            industry_pct_5,
+            remark,
+            data_source,
+            update_time
+        FROM
+            t_fund_product"""
+    cursor.execute(query)
+    for (prod_code, prod_name, region, category, ISIN_code, GIFS_type, GIFS_type_cn, IFA_category, risk_rating,
+         currency, latest_nav_price, year_risk_return_ratio, sharpe_ratio, valuation_date, cp_1d, cp_1w, cp_1m, cp_3m,
+         cp_6m,
+         cp_ytd, cp_1y, cp_3y, cp_5y, cp_10y, cp_since_launch, launch_date, cyp_1, cyp_2, cyp_3, cyp_4, cyp_5,
+         industry_1, industry_pct_1, industry_2, industry_pct_2, industry_3, industry_pct_3, industry_4,
+         industry_pct_4, industry_5, industry_pct_5, remark, data_source, update_time) in cursor:
+        fund_list.append([prod_code, prod_name, region, category, ISIN_code, GIFS_type, GIFS_type_cn, IFA_category,
+                          risk_rating, currency, latest_nav_price, year_risk_return_ratio, sharpe_ratio,
+                          valuation_date, cp_1d, cp_1w, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y, cp_10y,
+                          cp_since_launch,
+                          launch_date, cyp_1, cyp_2, cyp_3, cyp_4, cyp_5, industry_1, industry_pct_1, industry_2,
+                          industry_pct_2, industry_3, industry_pct_3, industry_4, industry_pct_4, industry_5,
+                          industry_pct_5, remark, data_source, update_time])
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "FUNDLIST"
+    ws_title = [
+        "prod_code",
+        "prod_name",
+        "region",
+        "category",
+        "ISIN_code",
+        "GIFS_type",
+        "GIFS_type_cn",
+        "IFA_category",
+        "risk_rating",
+        "currency",
+        "latest_nav_price",
+        "3year_risk_return_ratio",
+        "sharpe_ratio",
+        "valuation_date",
+        "cp_1m",
+        "cp_3m",
+        "cp_6m",
+        "cp_ytd",
+        "cp_1y",
+        "cp_3y",
+        "cp_5y",
+        "cp_10y",
+        "cp_since_launch",
+        "launch_date",
+        "cyp_1",
+        "cyp_2",
+        "cyp_3",
+        "cyp_4",
+        "cyp_5",
+        "industry_1",
+        "industry_pct_1",
+        "industry_2",
+        "industry_pct_2",
+        "industry_3",
+        "industry_pct_3",
+        "industry_4",
+        "industry_pct_4",
+        "industry_5",
+        "industry_pct_5",
+        "remark",
+        "data_source",
+        "update_time"]
+    ws.append(ws_title)
+    for fund in fund_list:
+        ws.append(fund)
+    wb.save(output_file)
+
 
 def get_jpm_fund_product():
     root_url = 'https://www.jpmorganam.com.hk'
@@ -1169,7 +1297,7 @@ if __name__ == '__main__':
                 exit(0)
 
         if not output_destination:
-            output_file = "output/fund_FSM_" + LOCALTIME + ".xlsx"
+            output_file = "output/fund_" + LOCALTIME + ".xlsx"
         else:
             output_file = output_destination + "fund_FSM_" + LOCALTIME + ".xlsx"
 
@@ -1184,7 +1312,7 @@ if __name__ == '__main__':
         get_MS_fund_product(ms_page)
         get_MS_fund_product_detail()
         set_MS_region()
-
+        MS_export()
 
         # cursor.execute("""DELETE FROM t_fund_product WHERE data_source='MS' and date(update_time)=curdate()""")
 

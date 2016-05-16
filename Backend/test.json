@@ -1,104 +1,156 @@
 {
-  "timestamp": "2016-05-02 01:03:17",
-  "total_rec": 14,
-  "tenor_group": [
+  "timestamp": "2016-05-15 20:56:23",
+  "sec_group": [
     {
-      "currency": "USD",
       "list": [
         {
-          "average_yield": "-",
-          "expected_highest_yield": "-",
-          "issuer_name": "-",
-          "tenor": "1"
+          "period": "15 ",
+          "rank": "1",
+          "rate": "3.48%",
+          "deadline": "2027/6/29",
+          "issuer_name": "中国政府",
+          "grading_owner": "穆迪",
+          "bond_code": "HK0000116415",
+          "yield12": "3.652 %",
+          "yield36": "3.523 %",
+          "yield24": "3.610 %",
+          "grading": "Aa3",
+          "buy_price": "97.162 ",
+          "sale_price": ""
         },
         {
-          "average_yield": "1.2000%",
-          "expected_highest_yield": "1.2000%",
-          "issuer_name": "建设银行",
-          "tenor": "2"
+          "period": "10 ",
+          "rank": "2",
+          "rate": "5.125%",
+          "deadline": "2019/5/20",
+          "issuer_name": "九广铁路公司",
+          "grading_owner": "穆迪",
+          "bond_code": "US50074KAA97",
+          "yield12": "4.176 %",
+          "yield36": "2.521 %",
+          "yield24": "3.670 %",
+          "grading": "Aa1",
+          "buy_price": "109.013 ",
+          "sale_price": ""
         },
         {
-          "average_yield": "0.6000%",
-          "expected_highest_yield": "0.6000%",
-          "issuer_name": "中国银行",
-          "tenor": "3"
-        },
-        {
-          "average_yield": "1.3000%",
-          "expected_highest_yield": "1.8000%",
-          "issuer_name": "兴业银行",
-          "tenor": "6"
-        },
-        {
-          "average_yield": "1.9500%",
-          "expected_highest_yield": "2.1000%",
-          "issuer_name": "兴业银行",
-          "tenor": "9"
-        },
-        {
-          "average_yield": "2.0557%",
-          "expected_highest_yield": "2.5000%",
-          "issuer_name": "浦发银行",
-          "tenor": "12"
-        },
-        {
-          "average_yield": "2.9000%",
-          "expected_highest_yield": "2.9000%",
-          "issuer_name": "招商银行",
-          "tenor": "24"
+          "period": "3 ",
+          "rank": "3",
+          "rate": "4.2%",
+          "deadline": "2018/8/6",
+          "issuer_name": "新韩银行",
+          "grading_owner": "穆迪",
+          "bond_code": "XS1263868181",
+          "yield12": "3.810 %",
+          "yield36": "2.609 %",
+          "yield24": "3.427 %",
+          "grading": "Aa3",
+          "buy_price": "100.140 ",
+          "sale_price": ""
         }
       ],
-      "currencyname": "美元",
-      "preservable": "N"
+      "level": 2
     },
     {
-      "currency": "USD",
       "list": [
         {
-          "average_yield": "0.3500%",
-          "expected_highest_yield": "0.3500%",
-          "issuer_name": "交通银行",
-          "tenor": "1"
+          "period": "30 ",
+          "rank": "1",
+          "rate": "6.875%",
+          "deadline": "2038/1/18",
+          "issuer_name": "高盛集团有限公司",
+          "grading_owner": "惠誉",
+          "bond_code": "XS0340470490",
+          "yield12": "5.249 %",
+          "yield36": "5.084 %",
+          "yield24": "5.197 %",
+          "grading": "A-",
+          "buy_price": "129.850 ",
+          "sale_price": ""
         },
         {
-          "average_yield": "-",
-          "expected_highest_yield": "-",
-          "issuer_name": "-",
-          "tenor": "2"
+          "period": "10 ",
+          "rank": "2",
+          "rate": "6.625%",
+          "deadline": "2021/4/15",
+          "issuer_name": "中國中信股份有限公司",
+          "grading_owner": "穆迪",
+          "bond_code": "XS0611586263",
+          "yield12": "5.368 %",
+          "yield36": "4.150 %",
+          "yield24": "4.992 %",
+          "grading": "A3",
+          "buy_price": "117.401 ",
+          "sale_price": ""
         },
         {
-          "average_yield": "0.6500%",
-          "expected_highest_yield": "0.6500%",
-          "issuer_name": "平安银行",
-          "tenor": "3"
-        },
-        {
-          "average_yield": "0.9500%",
-          "expected_highest_yield": "1.3000%",
-          "issuer_name": "农业银行",
-          "tenor": "6"
-        },
-        {
-          "average_yield": "-",
-          "expected_highest_yield": "-",
-          "issuer_name": "-",
-          "tenor": "9"
-        },
-        {
-          "average_yield": "1.3617%",
-          "expected_highest_yield": "2.0350%",
-          "issuer_name": "上海银行",
-          "tenor": "12"
-        },
-        {
-          "average_yield": "-",
-          "expected_highest_yield": "-",
-          "issuer_name": "-",
-          "tenor": "24"
+          "period": "31 ",
+          "rank": "3",
+          "rate": "7.0%",
+          "deadline": "2040/4/30",
+          "issuer_name": "AT&T; Inc",
+          "grading_owner": "惠誉",
+          "bond_code": "XS0426513387",
+          "yield12": "4.859 %",
+          "yield36": "4.724 %",
+          "yield24": "4.817 %",
+          "grading": "A-",
+          "buy_price": "142.933 ",
+          "sale_price": ""
         }
       ],
-      "currencyname": "美元",
-      "preservable": "Y"
+      "level": 3
+    },
+    {
+      "list": [
+        {
+          "period": "10 ",
+          "rank": "1",
+          "rate": "6.75%",
+          "deadline": "2020/1/29",
+          "issuer_name": "来宝集团",
+          "grading_owner": "惠誉",
+          "bond_code": "USG6542TAE13",
+          "yield12": "8.665 %",
+          "yield36": "5.651 %",
+          "yield24": "7.726 %",
+          "grading": "BBB-",
+          "buy_price": "72.375 ",
+          "sale_price": ""
+        },
+        {
+          "period": "7 ",
+          "rank": "2",
+          "rate": "8.375%",
+          "deadline": "2022/2/10",
+          "issuer_name": "世茂房地产控股有限公司",
+          "grading_owner": "惠誉",
+          "bond_code": "XS1157365070",
+          "yield12": "7.110 %",
+          "yield36": "5.681 %",
+          "yield24": "6.665 %",
+          "grading": "BBB-",
+          "buy_price": "110.950 ",
+          "sale_price": ""
+        },
+        {
+          "period": "10 ",
+          "rank": "3",
+          "rate": "7.25%",
+          "deadline": "2024/1/29",
+          "issuer_name": "Wanda Properties International Co Ltd (母公司为大连万达商业地产有限公司)",
+          "grading_owner": "穆迪",
+          "bond_code": "XS1023280271",
+          "yield12": "6.639 %",
+          "yield36": "5.737 %",
+          "yield24": "6.359 %",
+          "grading": "Baa3",
+          "buy_price": "104.597 ",
+          "sale_price": ""
+        }
+      ],
+      "level": 4
     }
-  ]
+  ],
+  "total_rec": 9
 }

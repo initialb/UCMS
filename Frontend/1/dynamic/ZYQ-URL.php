@@ -12,7 +12,7 @@
 "A14":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/wmp/NONUSD",
 "A14_name":"在售非美元理财产品信息",
 
-"A15":"",
+"A15":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/wmpcomp",
 "A15_name":"美元理财产品收益比较",
 
 "A21":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/listingrate/USD",
@@ -30,16 +30,16 @@
 "A25":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/listingrate/JPY",
 "A25_name":"日元兑人民币实时牌价",
 
-"A31":"",
+"A31":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/selectedbond",
 "A31_name":"最高预期收益外债精选",
 
-"A32":"",
+"A32":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/bond",
 "A32_name":"各安全等级外币债券推荐",
 
-"B11":"",
+"B11":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/selectedfund",
 "B11_name":"海外股票基金分类综合评价",
 
-"B12":"",
+"B12":"http://139.196.16.157:5000/ucms/api/v1.0/weixin/fund",
 "B12_name":"海外股票基金最佳表现优选",
 
 "B13":"",
