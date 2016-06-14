@@ -33,7 +33,7 @@ def import_zyq_score(filename):
     rownum = 0
     for row in ws.rows:
         rownum += 1
-        print "processing row", rownum
+        # print "processing row", rownum
 
         if rownum == 1:
             pass
@@ -41,13 +41,14 @@ def import_zyq_score(filename):
             row_day = row
         else:
             for i in range(4, 182):
-                perf_year = row_day[i].value.split("/")[2]
-                perf_month = row_day[i].value.split("/")[0]
+                perf_year = row_day[i].value.split("/")[2].strip()
+                perf_month = row_day[i].value.split("/")[0].strip()
                 result.append([row[1].value,
                                row[2].value,
                                row[3].value,
                                perf_year,
                                perf_month,
+                               int(perf_year)*12+int(perf_month),
                                row[i].value
                                ])
 
@@ -56,9 +57,9 @@ def import_zyq_score(filename):
     cursor.execute("""DELETE FROM t_fund_performance where perf_type='zyq_score'""")
     logging.info(unicode(cursor.rowcount) + ' zyq_score data deleted')
 
-    add_product = ("""INSERT INTO t_fund_performance(fund_name, isin_code, currency, perf_year, perf_month,
+    add_product = ("""INSERT INTO t_fund_performance(fund_name, isin_code, currency, perf_year, perf_month, months,
                       perf_type, performance)
-                      VALUES (%s, %s, %s, %s, %s, 'zyq_score', %s)""")
+                      VALUES (%s, %s, %s, %s, %s, %s, 'zyq_score', %s)""")
 
     # sqlnum = 1
     for pd in result:
@@ -84,21 +85,22 @@ def import_fund_performance(filename):
     rownum = 0
     for row in ws.rows:
         rownum += 1
-        print "processing row", rownum
+        # print "processing row", rownum
 
         if rownum == 1:
             pass
         elif rownum == 2:
             row_day = row
         else:
-            for i in range(4, 242):
-                perf_year = row_day[i].value.split("/")[2]
-                perf_month = row_day[i].value.split("/")[0]
+            for i in range(4, 248):
+                perf_year = row_day[i].value.split("/")[2].strip()
+                perf_month = row_day[i].value.split("/")[0].strip()
                 result.append([row[1].value,
                                row[2].value,
                                row[3].value,
                                perf_year,
                                perf_month,
+                               int(perf_year)*12+int(perf_month),
                                row[i].value
                                ])
 
@@ -107,9 +109,9 @@ def import_fund_performance(filename):
     cursor.execute("""DELETE FROM t_fund_performance where perf_type='mthly_performance'""")
     logging.info(unicode(cursor.rowcount) + ' mthly_performance data deleted')
 
-    add_product = ("""INSERT INTO t_fund_performance(fund_name, isin_code, currency, perf_year, perf_month,
+    add_product = ("""INSERT INTO t_fund_performance(fund_name, isin_code, currency, perf_year, perf_month, months,
                        perf_type, performance)
-                      VALUES (%s, %s, %s, %s, %s, 'mthly_performance', %s)""")
+                      VALUES (%s, %s, %s, %s, %s, %s, 'mthly_performance', %s)""")
 
     # sqlnum = 1
     for pd in result:

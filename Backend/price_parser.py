@@ -167,11 +167,11 @@ def get_CMHO_rate():
 def get_ICBC_rate():
     try:
         """
-        update USD rate
+        update all rate
         """
         index_url = 'http://www.icbc.com.cn/ICBCDynamicSite/Optimize/Quotation/QuotationListIframe.aspx?variety=2' \
                     '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
-                    + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=USD&ppublishDate='
+                    + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=&ppublishDate='
 
         for ccy_desc in [u'美元(USD)', u'英镑(GBP)', u'欧元(EUR)', u'澳大利亚元(AUD)', u'日元(JPY)']:
             @retry(stop_max_attempt_number=10, wait_fixed=2000)

@@ -2,6 +2,7 @@
 
 import butils
 
+
 def tenor_decoder(tenor_desc):
     result = butils.decode(tenor_desc,
                            u'1个月', '30',

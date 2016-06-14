@@ -1,156 +1,168 @@
 {
-  "timestamp": "2016-05-15 20:56:23",
+  "releasedate": "",
+  "timestamp": "2016-05-29 01:03:21",
   "sec_group": [
     {
-      "list": [
+      "group_list": [
         {
-          "period": "15 ",
+          "return1m": "2.01%",
+          "fund_name": "摩根日本（日圓）累計 日圓",
+          "return3y": "36.1%",
+          "return5y": "76.69%",
+          "return1y": "7.97%",
           "rank": "1",
-          "rate": "3.48%",
-          "deadline": "2027/6/29",
-          "issuer_name": "中国政府",
-          "grading_owner": "穆迪",
-          "bond_code": "HK0000116415",
-          "yield12": "3.652 %",
-          "yield36": "3.523 %",
-          "yield24": "3.610 %",
-          "grading": "Aa3",
-          "buy_price": "97.162 ",
-          "sale_price": ""
+          "ISIN_code": "HK0000055670"
         },
         {
-          "period": "10 ",
+          "return1m": "0.64%",
+          "fund_name": "美盛凱利美國大型資本增長基金 A 派息 A 美元",
+          "return3y": "45.01%",
+          "return5y": "80.5%",
+          "return1y": "3.44%",
           "rank": "2",
-          "rate": "5.125%",
-          "deadline": "2019/5/20",
-          "issuer_name": "九广铁路公司",
-          "grading_owner": "穆迪",
-          "bond_code": "US50074KAA97",
-          "yield12": "4.176 %",
-          "yield36": "2.521 %",
-          "yield24": "3.670 %",
-          "grading": "Aa1",
-          "buy_price": "109.013 ",
-          "sale_price": ""
+          "ISIN_code": "IE00B19Z8W00"
         },
         {
-          "period": "3 ",
+          "return1m": "-1.04%",
+          "fund_name": "聯博-美國增長基金 A 美元",
+          "return3y": "49.72%",
+          "return5y": "69.39%",
+          "return1y": "2.29%",
           "rank": "3",
-          "rate": "4.2%",
-          "deadline": "2018/8/6",
-          "issuer_name": "新韩银行",
-          "grading_owner": "穆迪",
-          "bond_code": "XS1263868181",
-          "yield12": "3.810 %",
-          "yield36": "2.609 %",
-          "yield24": "3.427 %",
-          "grading": "Aa3",
-          "buy_price": "100.140 ",
-          "sale_price": ""
+          "ISIN_code": "LU0079474960"
         }
       ],
-      "level": 2
+      "group_type": "Developed Market"
     },
     {
-      "list": [
+      "group_list": [
         {
-          "period": "30 ",
+          "return1m": "2%",
+          "fund_name": "首域印度次大陸基金 I 累積 美元",
+          "return3y": "56.6%",
+          "return5y": "63.25%",
+          "return1y": "-0.65%",
           "rank": "1",
-          "rate": "6.875%",
-          "deadline": "2038/1/18",
-          "issuer_name": "高盛集团有限公司",
-          "grading_owner": "惠誉",
-          "bond_code": "XS0340470490",
-          "yield12": "5.249 %",
-          "yield36": "5.084 %",
-          "yield24": "5.197 %",
-          "grading": "A-",
-          "buy_price": "129.850 ",
-          "sale_price": ""
+          "ISIN_code": "IE0008369930"
         },
         {
-          "period": "10 ",
+          "return1m": "3.01%",
+          "fund_name": "摩根印度小型企業（美元）（累計）",
+          "return3y": "73.54%",
+          "return5y": "39.33%",
+          "return1y": "-1.03%",
           "rank": "2",
-          "rate": "6.625%",
-          "deadline": "2021/4/15",
-          "issuer_name": "中國中信股份有限公司",
-          "grading_owner": "穆迪",
-          "bond_code": "XS0611586263",
-          "yield12": "5.368 %",
-          "yield36": "4.150 %",
-          "yield24": "4.992 %",
-          "grading": "A3",
-          "buy_price": "117.401 ",
-          "sale_price": ""
+          "ISIN_code": "MU0204U00022"
         },
         {
-          "period": "31 ",
+          "return1m": "1.47%",
+          "fund_name": "柏瑞印度股票基金 A 美元",
+          "return3y": "61.78%",
+          "return5y": "34.44%",
+          "return1y": "4.66%",
           "rank": "3",
-          "rate": "7.0%",
-          "deadline": "2040/4/30",
-          "issuer_name": "AT&T; Inc",
-          "grading_owner": "惠誉",
-          "bond_code": "XS0426513387",
-          "yield12": "4.859 %",
-          "yield36": "4.724 %",
-          "yield24": "4.817 %",
-          "grading": "A-",
-          "buy_price": "142.933 ",
-          "sale_price": ""
+          "ISIN_code": "IE00B0JY6M65"
         }
       ],
-      "level": 3
+      "group_type": "Emerging Market"
     },
     {
-      "list": [
+      "group_list": [
         {
-          "period": "10 ",
+          "return1m": "1.29%",
+          "fund_name": "Morgan Stanley 環球機會基金 A 美元",
+          "return3y": "67.15%",
+          "return5y": "54.46%",
+          "return1y": "2.88%",
           "rank": "1",
-          "rate": "6.75%",
-          "deadline": "2020/1/29",
-          "issuer_name": "来宝集团",
-          "grading_owner": "惠誉",
-          "bond_code": "USG6542TAE13",
-          "yield12": "8.665 %",
-          "yield36": "5.651 %",
-          "yield24": "7.726 %",
-          "grading": "BBB-",
-          "buy_price": "72.375 ",
-          "sale_price": ""
+          "ISIN_code": "LU0552385295"
         },
         {
-          "period": "7 ",
+          "return1m": "0.06%",
+          "fund_name": "天達環球策略環球優質股票收益基金 A 收益",
+          "return3y": "20.09%",
+          "return5y": "52.73%",
+          "return1y": "5.84%",
           "rank": "2",
-          "rate": "8.375%",
-          "deadline": "2022/2/10",
-          "issuer_name": "世茂房地产控股有限公司",
-          "grading_owner": "惠誉",
-          "bond_code": "XS1157365070",
-          "yield12": "7.110 %",
-          "yield36": "5.681 %",
-          "yield24": "6.665 %",
-          "grading": "BBB-",
-          "buy_price": "110.950 ",
-          "sale_price": ""
+          "ISIN_code": "LU0545562505"
         },
         {
-          "period": "10 ",
+          "return1m": "1.66%",
+          "fund_name": "MFS全盛基金 - 全球密集基金 A1 美元",
+          "return3y": "26.12%",
+          "return5y": "47.39%",
+          "return1y": "0.24%",
           "rank": "3",
-          "rate": "7.25%",
-          "deadline": "2024/1/29",
-          "issuer_name": "Wanda Properties International Co Ltd (母公司为大连万达商业地产有限公司)",
-          "grading_owner": "穆迪",
-          "bond_code": "XS1023280271",
-          "yield12": "6.639 %",
-          "yield36": "5.737 %",
-          "yield24": "6.359 %",
-          "grading": "Baa3",
-          "buy_price": "104.597 ",
-          "sale_price": ""
+          "ISIN_code": "LU0219441572"
         }
       ],
-      "level": 4
+      "group_type": "Global"
+    },
+    {
+      "group_list": [
+        {
+          "return1m": "3.96%",
+          "fund_name": "駿利環球生命科技基金 A 美元 累積",
+          "return3y": "60.75%",
+          "return5y": "120.58%",
+          "return1y": "-14.52%",
+          "rank": "1",
+          "ISIN_code": "IE0009355771"
+        },
+        {
+          "return1m": "4.16%",
+          "fund_name": "貝萊德世界健康科學基金 A2 美元",
+          "return3y": "45.88%",
+          "return5y": "86.08%",
+          "return1y": "-7.53%",
+          "rank": "2",
+          "ISIN_code": "LU0122379950"
+        },
+        {
+          "return1m": "-0.8%",
+          "fund_name": "景順消閒基金 A",
+          "return3y": "38.84%",
+          "return5y": "81.07%",
+          "return1y": "-1.59%",
+          "rank": "3",
+          "ISIN_code": "LU0052864419"
+        }
+      ],
+      "group_type": "Sector Funds"
+    },
+    {
+      "group_list": [
+        {
+          "return1m": "1.06%",
+          "fund_name": "亨德森遠見基金-日本小型公司基金 A2 累積 美元",
+          "return3y": "36.38%",
+          "return5y": "83.2%",
+          "return1y": "7.22%",
+          "rank": "1",
+          "ISIN_code": "LU0011890265"
+        },
+        {
+          "return1m": "4.1%",
+          "fund_name": "摩根日本小型企業（日圓）基金",
+          "return3y": "29.77%",
+          "return5y": "67.85%",
+          "return1y": "8.72%",
+          "rank": "2",
+          "ISIN_code": "HK0000055696"
+        },
+        {
+          "return1m": "-0.35%",
+          "fund_name": "標準人壽投資環球SICAV歐洲小型公司基金 A",
+          "return3y": "48.35%",
+          "return5y": "47.49%",
+          "return1y": "7.95%",
+          "rank": "3",
+          "ISIN_code": "LU0306632414"
+        }
+      ],
+      "group_type": "Smaller Companies"
     }
   ],
-  "total_rec": 9
+  "total_rec": 15,
+  "fundtype": 1
 }

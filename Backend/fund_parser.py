@@ -887,6 +887,8 @@ def get_MS_fund_product_detail():
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
 
+        # print response.text
+
         try:
             ISIN_code = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_ISINText").text
         except AttributeError, e:
@@ -993,18 +995,26 @@ def get_MS_fund_product_detail():
             cp_10y = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_Label41").text
         except AttributeError, e:
             cp_10y = None
+        try:
+            trailing_return_update_time = soup.find("span", id="MainContent_QuickTakeMainContent_QuickTakeForm_lbEffectDatem").text
+            if len(trailing_return_update_time) != 10:
+                trailing_return_update_time = '0001-01-01'
+        except AttributeError, e:
+            trailing_return_update_time = '0001-01-01'
+
+        print ISIN_code, prod_list[p][0]
 
         update_product = ("""UPDATE t_fund_product SET GIFS_type=%s, IFA_category=%s, industry_1=%s, industry_pct_1=%s,
                              industry_2=%s, industry_pct_2=%s, industry_3=%s, industry_pct_3=%s, industry_4=%s,
                              industry_pct_4=%s, industry_5=%s, industry_pct_5=%s, cp_1d=%s, cp_1w=%s, cp_1m=%s,
                              cp_3m=%s, cp_6m=%s, cp_ytd=%s, cp_1y=%s, cp_3y=%s, cp_5y=%s, cp_10y=%s, prod_code=%s,
-                             ISIN_code=%s
+                             ISIN_code=%s, update_time=%s
                              WHERE uid=%s""")
 
         cursor.execute(update_product, (GIFS_type, IFA_category, industry_1, industry_pct_1, industry_2, industry_pct_2,
                                         industry_3, industry_pct_3, industry_4, industry_pct_4, industry_5,
                                         industry_pct_5, cp_1d, cp_1w, cp_1m, cp_3m, cp_6m, cp_ytd, cp_1y, cp_3y, cp_5y,
-                                        cp_10y, prod_code, ISIN_code, prod_list[p][0]))
+                                        cp_10y, prod_code, ISIN_code, trailing_return_update_time, prod_list[p][0]))
         cnx.commit()
 
 
@@ -1308,8 +1318,8 @@ if __name__ == '__main__':
 
         # get_FSM_fund_classified_product()
         # get_jpm_fund_product()
-        ms_page = get_MS_fund_page_num()
-        get_MS_fund_product(ms_page)
+        # ms_page = get_MS_fund_page_num()
+        # get_MS_fund_product(ms_page)
         get_MS_fund_product_detail()
         set_MS_region()
         MS_export()

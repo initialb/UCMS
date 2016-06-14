@@ -39,7 +39,6 @@ logger_local_ch.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(level
 logger_local.addHandler(logger_local_fh)
 logger_local.addHandler(logger_local_ch)
 
-
 app = Flask(__name__)
 
 
@@ -115,14 +114,15 @@ def get_listing_rate(currency):
     cursor.execute(query)
     rate_list["timestamp"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     rate_list["currency"] = currency
-    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元', "")
+    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元',
+                                       "")
     # logger_local.info('bm_bid_remit*1.0008: %s' % (bm_bid_remit*1.0008,))
     # logger_local.info('bm_bid_cash*1.0008: %s' % (bm_bid_cash*1.0008,))
     # logger_local.info('bm_ask_remit*0.9992: %s' % (bm_ask_remit*0.9992,))
     # logger_local.info('bm_ask_cash*0.9992: %s' % (bm_ask_cash*0.9992,))
     for (cn_short_name, bid_remit, bid_cash, ask_remit, ask_cash, publish_time) in cursor:
-        if float(bid_remit) > bm_bid_remit*1.008 or float(bid_cash) > bm_bid_cash*1.008 \
-                or float(ask_remit) < bm_ask_remit*0.992 or float(ask_cash) < bm_ask_cash*0.992:
+        if float(bid_remit) > bm_bid_remit * 1.008 or float(bid_cash) > bm_bid_cash * 1.008 \
+                or float(ask_remit) < bm_ask_remit * 0.992 or float(ask_cash) < bm_ask_cash * 0.992:
             rate_list["list"].append({})
             rate_list["list"][-1]["bank"] = cn_short_name
             if currency == 'JPY':
@@ -170,22 +170,22 @@ def get_listing_rate(currency):
     for r in rate_list["list"]:
         if currency == 'JPY':
             if r["remitbid"] == '%.4f' % float(max_bid_remit):
-                r["remitbid"] = "*"+r["remitbid"]
+                r["remitbid"] = "*" + r["remitbid"]
             if r["cashbid"] == '%.4f' % float(max_bid_cash):
-                r["cashbid"] = "*"+r["cashbid"]
+                r["cashbid"] = "*" + r["cashbid"]
             if r["remitask"] == '%.4f' % float(min_ask_remit):
-                r["remitask"] = "*"+r["remitask"]
+                r["remitask"] = "*" + r["remitask"]
             if r["cashask"] == '%.4f' % float(min_ask_cash):
-                r["cashask"] = "*"+r["cashask"]
+                r["cashask"] = "*" + r["cashask"]
         else:
             if r["remitbid"] == '%.2f' % float(max_bid_remit):
-                r["remitbid"] = "*"+r["remitbid"]
+                r["remitbid"] = "*" + r["remitbid"]
             if r["cashbid"] == '%.2f' % float(max_bid_cash):
-                r["cashbid"] = "*"+r["cashbid"]
+                r["cashbid"] = "*" + r["cashbid"]
             if r["remitask"] == '%.2f' % float(min_ask_remit):
-                r["remitask"] = "*"+r["remitask"]
+                r["remitask"] = "*" + r["remitask"]
             if r["cashask"] == '%.2f' % float(min_ask_cash):
-                r["cashask"] = "*"+r["cashask"]
+                r["cashask"] = "*" + r["cashask"]
 
     rate_list["total_rec"] = len(rate_list["list"])
 
@@ -222,7 +222,7 @@ def get_selectedwmp(currency):
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
                  "total_rec": "",
                  "tenor_group": [{"preservable": "N", "list": []}, {"preservable": "Y", "list": []}]
-                }
+                 }
 
     # 非保本
     np_list = []
@@ -297,10 +297,11 @@ def get_selectedwmp(currency):
             prod_list["tenor_group"][0]["list"].append({
                 "prod_name": prod_name,
                 "issuer_name": issuer_name,
-                "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                "sale_period": '%s~%s' % (
+                    dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
                 "deposit_period": int(np[0]),
-                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,),
+                "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield) * 100,),
                 "return_type": pledgeable,
                 "usd_rate": get_USD_depo(np[0]),
                 "starting_amount": '%.2f' % float(starting_amount)})
@@ -381,10 +382,11 @@ def get_selectedwmp(currency):
             prod_list["tenor_group"][1]["list"].append({
                 "prod_name": prod_name,
                 "issuer_name": issuer_name,
-                "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                "sale_period": '%s~%s' % (
+                    dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
                 "deposit_period": int(ty[0]),
-                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield)*100,),
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,),
+                "industry_1m_avg_yield": '%.4f%%' % (float(industry_1m_avg_yield) * 100,),
                 "return_type": pledgeable,
                 "usd_rate": get_USD_depo(np[0]),
                 "starting_amount": '%.2f' % float(starting_amount)})
@@ -392,7 +394,7 @@ def get_selectedwmp(currency):
             if expected_highest_yield > max_yield:
                 max_yield = expected_highest_yield
 
-    prod_list["max_return"] = '%.2f%%' % (float(max_yield)*100,)
+    prod_list["max_return"] = '%.2f%%' % (float(max_yield) * 100,)
 
     cnx.commit()
     cursor.close()
@@ -425,7 +427,7 @@ def get_wmp(currency):
         prod_list = {"timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
                      "total_rec": "",
                      "tenor_group": []
-                    }
+                     }
 
         # 获取货币对
         query = u"""
@@ -473,13 +475,14 @@ def get_wmp(currency):
                     "prod_name": prod_name,
                     "issuer_name": issuer_name,
                     "tenor": int(tenor_desc),
-                    "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                    "sale_period": '%s~%s' % (
+                        dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
                     "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
-                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                    "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
+                    "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,),
+                    "history_yield": '%.4f%%' % (float(last_yield) * 100,) if isnum(last_yield) else '-',
                     "preservable": 'Y' if preservable == u"保本" else 'N',
                     "return_type": pledgeable,
-                    "risk_type": risk_desc+u"风险",
+                    "risk_type": risk_desc + u"风险",
                     "starting_amount": '%.2f' % float(starting_amount)})
 
             total_rec += len(prod_list["tenor_group"][-1]["list"])
@@ -494,7 +497,7 @@ def get_wmp(currency):
                      "preservable": "ALL",
                      "total_rec": "",
                      "tenor_group": []
-                    }
+                     }
 
         preservable = request.args.get('preservable', '')
 
@@ -577,7 +580,7 @@ def get_wmp(currency):
                     """ % (currency, tn[0], preservable_str)
                 cursor.execute(query)
                 for (cursor_avg,) in cursor:
-                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg) * 100,)
                     # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
 
                 prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
@@ -599,17 +602,21 @@ def get_wmp(currency):
                             AND ROUND(tenor / 30) = '%s'
                     """ % (preservable_str, currency, tn[0])
                 cursor.execute(query)
-                for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                     last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                for (
+                        prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                        expected_highest_yield,
+                        last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
                     prod_list["tenor_group"][-1]["list"].append({
                         "prod_name": prod_name,
                         "issuer_name": issuer_name,
-                        "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
-                        "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
-                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                        "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
+                        "sale_period": '%s~%s' % (
+                            dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (
+                            dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
+                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,),
+                        "history_yield": '%.4f%%' % (float(last_yield) * 100,) if isnum(last_yield) else '-',
                         "return_type": pledgeable,
-                        "risk_type": risk_desc+u"风险",
+                        "risk_type": risk_desc + u"风险",
                         "starting_amount": '%.2f' % float(starting_amount)})
 
         else:
@@ -683,7 +690,7 @@ def get_wmp(currency):
                     """ % (currency, tn[0])
                 cursor.execute(query)
                 for (cursor_avg,) in cursor:
-                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg)*100,)
+                    industry_1m_avg_yield = '%.4f%%' % (float(cursor_avg) * 100,)
                     # prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = '%.4f%%' % (float(cursor_avg)*100,)
 
                 prod_list["tenor_group"][-1]["industry_1m_avg_yield"] = industry_1m_avg_yield
@@ -704,17 +711,21 @@ def get_wmp(currency):
                             AND ROUND(tenor / 30) = '%s'
                     """ % (currency, tn[0])
                 cursor.execute(query)
-                for (prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date, expected_highest_yield,
-                     last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
+                for (
+                        prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
+                        expected_highest_yield,
+                        last_yield, preservable, pledgeable, risk_desc, starting_amount) in cursor:
                     prod_list["tenor_group"][-1]["list"].append({
                         "prod_name": prod_name,
                         "issuer_name": issuer_name,
-                        "sale_period": '%s~%s' % (dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
-                        "interest_period": '%s~%s' % (dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
-                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,),
-                        "history_yield": '%.4f%%' % (float(last_yield)*100,) if isnum(last_yield) else '-',
+                        "sale_period": '%s~%s' % (
+                            dsf(open_start_date), dsf(open_end_date)) if open_start_date.isdigit() else u"每天",
+                        "interest_period": '%s~%s' % (
+                            dsf(start_date), dsf(end_date)) if start_date.isdigit() else u"无固定期限",
+                        "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,),
+                        "history_yield": '%.4f%%' % (float(last_yield) * 100,) if isnum(last_yield) else '-',
                         "return_type": pledgeable,
-                        "risk_type": risk_desc+u"风险",
+                        "risk_type": risk_desc + u"风险",
                         "starting_amount": '%.2f' % float(starting_amount)})
 
     cnx.commit()
@@ -754,7 +765,7 @@ def wmp_comp():
                                   "currencyname": u"美元",
                                   "preservable": "Y",
                                   "list": []}]
-                }
+                 }
 
     tenor_list = ["1", "2", "3", "6", "9", "12", "24"]
 
@@ -781,7 +792,7 @@ def wmp_comp():
             prod_list["tenor_group"][0]["list"].append({
                 "tenor": tn,
                 "issuer_name": issuer_name,
-                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,)
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,)
             })
 
         if cursor.rowcount == -1:
@@ -815,7 +826,7 @@ def wmp_comp():
             if avg is None:
                 prod_list["tenor_group"][0]["list"][-1]["average_yield"] = "-"
             else:
-                prod_list["tenor_group"][0]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg)*100,)
+                prod_list["tenor_group"][0]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg) * 100,)
 
     # 保本
     for tn in tenor_list:
@@ -840,7 +851,7 @@ def wmp_comp():
             prod_list["tenor_group"][1]["list"].append({
                 "tenor": tn,
                 "issuer_name": issuer_name,
-                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield)*100,)
+                "expected_highest_yield": '%.4f%%' % (float(expected_highest_yield) * 100,)
             })
 
         if cursor.rowcount == -1:
@@ -874,7 +885,7 @@ def wmp_comp():
             if avg is None:
                 prod_list["tenor_group"][1]["list"][-1]["average_yield"] = "-"
             else:
-                prod_list["tenor_group"][1]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg)*100,)
+                prod_list["tenor_group"][1]["list"][-1]["average_yield"] = '%.4f%%' % (float(avg) * 100,)
 
     total_rec += (len(prod_list["tenor_group"][0]["list"]) + len(prod_list["tenor_group"][1]["list"]))
     prod_list["total_rec"] = total_rec
@@ -888,8 +899,8 @@ def wmp_comp():
     return json.dumps(prod_list, ensure_ascii=False)
 
 
-@app.route('/ucms/api/v1.0/weixin/selectedfund', methods=['GET'])
-def get_fund_composite():
+@app.route('/ucms/api/v1.0/weixin/gstockfund', methods=['GET'])
+def get_fund_stock_general():
     try:
         # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
         cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
@@ -904,44 +915,440 @@ def get_fund_composite():
         logger_local.info('MYSQL connected.')
     cursor = cnx.cursor()
 
-    total_rec = None
+    group_type_list = []
+    total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
                  "total_rec": "",
                  "sec_group": []
-                }
+                 }
 
+    # 获取group
     query = u"""
             SELECT
-                ranking,
-                prod_name,
-                annual_dividend,
-                cp_3m,
-                cp_1y,
-                cp_3y,
-                cp_5y
+                DISTINCT group_type
             FROM
                 zyq.t_selected_fund_product
             WHERE
-                category = 'Composite';
+                category = 'B11';
         """
     cursor.execute(query)
-    for (ranking, prod_name, annual_dividend, cp_3m, cp_1y, cp_3y, cp_5y) in cursor:
-        prod_list["sec_group"].append({"rank": ranking,
-                                       "fund_name": prod_name,
-                                       "yield": annual_dividend + "%" if annual_dividend != '0' else '-',
-                                       "return3m": cp_3m + "%",
-                                       "return1y": cp_1y + "%",
-                                       "return3y": cp_3y + "%",
-                                       "return5y":cp_5y + "%"})
-    prod_list["total_rec"] = cursor.rowcount
+    for (group_type,) in cursor:
+        group_type_list.append(group_type)
+
+    for gt in group_type_list:
+        prod_list["sec_group"].append({"group_type": gt,
+                                       "group_list": []})
+        query = u"""
+                SELECT
+                    ranking,
+                    prod_name,
+                    ISIN_code,
+                    cp_1m,
+                    cp_1y,
+                    cp_3y,
+                    cp_5y
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B11' and group_type = '%s'
+                ORDER BY ranking;
+            """ % gt
+        cursor.execute(query)
+
+        for (ranking, prod_name, ISIN_code, cp_1m, cp_1y, cp_3y, cp_5y) in cursor:
+            prod_list["sec_group"][-1]["group_list"].append({"rank": ranking,
+                                                             "fund_name": prod_name,
+                                                             "ISIN": ISIN_code,
+                                                             "return1m": cp_1m + "%",
+                                                             "return1y": cp_1y + "%",
+                                                             "return3y": cp_3y + "%",
+                                                             "return5y": cp_5y + "%"})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
 
     cnx.commit()
     cursor.close()
     cnx.close()
-    logger_local.info('Selected Fund requested\n\n')
+    logger_local.info('Stock Fund general performance requested\n\n')
 
-    # return jsonify(rate_list)
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/bstockfund', methods=['GET'])
+def get_fund_stock_best():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    tenor_list = []
+    total_rec = 0
+    prod_list = {"fundtype": 1,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
+                 "total_rec": "",
+                 "tenor_group": []
+                 }
+
+    # 获取group
+    query = u"""
+            SELECT
+                DISTINCT tenor
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'B12';
+        """
+    cursor.execute(query)
+    for (tenor,) in cursor:
+        tenor_list.append(tenor)
+
+    for tn in tenor_list:
+        prod_list["tenor_group"].append({"tenor": tn,
+                                         "list": []})
+        query = u"""
+                SELECT
+                    prod_name,
+                    ISIN_code,
+                    annual_dividend,
+                    group_type
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B12' and tenor = '%s';
+            """ % tn
+        cursor.execute(query)
+
+        for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
+                                                         "isin": ISIN_code,
+                                                         "return": annual_dividend + "%",
+                                                         "group_type": group_type})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Stock Fund best performance requested\n\n')
+
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/gbondfund', methods=['GET'])
+def get_fund_bond_general():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    group_type_list = []
+    total_rec = 0
+    prod_list = {"fundtype": 2,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
+                 "total_rec": "",
+                 "sec_group": []
+                 }
+
+    # 获取group
+    query = u"""
+            SELECT
+                DISTINCT group_type
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'B21';
+        """
+    cursor.execute(query)
+    for (group_type,) in cursor:
+        group_type_list.append(group_type)
+
+    for gt in group_type_list:
+        prod_list["sec_group"].append({"group_type": gt,
+                                       "group_list": []})
+        query = u"""
+                SELECT
+                    ranking,
+                    prod_name,
+                    ISIN_code,
+                    cp_1m,
+                    cp_1y,
+                    cp_3y,
+                    cp_5y
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B21' and group_type = '%s'
+                ORDER BY ranking;
+            """ % gt
+        cursor.execute(query)
+
+        for (ranking, prod_name, ISIN_code, cp_1m, cp_1y, cp_3y, cp_5y) in cursor:
+            prod_list["sec_group"][-1]["group_list"].append({"rank": ranking,
+                                                             "fund_name": prod_name,
+                                                             "ISIN": ISIN_code,
+                                                             "return1m": cp_1m + "%",
+                                                             "return1y": cp_1y + "%",
+                                                             "return3y": cp_3y + "%",
+                                                             "return5y": cp_5y + "%"})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Bond Fund general performance requested\n\n')
+
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/bbondfund', methods=['GET'])
+def get_fund_bond_best():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    tenor_list = []
+    total_rec = 0
+    prod_list = {"fundtype": 2,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
+                 "total_rec": "",
+                 "tenor_group": []
+                 }
+
+    # 获取group
+    query = u"""
+            SELECT
+                DISTINCT tenor
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'B22';
+        """
+    cursor.execute(query)
+    for (tenor,) in cursor:
+        tenor_list.append(tenor)
+
+    for tn in tenor_list:
+        prod_list["tenor_group"].append({"tenor": tn,
+                                         "list": []})
+        query = u"""
+                SELECT
+                    prod_name,
+                    ISIN_code,
+                    annual_dividend,
+                    group_type
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B22' and tenor = '%s';
+            """ % tn
+        cursor.execute(query)
+
+        for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
+                                                         "isin": ISIN_code,
+                                                         "return": annual_dividend + "%",
+                                                         "group_type": group_type})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Stock Fund best performance requested\n\n')
+
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/gbalancedfund', methods=['GET'])
+def get_fund_balance_general():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    group_type_list = []
+    total_rec = 0
+    prod_list = {"fundtype": 3,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
+                 "total_rec": "",
+                 "sec_group": []
+                 }
+
+    # 获取group
+    query = u"""
+            SELECT
+                DISTINCT group_type
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'B31';
+        """
+    cursor.execute(query)
+    for (group_type,) in cursor:
+        group_type_list.append(group_type)
+
+    for gt in group_type_list:
+        prod_list["sec_group"].append({"group_type": gt,
+                                       "group_list": []})
+        query = u"""
+                SELECT
+                    ranking,
+                    prod_name,
+                    ISIN_code,
+                    cp_1m,
+                    cp_1y,
+                    cp_3y,
+                    cp_5y
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B31' and group_type = '%s'
+                ORDER BY ranking;
+            """ % gt
+        cursor.execute(query)
+
+        for (ranking, prod_name, ISIN_code, cp_1m, cp_1y, cp_3y, cp_5y) in cursor:
+            prod_list["sec_group"][-1]["group_list"].append({"rank": ranking,
+                                                             "fund_name": prod_name,
+                                                             "ISIN": ISIN_code,
+                                                             "return1m": cp_1m + "%",
+                                                             "return1y": cp_1y + "%",
+                                                             "return3y": cp_3y + "%",
+                                                             "return5y": cp_5y + "%"})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Bond Fund general performance requested\n\n')
+
+    return json.dumps(prod_list, ensure_ascii=False)
+
+
+@app.route('/ucms/api/v1.0/weixin/bbalancedfund', methods=['GET'])
+def get_fund_balance_best():
+    try:
+        # cnx = mysql.connector.connect(host='139.196.16.157', user='root', password='passwd', database='zyq')
+        cnx = mysql.connector.connect(user='zyq', password='zyq', database='zyq')
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            logger_local.error("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            logger_local.error("Database does not exist")
+        else:
+            logger_local.error(err)
+    else:
+        logger_local.info('MYSQL connected.')
+    cursor = cnx.cursor()
+
+    tenor_list = []
+    total_rec = 0
+    prod_list = {"fundtype": 3,
+                 "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
+                 "releasedate": "2016.05",
+                 "total_rec": "",
+                 "tenor_group": []
+                 }
+
+    # 获取group
+    query = u"""
+            SELECT
+                DISTINCT tenor
+            FROM
+                zyq.t_selected_fund_product
+            WHERE
+                category = 'B32';
+        """
+    cursor.execute(query)
+    for (tenor,) in cursor:
+        tenor_list.append(tenor)
+
+    for tn in tenor_list:
+        prod_list["tenor_group"].append({"tenor": tn,
+                                         "list": []})
+        query = u"""
+                SELECT
+                    prod_name,
+                    ISIN_code,
+                    annual_dividend,
+                    group_type
+                FROM
+                    zyq.t_selected_fund_product
+                WHERE
+                    category = 'B32' and tenor = '%s';
+            """ % tn
+        cursor.execute(query)
+
+        for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
+                                                         "isin": ISIN_code,
+                                                         "return": annual_dividend + "%",
+                                                         "group_type": group_type})
+
+        total_rec += cursor.rowcount
+
+    prod_list["total_rec"] = total_rec
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    logger_local.info('Stock Fund best performance requested\n\n')
+
     return json.dumps(prod_list, ensure_ascii=False)
 
 
@@ -966,7 +1373,7 @@ def get_selected_bond():
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
                  "total_rec": 9,
                  "tenor_group": []
-                }
+                 }
 
     query = u"""
             SELECT
@@ -1101,7 +1508,7 @@ def get_bond():
     prod_list = {"timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
                  "total_rec": 9,
                  "sec_group": []
-                }
+                 }
 
     query = u"""
             SELECT
@@ -1130,18 +1537,18 @@ def get_bond():
     for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
-                                                     "issuer_name": issuer_name,
-                                                     "period": tenor,
-                                                     "rate": coupon + "%",
-                                                     "yield12": expected_6m_yield + "%",
-                                                     "yield24": expected_1y_yield + "%",
-                                                     "yield36": expected_2y_yield + "%",
-                                                     "deadline": maturity_date,
-                                                     "buy_price": bid_price,
-                                                     "sale_price": "",
-                                                     "grading": credit_rating,
-                                                     "grading_owner": rating_firm,
-                                                     "bond_code": coupon_code})
+                                                   "issuer_name": issuer_name,
+                                                   "period": tenor,
+                                                   "rate": coupon + "%",
+                                                   "yield12": expected_6m_yield + "%",
+                                                   "yield24": expected_1y_yield + "%",
+                                                   "yield36": expected_2y_yield + "%",
+                                                   "deadline": maturity_date,
+                                                   "buy_price": bid_price,
+                                                   "sale_price": "",
+                                                   "grading": credit_rating,
+                                                   "grading_owner": rating_firm,
+                                                   "bond_code": coupon_code})
 
     query = u"""
             SELECT
@@ -1170,18 +1577,18 @@ def get_bond():
     for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
-                                                     "issuer_name": issuer_name,
-                                                     "period": tenor,
-                                                     "rate": coupon + "%",
-                                                     "yield12": expected_6m_yield + "%",
-                                                     "yield24": expected_1y_yield + "%",
-                                                     "yield36": expected_2y_yield + "%",
-                                                     "deadline": maturity_date,
-                                                     "buy_price": bid_price,
-                                                     "sale_price": "",
-                                                     "grading": credit_rating,
-                                                     "grading_owner": rating_firm,
-                                                     "bond_code": coupon_code})
+                                                   "issuer_name": issuer_name,
+                                                   "period": tenor,
+                                                   "rate": coupon + "%",
+                                                   "yield12": expected_6m_yield + "%",
+                                                   "yield24": expected_1y_yield + "%",
+                                                   "yield36": expected_2y_yield + "%",
+                                                   "deadline": maturity_date,
+                                                   "buy_price": bid_price,
+                                                   "sale_price": "",
+                                                   "grading": credit_rating,
+                                                   "grading_owner": rating_firm,
+                                                   "bond_code": coupon_code})
 
     query = u"""
             SELECT
@@ -1210,19 +1617,18 @@ def get_bond():
     for (ranking, issuer_name, tenor, coupon, expected_6m_yield, expected_1y_yield, expected_2y_yield, currency,
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
-                                                     "issuer_name": issuer_name,
-                                                     "period": tenor,
-                                                     "rate": coupon + "%",
-                                                     "yield12": expected_6m_yield + "%",
-                                                     "yield24": expected_1y_yield + "%",
-                                                     "yield36": expected_2y_yield + "%",
-                                                     "deadline": maturity_date,
-                                                     "buy_price": bid_price,
-                                                     "sale_price": "",
-                                                     "grading": credit_rating,
-                                                     "grading_owner": rating_firm,
-                                                     "bond_code": coupon_code})
-
+                                                   "issuer_name": issuer_name,
+                                                   "period": tenor,
+                                                   "rate": coupon + "%",
+                                                   "yield12": expected_6m_yield + "%",
+                                                   "yield24": expected_1y_yield + "%",
+                                                   "yield36": expected_2y_yield + "%",
+                                                   "deadline": maturity_date,
+                                                   "buy_price": bid_price,
+                                                   "sale_price": "",
+                                                   "grading": credit_rating,
+                                                   "grading_owner": rating_firm,
+                                                   "bond_code": coupon_code})
 
     cnx.commit()
     cursor.close()
@@ -1248,7 +1654,7 @@ def get_USD_depo(tenor):
 def dsf(date):
     try:
         if len(date) == 8:
-            return date[:4]+"."+date[4:6]+"."+date[6:8]
+            return date[:4] + "." + date[4:6] + "." + date[6:8]
         else:
             return date
     except:
@@ -1265,5 +1671,4 @@ def isnum(value):
 
 
 if __name__ == '__main__':
-
     app.run(debug=True, host="0.0.0.0")

@@ -169,12 +169,6 @@ def cal():
             isin.append('')
 
         # 1M
-        if int(isin[2]) == 12:
-            year = int(isin[1])+1
-            month = 1
-        else:
-            year = int(isin[1])
-            month = int(isin[2])+1
         sub_query = u"""
             SELECT
                 performance
@@ -185,7 +179,7 @@ def cal():
                     AND perf_type = 'mthly_performance'
                     and perf_year = %s and perf_month = %s
                     and performance <> ''
-        """ % (isin[0], year, month)
+        """ % (isin[0], isin[1], isin[2])
         cursor.execute(sub_query)
         for (performance,) in cursor:
             isin.append(performance)

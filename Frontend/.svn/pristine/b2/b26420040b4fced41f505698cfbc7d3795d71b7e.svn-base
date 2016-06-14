@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>★重磅来袭★：“赚洋钱”外汇理财专栏推出</title>
+
+    <meta name="description" content="Release by WorldMoney 2016.01.01">
+    <meta name="author" content="WorldMoney">
+
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- link href="../bootstrap/css/style.css" rel="stylesheet" -->
+	<link rel="stylesheet" href="../bootstrap/weui-master/dist/style/weui.min.css"/>
+	<link rel="stylesheet" href="../css/zhuanyangqian.css" />	
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<br>
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object" src="../img/A4-20160509S-000.jpg" alt="..." height="64" width="64">
+				</a>
+		</div>
+		<div class="media-body" style="vertical-align:middle;">
+			<h4 class="media-heading"><strong>★重磅来袭★：“赚洋钱”外汇理财专栏推出
+			</strong></h4>
+
+		</div>
+	</div>
+	<br>
+	 
+	 
+		<div class ="col-xs-8" style="text-align:left;line-height:0.5;">
+			<p class="blog-post-meta">2016-05-09  <a href="weixin://profile/gh_5a211fd0cbf2">赚洋钱</a></p>
+		</div>
+		<div class ="col-xs-4" style="text-align:right;line-height:0.5;">		
+			<a style="text-align:right;" id="translateLink"></a>
+		</div>	 
+	
+	<hr>	
+	
+	<article class="weui_article" style="margin-top:-25px;font-size:120%;">
+		<p>继推出“外汇实时牌价”之后，“赚洋钱”再次给你带来“在售外汇理财”专栏。专栏整合国内几乎所有银行在售外汇理财产品信息，包括：发售时间、期限、收益等。
+		</p>
+		<p>		尽管外汇理财是国内所有理财市场中的小众市场，但对于持有外汇资产的投资者来说，外汇资产的投资理财也是整个理财计划中不可或缺的一部分。也正是因为市场的小众，国内外汇理财产品的信息并不为广大投资者完全了解。从产品的角度看，尽管目前的海外利率较低，外汇理财产品的收益率也随着偏低，但各金融机构发行的产品的收益具有很大的差异性，有时差异十分惊人。投资者选择产品时缺乏一个渠道进行分析比较。为此，“赚洋钱”团队通过技术整合信息，为投资者提供一个便捷的入口对产品风险及收益进行比较并选择合适的产品。
+		</p>
+		<p>	“赚洋钱”希望通过我们技术上的一小步，为您提供便利上的一大步。
+		</p>
+		<p>投资者可以通过关注“赚洋钱”微信公众号，然后点击“在售外汇理财”寻找外汇理财产品的信息，或通过回复以下数字获取：
+		</p>	
+		<table class="table table-condensed">
+			<tbody>
+				<tr class="success">
+					<th style="width:60px;">
+						编码  
+					</th>
+					<th>
+						功能
+					</th>								
+				</tr>
+				<tr class="active">
+					<td>
+						101  
+					</td>
+					<td>
+						精选在售外汇理财产品
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						102
+					</td>
+					<td>
+						在售美元非保本理财产品信息
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						103
+					</td>
+					<td>
+						在售美元保本理财产品信息
+					</td>							
+				</tr>
+				<tr class="active">
+					<td>
+						104
+					</td>
+					<td>
+						在售非美元理财产品信息
+					</td>								
+				</tr>
+				<tr class="active">
+					<td>
+						105
+					</td>
+					<td>
+						美元理财产品收益比较
+					</td>								
+				</tr>				
+			</tbody>
+		</table>	
+		<br>
+		<p style="color:#FF6600;">“精选在售美元理财产品”(截图)
+		</p>
+		<figure>
+			<a class="imggroup" href="../img/A4-20160509S-001.jpg"><img alt="Image Preview" src="../img/A4-20160509S-001.jpg" width="100%" height="100%"></a>
+		</figure>		
+
+	</article>
+	<hr>
+	<div class="col-xs-12" style="text-align:center;">
+		<img alt="Image Preview" src="../img/following.jpg" width="100%" height="100%"><br>
+		<img alt="Image Preview" src="../img/qrcode.jpg" width="40%" height="40%">
+	</div> 		
+
+</div>
+
+
+
+    <!-- script src="../bootstrap/js/jquery.min.js"></script -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- script src="../bootstrap/js/scripts.js"></script -->
+	<script src="../bootstrap/js/chinese_convert.js"></script>
+	<script>
+		var defaultEncoding = 2; // 預設語言：1-繁體中文 | 2-简体中文
+		var translateDelay = 0;
+		var cookieDomain = "http://zhuanyangqian.applinzi.com";	// 修改爲你的部落格地址
+		var msgToTraditionalChinese = "轉繁體";	// 簡轉繁時所顯示的文字
+		var msgToSimplifiedChinese = "转简体"; 	// 繁转简时所显示的文字
+		var translateButtonId = "translateLink";	// 「轉換」<A>鏈接標籤ID
+		translateInitilization();	
+	</script>	
+	<script src="../bootstrap/fancybox/jquery.fancybox.pack.js"></script>	
+	<!-- script>
+		$(document).ready(function() {
+			$("a.imggroup").fancybox({
+				'transitionIn'	:	'elastic',
+				'transitionOut'	:	'elastic',
+				'speedIn'		:	600, 
+				'speedOut'		:	200, 
+				'overlayShow'	:	false,
+				'minWidth' 		:	100,
+				'maxWidth' 		:	500,				
+			});
+		});
+	</script -->	
+  </body>
+</html>

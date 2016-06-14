@@ -20,6 +20,7 @@ from butils import decode
 from butils import fix_json
 from butils import ppprint
 from butils.pprint import pprint
+from butils.finutils import *
 from datetime import datetime
 from retrying import retry
 
@@ -612,7 +613,7 @@ def get_EBBC_product():
                                  # value date
                                  re.sub(r'[^\d]+', '', prod_detail_table.find("td", id="cpdqr").string.strip()),
                                  # maturity date
-                                 tenor_decoder(prod_detail_table.find("td", id="cpqx").string.strip()),  # tenor
+                                 tenor_decoder(prod_detail_table.find("td", id="cpqx").string.strip()),
                                  prod_detail_table.find("td", id="cpqx").string.strip(),  # tenor_desc
                                  re.sub(r'[^\d.]+', '', prod_detail_table.find("td", id="qgje").string.strip()),
                                  # starting amount
@@ -686,15 +687,14 @@ def get_EBBC_product():
 
     # DB manipulation:
     cursor = cnx.cursor()
-    cursor.execute("""DELETE FROM t_product WHERE data_source='OW' and issuer_code=%s
-                      and date(update_time)=curdate()""", (issuer_code,))
+    cursor.execute("""DELETE FROM t_product WHERE data_source='AT' and issuer_code=%s""", (issuer_code,))
     logger_local.info(unicode(legal_group) + ' - ' + unicode(cursor.rowcount) + ' rows deleted')
 
     add_product = ("""INSERT INTO t_product
                 (issuer_code, prod_code, prod_name, open_start_date, open_end_date, preservable, currency,
                 expected_highest_yield, risk_desc, value_date, maturity_date, tenor, tenor_desc, starting_amount,
                 increasing_amount, remark, buyable, data_source, update_time)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'Y', 'OW', now())""")
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'Y', 'AT', now())""")
 
     for p in product_data:
         cursor.execute(add_product, p)
@@ -1140,14 +1140,14 @@ if __name__ == '__main__':
     logger_local.info(issuer_list)
 
     # get_CMHO_product()
-    get_CMHO2_product()
+    # get_CMHO2_product()
 
     # get_ICBC_product()
     # get_ABCI_product()
     # get_CCBH_product()
     # get_CTIB_product()
     # get_BCOH_product()
-    # get_EBBC_product()
+    get_EBBC_product()
     # get_DESZ_product()
     # get_IBCN_product()
     # get_SPDB_product()
@@ -1155,6 +1155,6 @@ if __name__ == '__main__':
     # get_BOBJ_product()
     # get_CW_product()
 
-    generate_report()
+    # generate_report()
 
     cnx.close()

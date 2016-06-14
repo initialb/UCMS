@@ -1,0 +1,41 @@
+.floatleft {
+	float : left;
+	margin : 2px 2px 2px 2px;
+}
+
+.floatright {
+	float : right;
+	margin : 2px 2px 2px 2px;
+}
+
+.boarddiv {
+	border:2px solid #E6E6E6;
+}
+
+.orange {
+	font-family:arial;
+	color:#FF6600;
+}
+
+.textshadow {
+	text-shadow: 1px 1px rgba(197, 223, 248,0.8),
+				 2px 2px rgba(197, 223, 248,0.8),
+				 3px 3px rgba(197, 223, 248,0.8),
+				 4px 4px rgba(197, 223, 248,0.8),
+				 5px 5px rgba(197, 223, 248,0.8),
+				 6px 6px rgba(197, 223, 248,0.8);
+}
+
+.img{
+	border:1px solid #00FFFF;
+	text-align:center;
+}
+
+ul {
+	list-style-image: url(../img/A5-20160508-016.png);
+}
+
+ul li{
+	padding: 0.25em 0 0.25em 10px;
+}
+
