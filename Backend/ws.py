@@ -114,8 +114,8 @@ def get_listing_rate(currency):
     cursor.execute(query)
     rate_list["timestamp"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     rate_list["currency"] = currency
-    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元", 'JPY', u'日元',
-                                       "")
+    rate_list["currencyname"] = decode(currency, "USD", u"美元", "GBP", u"英镑", "AUD", u"澳元", "EUR", u"欧元",
+                                       'JPY', u'日元', 'HKD', u"港币", 'CAD', u"加元", "")
     # logger_local.info('bm_bid_remit*1.0008: %s' % (bm_bid_remit*1.0008,))
     # logger_local.info('bm_bid_cash*1.0008: %s' % (bm_bid_cash*1.0008,))
     # logger_local.info('bm_ask_remit*0.9992: %s' % (bm_ask_remit*0.9992,))
@@ -228,7 +228,7 @@ def get_selectedwmp(currency):
     np_list = []
     query = u"""
         SELECT
-            MAX(expected_highest_yield), ROUND(tenor / 30) as TENOR
+            MAX(expected_highest_yield), ROUND(tenor / (365/12)) as TENOR
         FROM
             t_product
         WHERE
@@ -238,7 +238,7 @@ def get_selectedwmp(currency):
                 AND redeemable = '封闭'
                 AND remark = '普通'
                 AND currency = '%s'
-        GROUP BY ROUND(tenor / 30)
+        GROUP BY ROUND(tenor / (365/12))
         HAVING TENOR >= 3
         ORDER BY TENOR desc
         """ % (currency,)
@@ -262,7 +262,7 @@ def get_selectedwmp(currency):
                     (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                         OR (open_start_date = '每天' AND status = '在售'))
                     AND currency = '%s'
-                    AND ROUND(tenor / 30) = '%s'
+                    AND ROUND(tenor / (365/12)) = '%s'
                     AND preservable = '非保本'
                     AND redeemable = '封闭'
                     AND remark = '普通'
@@ -288,7 +288,7 @@ def get_selectedwmp(currency):
                     AND remark = '普通'
                     AND currency = '%s'
                     AND expected_highest_yield = '%s'
-                    AND ROUND(tenor / 30) = '%s'
+                    AND ROUND(tenor / (365/12)) = '%s'
             """ % (currency, np[1], np[0])
         cursor.execute(query)
 
@@ -313,7 +313,7 @@ def get_selectedwmp(currency):
     ty_list = []
     query = u"""
         SELECT
-            MAX(expected_highest_yield), ROUND(tenor / 30) as TENOR
+            MAX(expected_highest_yield), ROUND(tenor / (365/12)) as TENOR
         FROM
             t_product
         WHERE
@@ -323,7 +323,7 @@ def get_selectedwmp(currency):
                 AND redeemable = '封闭'
                 AND remark = '普通'
                 AND currency = '%s'
-        GROUP BY ROUND(tenor / 30)
+        GROUP BY ROUND(tenor / (365/12))
         HAVING TENOR >= 3
         ORDER BY TENOR desc
         """ % (currency,)
@@ -347,7 +347,7 @@ def get_selectedwmp(currency):
                     (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                         OR (open_start_date = '每天' AND status = '在售'))
                     AND currency = '%s'
-                    AND ROUND(tenor / 30) = '%s'
+                    AND ROUND(tenor / (365/12)) = '%s'
                     AND preservable = '保本'
                     AND redeemable = '封闭'
                     AND remark = '普通'
@@ -373,7 +373,7 @@ def get_selectedwmp(currency):
                     AND remark = '普通'
                     AND currency = '%s'
                     AND expected_highest_yield = '%s'
-                    AND ROUND(tenor / 30) = '%s'
+                    AND ROUND(tenor / (365/12)) = '%s'
             """ % (currency, ty[1], ty[0])
         cursor.execute(query)
 
@@ -456,7 +456,7 @@ def get_wmp(currency):
             query = u"""
                 SELECT
                     prod_name, issuer_name, start_date, end_date, open_start_date, open_end_date,
-                    ROUND(tenor / 30) as tenor_desc, expected_highest_yield, last_yield, preservable, pledgeable,
+                    ROUND(tenor / (365/12)) as tenor_desc, expected_highest_yield, last_yield, preservable, pledgeable,
                     risk_desc, starting_amount
                 FROM
                     t_product
@@ -537,7 +537,7 @@ def get_wmp(currency):
             # 获取期限列表
             query = u"""
                 SELECT
-                    ROUND(tenor / 30) AS tenor
+                    ROUND(tenor / (365/12)) AS tenor
                 FROM
                     t_product
                 WHERE
@@ -547,7 +547,7 @@ def get_wmp(currency):
                         AND redeemable = '封闭'
                         AND remark = '普通'
                         AND currency = '%s'
-                GROUP BY ROUND(tenor / 30)
+                GROUP BY ROUND(tenor / (365/12))
                 ORDER BY tenor DESC
                 """ % (preservable_str, currency)
             cursor.execute(query)
@@ -572,7 +572,7 @@ def get_wmp(currency):
                             (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                                 OR (open_start_date = '每天' AND status = '在售'))
                             AND currency = '%s'
-                            AND ROUND(tenor / 30) = '%s'
+                            AND ROUND(tenor / (365/12)) = '%s'
                             AND preservable = '%s'
                             AND redeemable = '封闭'
                             AND remark = '普通'
@@ -599,7 +599,7 @@ def get_wmp(currency):
                             AND redeemable = '封闭'
                             AND remark = '普通'
                             AND currency = '%s'
-                            AND ROUND(tenor / 30) = '%s'
+                            AND ROUND(tenor / (365/12)) = '%s'
                     """ % (preservable_str, currency, tn[0])
                 cursor.execute(query)
                 for (
@@ -649,7 +649,7 @@ def get_wmp(currency):
             # 获取期限列表
             query = u"""
                 SELECT
-                    ROUND(tenor / 30) AS tenor
+                    ROUND(tenor / (365/12)) AS tenor
                 FROM
                     t_product
                 WHERE
@@ -658,7 +658,7 @@ def get_wmp(currency):
                         AND redeemable = '封闭'
                         AND remark = '普通'
                         AND currency = '%s'
-                GROUP BY ROUND(tenor / 30)
+                GROUP BY ROUND(tenor / (365/12))
                 ORDER BY tenor DESC
                 """ % (currency,)
             cursor.execute(query)
@@ -683,7 +683,7 @@ def get_wmp(currency):
                             (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                                 OR (open_start_date = '每天' AND status = '在售'))
                             AND currency = '%s'
-                            AND ROUND(tenor / 30) = '%s'
+                            AND ROUND(tenor / (365/12)) = '%s'
                             AND redeemable = '封闭'
                             AND remark = '普通'
                         GROUP BY issuer_name) t
@@ -708,7 +708,7 @@ def get_wmp(currency):
                             AND redeemable = '封闭'
                             AND remark = '普通'
                             AND currency = '%s'
-                            AND ROUND(tenor / 30) = '%s'
+                            AND ROUND(tenor / (365/12)) = '%s'
                     """ % (currency, tn[0])
                 cursor.execute(query)
                 for (
@@ -773,7 +773,7 @@ def wmp_comp():
     for tn in tenor_list:
         query = u"""
             SELECT
-                issuer_name, ROUND(tenor / 30) as tenor_desc, expected_highest_yield
+                issuer_name, ROUND(tenor / (365/12)) as tenor_desc, expected_highest_yield
             FROM
                 t_product
             WHERE
@@ -815,7 +815,7 @@ def wmp_comp():
                     (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                         OR (open_start_date = '每天' AND status = '在售'))
                     AND currency = 'USD'
-                    AND ROUND(tenor / 30) = %s
+                    AND ROUND(tenor / (365/12)) = %s
                     AND redeemable = '封闭'
                     AND preservable = '非保本'
                     AND remark = '普通'
@@ -832,7 +832,7 @@ def wmp_comp():
     for tn in tenor_list:
         query = u"""
             SELECT
-                issuer_name, ROUND(tenor / 30) as tenor_desc, expected_highest_yield
+                issuer_name, ROUND(tenor / (365/12)) as tenor_desc, expected_highest_yield
             FROM
                 t_product
             WHERE
@@ -874,7 +874,7 @@ def wmp_comp():
                     (DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(open_start_date)
                         OR (open_start_date = '每天' AND status = '在售'))
                         AND currency = 'USD'
-                        AND ROUND(tenor / 30) = %s
+                        AND ROUND(tenor / (365/12)) = %s
                         AND redeemable = '封闭'
                         AND preservable = '保本'
                         AND remark = '普通'
@@ -919,7 +919,7 @@ def get_fund_stock_general():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -998,7 +998,7 @@ def get_fund_stock_best():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1070,7 +1070,7 @@ def get_fund_bond_general():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1149,7 +1149,7 @@ def get_fund_bond_best():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1221,7 +1221,7 @@ def get_fund_balance_general():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1300,7 +1300,7 @@ def get_fund_balance_best():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.05",
+                 "releasedate": "2016.06",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1538,6 +1538,7 @@ def get_bond():
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
                                                    "issuer_name": issuer_name,
+                                                   "currency": currency,
                                                    "period": tenor,
                                                    "rate": coupon + "%",
                                                    "yield12": expected_6m_yield + "%",
@@ -1578,6 +1579,7 @@ def get_bond():
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
                                                    "issuer_name": issuer_name,
+                                                   "currency": currency,
                                                    "period": tenor,
                                                    "rate": coupon + "%",
                                                    "yield12": expected_6m_yield + "%",
@@ -1618,6 +1620,7 @@ def get_bond():
          bond_type, credit_rating, rating_firm, risk_rating, maturity_date, bid_price, coupon_code) in cursor:
         prod_list["sec_group"][-1]["list"].append({"rank": ranking,
                                                    "issuer_name": issuer_name,
+                                                   "currency": currency,
                                                    "period": tenor,
                                                    "rate": coupon + "%",
                                                    "yield12": expected_6m_yield + "%",

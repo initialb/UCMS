@@ -147,6 +147,26 @@ def get_CMHO_rate():
                                   r[5].string.strip(),
                                   r[3].string.strip(),
                                   format_datetime(publish_date + r[8].string.strip())])
+            elif r[0].string.strip() == "港币":
+                rate_data.append(['C10308',
+                                  'CMHO',
+                                  'HKD',
+                                  r[6].string.strip(),
+                                  r[7].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[3].string.strip(),
+                                  format_datetime(publish_date + r[8].string.strip())])
+            elif r[0].string.strip() == "加拿大元":
+                rate_data.append(['C10308',
+                                  'CMHO',
+                                  'CAD',
+                                  r[6].string.strip(),
+                                  r[7].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[3].string.strip(),
+                                  format_datetime(publish_date + r[8].string.strip())])
 
         # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10308'")
         # logger_local.info('CMHO ' + unicode(cursor.rowcount) + ' rows deleted')
@@ -173,7 +193,8 @@ def get_ICBC_rate():
                     '&beginDate=' + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&endDate=' \
                     + time.strftime('%Y-%m-%d',time.localtime(time.time())) + '&currency=&ppublishDate='
 
-        for ccy_desc in [u'美元(USD)', u'英镑(GBP)', u'欧元(EUR)', u'澳大利亚元(AUD)', u'日元(JPY)']:
+        for ccy_desc in [u'美元(USD)', u'英镑(GBP)', u'欧元(EUR)', u'澳大利亚元(AUD)', u'日元(JPY)',
+                         u'港币(HKD)', u'加拿大元(CAD)']:
             @retry(stop_max_attempt_number=10, wait_fixed=2000)
             def request_content():
                 return requests.get(index_url, timeout=TIMEOUT)
@@ -199,8 +220,8 @@ def get_ICBC_rate():
                     # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10102' AND currency='USD'")
 
                     add_product = ("""REPLACE INTO t_listing_rate
-                                      (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit, ask_cash,
-                                      publish_time, update_time)
+                                      (publisher_code, publisher_name, currency, bid_remit, bid_cash, ask_remit,
+                                      ask_cash, publish_time, update_time)
                                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())""")
                     cursor.execute(add_product, rate_data)
                     break
@@ -218,7 +239,7 @@ def get_BCHO_rate():
 
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.post(index_url, data={"pjname": "1316,1314,1325,1326,1323"}, timeout=TIMEOUT)
+            return requests.post(index_url, data={"pjname": "1316,1314,1325,1326,1323,1315,1324"}, timeout=TIMEOUT)
 
         response = request_content()
         soup = bs4.BeautifulSoup(response.text, "html.parser")
@@ -276,6 +297,28 @@ def get_BCHO_rate():
                 rate_data.append(['C10104',
                                   'BCHO',
                                   'JPY',
+                                  r[1].string.strip(),
+                                  r[2].string.strip(),
+                                  r[3].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[6].string.strip(),
+                                  format_datetime(r[7].string.strip())])
+            elif len(r) == 8 and r[0].string.strip() == "港币":
+                rate_data.append(['C10104',
+                                  'BCHO',
+                                  'HKD',
+                                  r[1].string.strip(),
+                                  r[2].string.strip(),
+                                  r[3].string.strip(),
+                                  r[4].string.strip(),
+                                  r[5].string.strip(),
+                                  r[6].string.strip(),
+                                  format_datetime(r[7].string.strip())])
+            elif len(r) == 8 and r[0].string.strip() == "加拿大元":
+                rate_data.append(['C10104',
+                                  'BCHO',
+                                  'CAD',
                                   r[1].string.strip(),
                                   r[2].string.strip(),
                                   r[3].string.strip(),
@@ -359,6 +402,24 @@ def get_ABCI_rate():
                 rate_data.append(['C10103',
                                   'ABCI',
                                   'JPY',
+                                  r[1].string.strip(),
+                                  r[3].string.strip(),
+                                  r[2].string.strip(),
+                                  r[2].string.strip(),
+                                  format_datetime(publish_datetime)])
+            elif len(r) == 4 and r[0].string.strip() == "港元(HKD)":
+                rate_data.append(['C10103',
+                                  'ABCI',
+                                  'HKD',
+                                  r[1].string.strip(),
+                                  r[3].string.strip(),
+                                  r[2].string.strip(),
+                                  r[2].string.strip(),
+                                  format_datetime(publish_datetime)])
+            elif len(r) == 4 and r[0].string.strip() == "加拿大元(CAD)":
+                rate_data.append(['C10103',
+                                  'ABCI',
+                                  'CAD',
                                   r[1].string.strip(),
                                   r[3].string.strip(),
                                   r[2].string.strip(),
@@ -449,6 +510,26 @@ def get_CCBH_rate():
                              '%.4f' % (float(rt_data.fxr_cur_sellout.string)*100),
                              '%.4f' % (float(rt_data.mid_rate.string)*100),
                              format_datetime(publish_datetime)])
+            elif rt_data.cm_curr_cod.string == '13':
+                rate_data.append(['C10105',
+                             'CCBH',
+                             'HKD',
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
+                             format_datetime(publish_datetime)])
+            elif rt_data.cm_curr_cod.string == '28':
+                rate_data.append(['C10105',
+                             'CCBH',
+                             'CAD',
+                             '%.2f' % (float(rt_data.fxr_xch_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_buyin.string)*100),
+                             '%.2f' % (float(rt_data.fxr_xch_sellout.string)*100),
+                             '%.2f' % (float(rt_data.fxr_cur_sellout.string)*100),
+                             '%.2f' % (float(rt_data.mid_rate.string)*100),
+                             format_datetime(publish_datetime)])
 
         # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10105'")
         # logger_local.info('CCBH ' + unicode(cursor.rowcount) + ' rows deleted')
@@ -528,6 +609,26 @@ def get_CTIB_rate():
                                   rt_data[44:45] + '.' + rt_data[45:49],
                                   rt_data[68:69] + '.' + rt_data[69:73],
                                   rt_data[56:57] + '.' + rt_data[57:61],
+                                  format_datetime(rt_data[1:9] + rt_data[9:15])])
+            elif rt_data[15:17] == '13':
+                rate_data.append(['C10302',
+                                  'CTIB',
+                                  'HKD',
+                                  rt_data[33:36] + '.' + rt_data[36:38],
+                                  rt_data[21:24] + '.' + rt_data[24:26],
+                                  rt_data[45:48] + '.' + rt_data[48:50],
+                                  rt_data[69:72] + '.' + rt_data[72:74],
+                                  rt_data[57:60] + '.' + rt_data[60:62],
+                                  format_datetime(rt_data[1:9] + rt_data[9:15])])
+            elif rt_data[15:17] == '28':
+                rate_data.append(['C10302',
+                                  'CTIB',
+                                  'CAD',
+                                  rt_data[33:36] + '.' + rt_data[36:38],
+                                  rt_data[21:24] + '.' + rt_data[24:26],
+                                  rt_data[45:48] + '.' + rt_data[48:50],
+                                  rt_data[69:72] + '.' + rt_data[72:74],
+                                  rt_data[57:60] + '.' + rt_data[60:62],
                                   format_datetime(rt_data[1:9] + rt_data[9:15])])
 
 
@@ -610,6 +711,24 @@ def get_BCOH_rate():
                                   round(float(r[4].string.strip())/1000, 4),
                                   round(float(r[3].string.strip())/1000, 4),
                                   round(float(r[5].string.strip())/1000, 4),
+                                  format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "港币(HKD/CNY)":
+                rate_data.append(['C10301',
+                                  'BCOH',
+                                  'HKD',
+                                  r[2].string.strip(),
+                                  r[4].string.strip(),
+                                  r[3].string.strip(),
+                                  r[5].string.strip(),
+                                  format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "加拿大元(CAD/CNY)":
+                rate_data.append(['C10301',
+                                  'BCOH',
+                                  'CAD',
+                                  r[2].string.strip(),
+                                  r[4].string.strip(),
+                                  r[3].string.strip(),
+                                  r[5].string.strip(),
                                   format_datetime(publish_datetime)])
 
         # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10301'")
@@ -697,6 +816,26 @@ def get_EBBC_rate():
                                   r[2].string.strip(),
                                   r[5].string.strip(),
                                   format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "港币(HKD)":
+                rate_data.append(['C10303',
+                                  'EBBC',
+                                  'HKD',
+                                  r[3].string.strip(),
+                                  r[1].string.strip(),
+                                  r[4].string.strip(),
+                                  r[2].string.strip(),
+                                  r[5].string.strip(),
+                                  format_datetime(publish_datetime)])
+            elif r[0].string.strip() == "加拿大元(CAD)":
+                rate_data.append(['C10303',
+                                  'EBBC',
+                                  'CAD',
+                                  r[3].string.strip(),
+                                  r[1].string.strip(),
+                                  r[4].string.strip(),
+                                  r[2].string.strip(),
+                                  r[5].string.strip(),
+                                  format_datetime(publish_datetime)])
 
         # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10303'")
         # logger_local.info('EBBC ' + unicode(cursor.rowcount) + ' rows deleted')
@@ -739,7 +878,7 @@ def get_IBCN_rate():
 
         # 轮询找到美元, 写入product_data后跳出
         for data_row in data_string["rows"]:
-            if data_row["cell"][1] in ['USD', 'GBP', 'EUR', 'AUD', 'JPY']:
+            if data_row["cell"][1] in ['USD', 'GBP', 'EUR', 'AUD', 'JPY', 'HKD', 'CAD']:
                 rate_data.append(['C10309',
                              'IBCN',
                              data_row["cell"][1],
@@ -834,6 +973,26 @@ def get_SPDB_rate():
                                   round(float(r[4].string.strip().replace(",", ""))/1000, 4),
                                   round(float(r[1].string.strip().replace(",", ""))/1000, 4),
                                   format_datetime(publish_datetime)])
+            elif len(r) == 5 and r[0].string.strip() == u'港币\xa0HKD':
+                rate_data.append(['C10310',
+                                  'SPDB',
+                                  'HKD',
+                                  r[2].string.strip(),
+                                  r[3].string.strip(),
+                                  r[4].string.strip(),
+                                  r[4].string.strip(),
+                                  r[1].string.strip(),
+                                  format_datetime(publish_datetime)])
+            elif len(r) == 5 and r[0].string.strip() == u'加拿大元\xa0CAD':
+                rate_data.append(['C10310',
+                                  'SPDB',
+                                  'CAD',
+                                  r[2].string.strip(),
+                                  r[3].string.strip(),
+                                  r[4].string.strip(),
+                                  r[4].string.strip(),
+                                  r[1].string.strip(),
+                                  format_datetime(publish_datetime)])
 
         # cursor.execute("DELETE FROM t_listing_rate WHERE publisher_code='C10310'")
         # logger_local.info('SPDB ' + unicode(cursor.rowcount) + ' rows deleted')
@@ -856,7 +1015,7 @@ def get_DESZ_rate():
         index_url = 'https://bank.pingan.com.cn/ibp/portal/exchange/qryExchangeList.do'
         rate_data = []
 
-        for currency in ['USD', 'GBP', 'EUR', 'AUD', 'JPY']:
+        for currency in ['USD', 'GBP', 'EUR', 'AUD', 'JPY', 'HKD', 'CAD']:
             @retry(stop_max_attempt_number=10, wait_fixed=2000)
             def request_content():
                 return requests.post(index_url,
@@ -913,7 +1072,7 @@ def get_BKSH_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[1].string.strip() in ['USD', 'GBP', 'EUR', 'AUD']:
+            if r[1].string.strip() in ['USD', 'GBP', 'EUR', 'AUD', 'HKD', 'CAD']:
                 rate_data.append(['C10912',
                                   'BKSH',
                                   r[1].string.strip(),
@@ -972,7 +1131,7 @@ def get_BOBJ_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[0].string.strip() in ['USD/CNY', 'GBP/CNY', 'EUR/CNY', 'AUD/CNY', 'JPY/CNY']:
+            if r[0].string.strip() in ['USD/CNY', 'GBP/CNY', 'EUR/CNY', 'AUD/CNY', 'JPY/CNY', 'HKD/CNY', 'CAD/CNY']:
                 rate_data.append(['C10802',
                                   'BOBJ',
                                   r[0].string.strip()[:3],
@@ -1018,7 +1177,7 @@ def get_HXBJ_rate():
 
         for rates in rate_list_tr:
             r = rates.find_all("td")
-            if r[0].string.strip() in ['USDCNY', 'GBPCNY', 'EURCNY', 'AUDCNY', 'JPYCNY']:
+            if r[0].string.strip() in ['USDCNY', 'GBPCNY', 'EURCNY', 'AUDCNY', 'JPYCNY', 'HKDCNY', 'CADCNY']:
                 rate_data.append(['C10304',
                                   'HXBJ',
                                   r[0].string.strip()[:3],
@@ -1100,6 +1259,10 @@ def currency_decoder(tenor_desc):
                            u'欧元', 'EUR',
                            u'英镑', 'GBP',
                            u'日元', 'JPY',
+                           u'港元', 'HKD',
+                           u'港币', 'HKD',
+                           u'加元', 'CAD',
+                           u'加拿大元', 'CAD',
                            '')
     return result
 
