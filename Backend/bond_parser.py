@@ -18,8 +18,8 @@ import mysql.connector
 from mysql.connector import errorcode
 from multiprocessing import Pool
 from decimal import Decimal
-from butils.butils import decode
-from butils.butils import fix_json
+from butils import decode
+from butils import fix_json
 from butils.pprint import pprint
 from datetime import datetime
 from HTMLParser import HTMLParser

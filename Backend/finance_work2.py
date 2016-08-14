@@ -320,18 +320,18 @@ if __name__ == '__main__':
     generate_plot(r_hkd, 'HKD')
     generate_plot(result_cad, 'CAD')
 
-
-    fh_xau = finance.fetch_historical_yahoo('^XAU', startdate, enddate)
-    rec_xau = mlab.csv2rec(fh_xau)
-    fh_xau.close()
-    rec_xau.sort()
-    generate_plot(rec_xau, 'XAU')
-
-    fh_xag = finance.fetch_historical_yahoo('^XAG', startdate, enddate)
-    rec_xag = mlab.csv2rec(fh_xag)
-    fh_xag.close()
-    rec_xag.sort()
-
-    print rec_xag
+    #
+    # fh_xau = finance.fetch_historical_yahoo('^XAU', startdate, enddate)
+    # rec_xau = mlab.csv2rec(fh_xau)
+    # fh_xau.close()
+    # rec_xau.sort()
+    # generate_plot(rec_xau, 'XAU')
+    #
+    # fh_xag = finance.fetch_historical_yahoo('^XAG', startdate, enddate)
+    # rec_xag = mlab.csv2rec(fh_xag)
+    # fh_xag.close()
+    # rec_xag.sort()
+    #
+    # print rec_xag
 
     # generate_plot(rec_xag/100, 'XAG')
