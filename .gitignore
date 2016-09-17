@@ -27,3 +27,5 @@ Thumbs.db
 #########################
 *.xlsx
 *.csv
+
+Backend/indicator_output

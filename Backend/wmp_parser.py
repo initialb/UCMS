@@ -432,7 +432,6 @@ def get_CTIB_product():
                              re.sub(r"[^\d]+", "", p[3][1]),  # tenor
                              re.sub(r"[^\d]+", "", p[4][1]),  # value date
                              re.sub(r"[^\d]+", "", p[4][3]),  # maturity date
-                             re.sub(r"[^\d.]+", "", p[5][1])  # yield
                             ])
         logger_local.debug(unicode(legal_group) + ' - ' + repr_zh(product_data[-1]))
 

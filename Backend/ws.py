@@ -919,7 +919,7 @@ def get_fund_stock_general():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -938,7 +938,20 @@ def get_fund_stock_general():
         group_type_list.append(group_type)
 
     for gt in group_type_list:
-        prod_list["sec_group"].append({"group_type": gt,
+        if gt == "Developed Market":
+            gt_ch = u"投资发达市场股票型基金"
+        elif gt == "Emerging Market":
+            gt_ch = u"投资新兴市场股票型基金"
+        elif gt == "Global":
+            gt_ch = u"投资全球股票型基金"
+        elif gt == "Sector Funds":
+            gt_ch = u"投资行业股票型基金"
+        elif gt == "Smaller Companies":
+            gt_ch = u"投资中小公司股票型基金"
+        else:
+            gt_ch = gt
+
+        prod_list["sec_group"].append({"group_type": gt_ch,
                                        "group_list": []})
         query = u"""
                 SELECT
@@ -998,7 +1011,7 @@ def get_fund_stock_best():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1033,10 +1046,23 @@ def get_fund_stock_best():
         cursor.execute(query)
 
         for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            if group_type == "Developed Market":
+                gt_ch = u"投资发达市场"
+            elif group_type == "Emerging Market":
+                gt_ch = u"投资新兴市场"
+            elif group_type == "Global":
+                gt_ch = u"投资全球"
+            elif group_type == "Sector Funds":
+                gt_ch = u"投资行业股票"
+            elif group_type == "Smaller Companies":
+                gt_ch = u"投资中小型公司"
+            else:
+                gt_ch = group_type
+
             prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
                                                          "isin": ISIN_code,
                                                          "return": annual_dividend + "%",
-                                                         "group_type": group_type})
+                                                         "group_type": gt_ch})
 
         total_rec += cursor.rowcount
 
@@ -1070,7 +1096,7 @@ def get_fund_bond_general():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1089,7 +1115,20 @@ def get_fund_bond_general():
         group_type_list.append(group_type)
 
     for gt in group_type_list:
-        prod_list["sec_group"].append({"group_type": gt,
+        if gt == "Composite":
+            gt_ch = u"综合债券型基金"
+        elif gt == "Government":
+            gt_ch = u"投资政府债型基金"
+        elif gt == "Corporate":
+            gt_ch = u"投资公司债型基金"
+        elif gt == "High-Yield":
+            gt_ch = u"投资高收益债型基金"
+        elif gt == "Inflation-Linked":
+            gt_ch = u"投资通胀挂钩债券型基金"
+        else:
+            gt_ch = gt
+
+        prod_list["sec_group"].append({"group_type": gt_ch,
                                        "group_list": []})
         query = u"""
                 SELECT
@@ -1149,7 +1188,7 @@ def get_fund_bond_best():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1184,10 +1223,23 @@ def get_fund_bond_best():
         cursor.execute(query)
 
         for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            if group_type == "Composite":
+                gt_ch = u"综合债券投资型"
+            elif group_type == "Government":
+                gt_ch = u"投资政府债"
+            elif group_type == "Corporate":
+                gt_ch = u"投资公司债"
+            elif group_type == "High-Yield":
+                gt_ch = u"投资高收益债型"
+            elif group_type == "Inflation-Linked":
+                gt_ch = u"投资通胀挂钩型"
+            else:
+                gt_ch = group_type
+
             prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
                                                          "isin": ISIN_code,
                                                          "return": annual_dividend + "%",
-                                                         "group_type": group_type})
+                                                         "group_type": gt_ch})
 
         total_rec += cursor.rowcount
 
@@ -1221,54 +1273,82 @@ def get_fund_balance_general():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "sec_group": []
                  }
 
     # 获取group
+    # query = u"""
+    #         SELECT
+    #             DISTINCT group_type
+    #         FROM
+    #             zyq.t_selected_fund_product
+    #         WHERE
+    #             category = 'B31';
+    #     """
+    # cursor.execute(query)
+    # for (group_type,) in cursor:
+    #     group_type_list.append(group_type)
+
+    # for gt in group_type_list:
+    #     if gt == "Global":
+    #         gt_ch = u"投资全球"
+    #     elif gt == "Far East & Pac":
+    #         gt_ch = u"投资远东太平洋"
+    #     elif gt == "Regional(ex Asia Pacific)":
+    #         gt_ch = u"投资非亚太地区"
+    #     else:
+    #         gt_ch = gt
+    #
+    #     prod_list["sec_group"].append({"group_type": gt_ch,
+    #                                    "group_list": []})
+    #     query = u"""
+    #             SELECT
+    #                 ranking,
+    #                 prod_name,
+    #                 ISIN_code,
+    #                 cp_1m,
+    #                 cp_1y,
+    #                 cp_3y,
+    #                 cp_5y
+    #             FROM
+    #                 zyq.t_selected_fund_product
+    #             WHERE
+    #                 category = 'B31' and group_type = '%s'
+    #             ORDER BY ranking;
+    #         """ % gt
+
+    prod_list["sec_group"].append({"group_type": "--",
+                                   "group_list": []})
     query = u"""
             SELECT
-                DISTINCT group_type
+                ranking,
+                prod_name,
+                ISIN_code,
+                cp_1m,
+                cp_1y,
+                cp_3y,
+                cp_5y
             FROM
                 zyq.t_selected_fund_product
             WHERE
-                category = 'B31';
+                category = 'B31'
+            ORDER BY ranking;
         """
+
     cursor.execute(query)
-    for (group_type,) in cursor:
-        group_type_list.append(group_type)
 
-    for gt in group_type_list:
-        prod_list["sec_group"].append({"group_type": gt,
-                                       "group_list": []})
-        query = u"""
-                SELECT
-                    ranking,
-                    prod_name,
-                    ISIN_code,
-                    cp_1m,
-                    cp_1y,
-                    cp_3y,
-                    cp_5y
-                FROM
-                    zyq.t_selected_fund_product
-                WHERE
-                    category = 'B31' and group_type = '%s'
-                ORDER BY ranking;
-            """ % gt
-        cursor.execute(query)
+    for (ranking, prod_name, ISIN_code, cp_1m, cp_1y, cp_3y, cp_5y) in cursor:
+        prod_list["sec_group"][-1]["group_list"].append({"rank": ranking,
+                                                         "fund_name": prod_name,
+                                                         "ISIN": ISIN_code,
+                                                         "return1m": cp_1m + "%",
+                                                         "return1y": cp_1y + "%",
+                                                         "return3y": cp_3y + "%",
+                                                         "return5y": cp_5y + "%"})
 
-        for (ranking, prod_name, ISIN_code, cp_1m, cp_1y, cp_3y, cp_5y) in cursor:
-            prod_list["sec_group"][-1]["group_list"].append({"rank": ranking,
-                                                             "fund_name": prod_name,
-                                                             "ISIN": ISIN_code,
-                                                             "return1m": cp_1m + "%",
-                                                             "return1y": cp_1y + "%",
-                                                             "return3y": cp_3y + "%",
-                                                             "return5y": cp_5y + "%"})
-
-        total_rec += cursor.rowcount
+    total_rec += cursor.rowcount
 
     prod_list["total_rec"] = total_rec
 
@@ -1300,7 +1380,7 @@ def get_fund_balance_best():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.06",
+                 "releasedate": "2016.08",
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1335,10 +1415,18 @@ def get_fund_balance_best():
         cursor.execute(query)
 
         for (prod_name, ISIN_code, annual_dividend, group_type) in cursor:
+            if group_type == "Global":
+                gt_ch = u"投资全球"
+            elif group_type == "Far East & Pac":
+                gt_ch = u"投资远东太平洋"
+            elif group_type == "Regional (ex Asia Pacific)":
+                gt_ch = u"投资非亚太地区"
+            else:
+                gt_ch = group_type
             prod_list["tenor_group"][-1]["list"].append({"fund_name": prod_name,
                                                          "isin": ISIN_code,
                                                          "return": annual_dividend + "%",
-                                                         "group_type": group_type})
+                                                         "group_type": gt_ch})
 
         total_rec += cursor.rowcount
 
@@ -1651,6 +1739,26 @@ def get_USD_depo(tenor):
                   12, u"0.7500%",
                   18, u"0.7500%",
                   24, u"0.7500%",
+                  "--")
+
+
+def get_fund_type(e_name):
+    return decode(e_name,
+                  "Developed Market", u"发达市场",
+                  "Emerging Market", u"新兴市场",
+                  "Global", u"",
+                  "Sector Funds", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+                  "Smaller Companies", u"",
+
                   "--")
 
 

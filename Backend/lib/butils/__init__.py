@@ -40,6 +40,26 @@ def ppprint(obj):
     print re.sub(r"\\u([a-f0-9]{4})", lambda mg: unichr(int(mg.group(1), 16)), obj.__repr__())
 
 
+def bs_preprocess(html):
+    """remove distracting whitespaces and newline characters"""
+    pat = re.compile('(^[\s]+)|([\s]+$)', re.MULTILINE)
+    html = re.sub(pat, '', html)  # remove leading and trailing whitespaces
+    html = re.sub('\n', ' ', html)  # convert newlines to spaces
+    # this preserves newline delimiters
+    html = re.sub('[\s]+<', '<', html)  # remove whitespaces before opening tags
+    html = re.sub('>[\s]+', '>', html)  # remove whitespaces after closing tags
+    return html
+
+
+def get_sibling(element):
+    """remove blank lines of a beautifulsoup instance"""
+    sibling = element.next_sibling
+    if sibling == "\n":
+        return get_sibling(sibling)
+    else:
+        return sibling
+
+
 def insert_db(list):
     DB_NAME = 'UCMS'
 

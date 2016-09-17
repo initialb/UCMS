@@ -25,5 +25,5 @@ Thumbs.db
 
 # Microsoft office file #
 #########################
-#*.xlsx
+*.xlsx
 *.csv

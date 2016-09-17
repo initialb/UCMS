@@ -312,13 +312,13 @@ if __name__ == '__main__':
             if rd_cad[0] == rdd[0]:
                 rd_cad[6] = rd_cad[6]/rdd[6]
 
-    generate_plot(rec, 'USD')
-    generate_plot(result_eur, 'EUR')
-    generate_plot(result_jpy, 'JPY')
-    generate_plot(result_gbp, 'GBP')
-    generate_plot(result_aud, 'AUD')
-    generate_plot(r_hkd, 'HKD')
-    generate_plot(result_cad, 'CAD')
+    generate_plot(rec, 'price_chart/USD')
+    generate_plot(result_eur, 'price_chart/EUR')
+    generate_plot(result_jpy, 'price_chart/JPY')
+    generate_plot(result_gbp, 'price_chart/GBP')
+    generate_plot(result_aud, 'price_chart/AUD')
+    generate_plot(r_hkd, 'price_chart/HKD')
+    generate_plot(result_cad, 'price_chart/CAD')
 
     #
     # fh_xau = finance.fetch_historical_yahoo('^XAU', startdate, enddate)
