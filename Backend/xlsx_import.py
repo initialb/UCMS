@@ -33,7 +33,11 @@ def import_xlsx(filename):
     rownum = 1
     for row in ws.rows:
         print "processing row", rownum
-        rownum+=1
+        rownum += 1
+        if u"或" in str(row[7].value):
+            expected_highest_yield = str(row[7].value).split(u"或")[1]
+        else:
+            expected_highest_yield = str(row[7].value)
         if isinstance(row[8].value, datetime.datetime):
             open_start_date = row[8].value.strftime("%Y%m%d")
         else:
@@ -60,9 +64,9 @@ def import_xlsx(filename):
                               "英镑", "GBP",
                               "欧元", "EUR",
                               row[4].value),
-                       re.sub(r'[^\d]+', '', row[5].value),
+                       re.sub(r'[^\d]+', '', str(row[5].value)),
                        row[6].value,
-                       row[7].value,
+                       expected_highest_yield,
                        open_start_date,
                        open_end_date,
                        row[10].value,

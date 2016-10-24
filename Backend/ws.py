@@ -16,6 +16,8 @@ LOCALDATE = time.strftime('%Y%m%d', time.localtime(time.time()))
 TIMESTAMP = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 LOGNAME = 'log/ws_' + LOCALDATE + '.log'
 
+FUNDRLDATE = "2016.09"
+
 # # initialize root logger to write verbose log file
 # logging.basicConfig(level=logging.DEBUG,
 #                     filename="log/ws_" + LOCALDATE + ".verbose.log",
@@ -919,7 +921,7 @@ def get_fund_stock_general():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1011,7 +1013,7 @@ def get_fund_stock_best():
     total_rec = 0
     prod_list = {"fundtype": 1,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1096,7 +1098,7 @@ def get_fund_bond_general():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1188,7 +1190,7 @@ def get_fund_bond_best():
     total_rec = 0
     prod_list = {"fundtype": 2,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1273,7 +1275,7 @@ def get_fund_balance_general():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "sec_group": []
                  }
@@ -1380,7 +1382,7 @@ def get_fund_balance_best():
     total_rec = 0
     prod_list = {"fundtype": 3,
                  "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
-                 "releasedate": "2016.08",
+                 "releasedate": FUNDRLDATE,
                  "total_rec": "",
                  "tenor_group": []
                  }
@@ -1479,7 +1481,8 @@ def get_selected_bond():
             FROM
                 zyq.t_selected_bond
             WHERE
-                title = '持有半年预期收益最高海外债券';
+                title = '持有半年预期收益最高海外债券'
+            ORDER BY ranking;
         """
     cursor.execute(query)
     prod_list["tenor_group"].append({"tenor": 0.5, "list": []})
@@ -1514,7 +1517,8 @@ def get_selected_bond():
             FROM
                 zyq.t_selected_bond
             WHERE
-                title = '持有一年预期收益最高海外债券';
+                title = '持有一年预期收益最高海外债券'
+            ORDER BY ranking;
         """
     cursor.execute(query)
     prod_list["tenor_group"].append({"tenor": 1, "list": []})
@@ -1549,7 +1553,8 @@ def get_selected_bond():
             FROM
                 zyq.t_selected_bond
             WHERE
-                title = '持有两年预期收益最高海外债券';
+                title = '持有两年预期收益最高海外债券'
+            ORDER BY ranking;
         """
     cursor.execute(query)
     prod_list["tenor_group"].append({"tenor": 2, "list": []})

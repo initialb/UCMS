@@ -67,10 +67,12 @@ logger_local.addHandler(logger_local_fh)
 logger_local.addHandler(logger_local_ch)
 
 
-def log_in():
+def download_indicator(region):
     try:
+        # use requests.session to handle cookies etc.
         s = requests.session()
 
+        # get EVENTVALIDATION and VIEWSTATE for asp validation check
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
             return s.get('http://analytics.tradingeconomics.com/',
@@ -79,9 +81,10 @@ def log_in():
         soup = bs4.BeautifulSoup(butils.bs_preprocess(r1.text), "html.parser")
         __EVENTVALIDATION = soup.find("input", id="__EVENTVALIDATION")
         __VIEWSTATE = soup.find("input", id="__VIEWSTATE")
-        print __EVENTVALIDATION["value"]
-        print __VIEWSTATE["value"]
+        print "EVENTVALIDATION:", __EVENTVALIDATION["value"]
+        print "VIEWSTATE:", __VIEWSTATE["value"]
 
+        # login
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
             return s.post('http://analytics.tradingeconomics.com/',
@@ -92,129 +95,139 @@ def log_in():
                                        "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$Password": "123456",
                                        "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$RememberMe": "on",
                                        "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$LoginButton": "Log In"})
-        r2 = request_content()
+        request_content()
 
+        # load default page(United States) and get EVENTVALIDATION/VIEWSTATE
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
             return s.get('http://analytics.tradingeconomics.com/export/export-data-national.aspx',
                          timeout=TIMEOUT)
-
         response = request_content()
         soup = bs4.BeautifulSoup(butils.bs_preprocess(response.text), "html.parser")
-        print response.text
+        __EVENTVALIDATION = soup.find("input", id="__EVENTVALIDATION")
+        __VIEWSTATE = soup.find("input", id="__VIEWSTATE")
+
+        # jump to region page
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return s.post('http://analytics.tradingeconomics.com/export/export-data-national.aspx',
+                          timeout=TIMEOUT,
+                          data={"__EVENTTARGET": "ctl00$ContentPlaceHolder1$ExportDataUC1$DropDownList1",
+                                "__VIEWSTATE": __VIEWSTATE["value"],
+                                "__EVENTVALIDATION": __EVENTVALIDATION["value"],
+                                "ctl00$ContentPlaceHolder1$ExportDataUC1$DropDownList1": region,
+                                "ctl00$ContentPlaceHolder1$ExportDataUC1$DropDownList2": "All Indicators"})
+        response = request_content()
+        soup = bs4.BeautifulSoup(butils.bs_preprocess(response.text), "html.parser")
+
+        csv_table = soup.find("table", class_="table table-condensed table-striped table-hover")
+        csv_list = csv_table.find_all("tr")
+        del csv_list[0]
+
+        print len(csv_list)
+        for c in csv_list:
+            url = c.find("span", class_="label label-info").a["href"]
+            print url
+
+        for c in csv_list:
+            url = c.find("span", class_="label label-info").a["href"]
+            r = s.get("http://analytics.tradingeconomics.com/export/"+url)
+            # get default filename from url
+            try:
+                filename = re.findall("filename=(.+)", r.headers['Content-Disposition'])
+                fn = "indicator_output/%s/%s" % (region, filename[0])
+                # if path not exists, create it
+                if not os.path.exists(os.path.dirname(fn)):
+                    try:
+                        os.makedirs(os.path.dirname(fn))
+                    except OSError as exc:
+                        # Guard against race condition
+                        if exc.errno != errno.EEXIST:
+                            raise
+
+                print "downloading "+filename[0]
+                with open(fn, "wb") as code:
+                    code.write(r.content)
+
+            except KeyError:
+                print "Failed parsing filename: "+url
 
     except:
         logger_local.warning(unicode(sys.exc_info()[0]) + u':' + unicode(sys.exc_info()[1]))
 
 
-def get_indicator_link_by_country():
+def download_US_indicator():
     try:
+        region = 'United States'
+        # use requests.session to handle cookies etc.
+        s = requests.session()
+
+        # get EVENTVALIDATION and VIEWSTATE for asp validation check
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.get('http://www.tradingeconomics.com/countries', timeout=TIMEOUT)
+            return s.get('http://analytics.tradingeconomics.com/',
+                         timeout=TIMEOUT)
+        r1 = request_content()
+        soup = bs4.BeautifulSoup(butils.bs_preprocess(r1.text), "html.parser")
+        __EVENTVALIDATION = soup.find("input", id="__EVENTVALIDATION")
+        __VIEWSTATE = soup.find("input", id="__VIEWSTATE")
+        print "EVENTVALIDATION:", __EVENTVALIDATION["value"]
+        print "VIEWSTATE:", __VIEWSTATE["value"]
 
-        response = request_content()
-
-        soup = bs4.BeautifulSoup(butils.bs_preprocess(response.text), "html.parser")
-
-        __indicator_url = []
-        __indicator_links = soup.find_all("a", class_="country")
-
-        for i in __indicator_links:
-            __indicator_url.append([i.get_text(), u"http://www.tradingeconomics.com"+i["href"]])
-
-        return __indicator_url
-
-    except:
-        logger_local.warning(unicode(sys.exc_info()[0]) + u':' + unicode(sys.exc_info()[1]))
-
-
-def download_trading_indicator(region):
-    try:
+        # login
         @retry(stop_max_attempt_number=10, wait_fixed=2000)
         def request_content():
-            return requests.post("http://analytics.tradingeconomics.com/export/export-data-national.aspx",
+            return s.post('http://analytics.tradingeconomics.com/',
                                  timeout=TIMEOUT,
-                                 data={"ctl00$ContentPlaceHolder1$ExportDataUC1$DropDownList1": region,
-                                       "ctl00$ContentPlaceHolder1$ExportDataUC1$DropDownList2": "All Indicators"})
+                                 data={"__VIEWSTATE": __VIEWSTATE["value"],
+                                       "__EVENTVALIDATION": __EVENTVALIDATION["value"],
+                                       "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$UserName": "chenjiahua@hotmail.com",
+                                       "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$Password": "123456",
+                                       "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$RememberMe": "on",
+                                       "ctl00$ContentPlaceHolder1$LoginView1$LoginUC1$Login1$LoginButton": "Log In"})
+        request_content()
 
+        # load default page(United States) and get EVENTVALIDATION/VIEWSTATE
+        @retry(stop_max_attempt_number=10, wait_fixed=2000)
+        def request_content():
+            return s.get('http://analytics.tradingeconomics.com/export/export-data-national.aspx',
+                         timeout=TIMEOUT)
         response = request_content()
-
-        # filename = "indicator_download/%s.html" % (region,)
-        # if not os.path.exists(os.path.dirname(filename)):
-        #     try:
-        #         os.makedirs(os.path.dirname(filename))
-        #     except OSError as exc:  # Guard against race condition
-        #         if exc.errno != errno.EEXIST:
-        #             raise
-        # file = open(filename, "w")
-        # file.write(response.content)
-        # file.close()
-
-        # response.raise_for_status()  # ensure we notice bad responses
-        # file = open("indicator_output/%s/%s.html" % (LOCALDATE, region), "w")
-        # file.write(response.content)
-        # file.close()
-
         soup = bs4.BeautifulSoup(butils.bs_preprocess(response.text), "html.parser")
-        print soup
+        __EVENTVALIDATION = soup.find("input", id="__EVENTVALIDATION")
+        __VIEWSTATE = soup.find("input", id="__VIEWSTATE")
 
-        # publish_date = filter(unicode.isdigit, soup.find(text=re.compile(u"当前日期")))
+        csv_table = soup.find("table", class_="table table-condensed table-striped table-hover")
+        csv_list = csv_table.find_all("tr")
+        del csv_list[0]
 
-        # indicator_div = soup.find_all("div", class_="table-responsive panel panel-default")
-        # indicator_list = indicator_div[-1].find("table", class_="table table-condensed table-hover")
-        #
-        # add_product = ("""INSERT INTO wm_data
-        #                   (region, category, indicator, reference, value, previous_value, unit, frequency, update_time)
-        #                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now())
-        #                   ON DUPLICATE KEY UPDATE value=%s, previous_value=%s, update_time=now()
-        #                """)
-        #
-        # current_category = None
-        # for child in indicator_list.children:
-        #     if child.name == "thead":
-        #         current_category = child.tr.th.span.text.strip()
-        #     else:
-        #         indicator_table = child.find_all("td")
+        print len(csv_list)
+        for c in csv_list:
+            url = c.find("span", class_="label label-info").a["href"]
+            print url
 
-                # indicator_category = current_category
-                # indicator_name = indicator_table[0].a.get_text()
-                # indicator_value_and_unit = indicator_table[1].get_text()
-                # indicator_reference = indicator_table[2].span.get_text()
-                # indicator_previous_value = indicator_table[3].get_text()
-                # indicator_range = indicator_table[4].get_text()
-                # indicator_frequency = indicator_table[5].get_text()
-                #
-                # rs = re.search(r"^[\d.-]+", indicator_value_and_unit)
-                # indicator_value = rs.group(0)
-                # indicator_unit = re.sub(r"^[\d.-]+", "", indicator_value_and_unit)
-                # print indicator_value_and_unit, indicator_value, indicator_unit
+        for c in csv_list:
+            url = c.find("span", class_="label label-info").a["href"]
+            r = s.get("http://analytics.tradingeconomics.com/export/"+url)
+            # get default filename from url
+            try:
+                filename = re.findall("filename=(.+)", r.headers['Content-Disposition'])
+                fn = "indicator_output/%s/%s" % (region, filename[0])
+                # if path not exists, create it
+                if not os.path.exists(os.path.dirname(fn)):
+                    try:
+                        os.makedirs(os.path.dirname(fn))
+                    except OSError as exc:
+                        # Guard against race condition
+                        if exc.errno != errno.EEXIST:
+                            raise
 
-                # cursor.execute(add_product, (region,
-                #                              indicator_category,
-                #                              indicator_name,
-                #                              indicator_reference,
-                #                              indicator_value,
-                #                              indicator_previous_value,
-                #                              indicator_unit,
-                #                              indicator_frequency,
-                #                              indicator_value,
-                #                              indicator_previous_value))
+                print "downloading "+filename[0]
+                with open(fn, "wb") as code:
+                    code.write(r.content)
 
-        # pprint(indicators)
-
-        # DB manipulation:
-        # add_product = ("""INSERT INTO wm_data
-        #                   (region, category, indicator, reference, value, previous_value, unit, frequency,
-        #                   update_time)
-        #                   VALUES (%s, %s, %s, %s, %s, %s, %s, now())
-        #                   ON DUPLICATE KEY UPDATE value=%s, previous_value=%s, update_time=now()
-        #                """)
-        #
-        # for i in indicators:
-        #     cursor.execute(add_product, (region, i[0], i[1], i[3], i[2], i[4], i[5], i[2], i[4]))
-
-        logger_local.info('All %s indicators retrieved' % region)
+            except KeyError:
+                print "Failed parsing filename: "+url
 
     except:
         logger_local.warning(unicode(sys.exc_info()[0]) + u':' + unicode(sys.exc_info()[1]))
@@ -240,51 +253,39 @@ if __name__ == '__main__':
 
         cursor = cnx.cursor()
 
-        # pool = ThreadPool(8) # Sets the pool size to 4
-        # results = pool.map(parse_rate, legal_groups)
-        # close the pool and wait for the work to finish
-        # pool.close()
-        # pool.join()
+        # G20
+        # download_indicator('Argentina')
+        # download_indicator('Australia')
+        # download_indicator('Brazil')
+        # download_indicator('Canada')
+        # download_indicator('China')
+        # download_indicator('France')
+        # download_indicator('Germany')
+        # download_indicator('India')
+        # download_indicator('Indonesia')
+        # download_indicator('Italy')
+        # download_indicator('Japan')
+        # download_indicator('South Korea')
+        # download_indicator('Mexico')
+        # download_indicator('Russia')
+        # download_indicator('Saudi Arabia')
+        # download_indicator('South Africa')
+        # download_indicator('Turkey')
+        # download_indicator('United Kingdom')
+        download_US_indicator()
+        # download_indicator('European Union')
+        # download_indicator("Euro Area")
 
-        # indicator_urls = get_indicator_link_by_country()
-        #
-        # pprint(indicator_urls)
-        #
-        # for i in indicator_urls:
-        #     get_trading_indicator(i[0], i[1])
+        # other
+        # download_indicator('Spain')
+        # download_indicator('New Zealand')
+        # download_indicator('Thailand')
+        # download_indicator('Vietnam')
+        # download_indicator('Singapore')
+        # download_indicator('Malaysia')
 
-        log_in()
-
-        #G20
-        # get_trading_indicator('Argentina')
-        # get_trading_indicator('Australia')
-        # get_trading_indicator('Brazil')
-        # get_trading_indicator('Canada')
-        # get_trading_indicator('China')
-        # get_trading_indicator('France')
-        # get_trading_indicator('Germany')
-        # get_trading_indicator('India')
-        # get_trading_indicator('Indonesia')
-        # get_trading_indicator('Italy')
-        # get_trading_indicator('Japan')
-        # get_trading_indicator('South-korea')
-        # get_trading_indicator('Mexico')
-        # get_trading_indicator('Russia')
-        # get_trading_indicator('Saudi-arabia')
-        # get_trading_indicator('South-africa')
-        # get_trading_indicator('Turkey')
-        # get_trading_indicator('United-kingdom')
-        # get_trading_indicator('United-states')
-        # download_trading_indicator('European Union')
-
-        #other
-        # get_trading_indicator('Spain')
-        # get_trading_indicator('New-zealand')
-        # get_trading_indicator('Thailand')
-        # get_trading_indicator('Vietnam')
-        # get_trading_indicator('Singapore')
-        # get_trading_indicator('Malaysia')
-
+        # others other
+        # download_indicator('Chile')
 
         cnx.commit()
         cursor.close()

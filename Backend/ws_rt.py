@@ -63,7 +63,6 @@ logger_local_ch.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(level
 logger_local.addHandler(logger_local_fh)
 logger_local.addHandler(logger_local_ch)
 
-
 app = Flask(__name__)
 
 

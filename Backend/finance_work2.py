@@ -1,6 +1,8 @@
 import datetime
 import numpy as np
 import numpy.lib.recfunctions
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.colors as colors
 import matplotlib.finance as finance
 import matplotlib.dates as mdates
@@ -8,7 +10,10 @@ import matplotlib.ticker as mticker
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as font_manager
+import re
+import os
 
+WWWROOT = "price_chart/"
 
 def moving_average(x, n, type='simple'):
     """
@@ -221,13 +226,14 @@ def generate_plot(r, ccy):
     # ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
 
     # plt.show()
-    pic_name = ccy+'.jpg'
+    pic_name = ccy+'.png'
     plt.savefig(pic_name)
 
 
 if __name__ == '__main__':
 
-    startdate = datetime.date(2015, 1, 1)
+    today = datetime.date.today()
+    startdate = datetime.date(today.year-1, today.month, today.day)
     today = enddate = datetime.date.today()
     ticker = 'CNY=X'
 
@@ -312,15 +318,24 @@ if __name__ == '__main__':
             if rd_cad[0] == rdd[0]:
                 rd_cad[6] = rd_cad[6]/rdd[6]
 
-    generate_plot(rec, 'price_chart/USD')
-    generate_plot(result_eur, 'price_chart/EUR')
-    generate_plot(result_jpy, 'price_chart/JPY')
-    generate_plot(result_gbp, 'price_chart/GBP')
-    generate_plot(result_aud, 'price_chart/AUD')
-    generate_plot(r_hkd, 'price_chart/HKD')
-    generate_plot(result_cad, 'price_chart/CAD')
+    generate_plot(rec, WWWROOT+'USD')
+    generate_plot(result_eur, WWWROOT+'EUR')
+    generate_plot(result_jpy, WWWROOT+'JPY')
+    generate_plot(result_gbp, WWWROOT+'GBP')
+    generate_plot(result_aud, WWWROOT+'AUD')
+    generate_plot(r_hkd, WWWROOT+'HKD')
+    generate_plot(result_cad, WWWROOT+'CAD')
 
-    #
+    # import os
+    # path = '//var//www//html//listingrate'
+    # for file in os.listdir(path):
+    #     if os.path.isfile(os.path.join(path, file)) == True:
+    #         new_file_name = re.sub('png', 'jpg', file)
+    #         os.rename(os.path.join(path, file), os.path.join(path, new_file_name))
+
+
+
+                    #
     # fh_xau = finance.fetch_historical_yahoo('^XAU', startdate, enddate)
     # rec_xau = mlab.csv2rec(fh_xau)
     # fh_xau.close()
